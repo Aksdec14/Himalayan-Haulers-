@@ -77,8 +77,8 @@ export default function ServicesPage() {
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-3 md:flex-row">
-            <Button variant="primary" size="lg">Get a Quote</Button>
-            <Button variant="outline" size="lg">Talk to Our Team</Button>
+            <Button tone="onDark" size="lg">Get a Quote</Button>
+            <Button tone="onLight" size="lg">Talk to Our Team</Button>
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function ServicesPage() {
             </ol>
 
             <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-              <Button variant="primary" size="lg">Get an LDaaS Quote</Button>
+              <Button tone="onDark" size="lg">Get an LDaaS Quote</Button>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function ServicesPage() {
             </p>
 
             <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-              <Button variant="primary" size="lg">Request an Inspection</Button>
+              <Button tone="onDark" size="lg">Request an Inspection</Button>
             </div>
           </div>
         </div>
@@ -253,7 +253,7 @@ export default function ServicesPage() {
                 </li>
               </ul>
               <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-                <Button variant="primary" size="lg">Request a Survey</Button>
+                <Button tone="onDark" size="lg">Request a Survey</Button>
               </div>
             </article>
 
@@ -286,7 +286,7 @@ export default function ServicesPage() {
               </p>
 
               <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-                <Button variant="primary" size="lg">Plan a Stringing Project</Button>
+                <Button tone="onDark" size="lg">Plan a Stringing Project</Button>
               </div>
             </article>
           </div>
@@ -366,7 +366,7 @@ export default function ServicesPage() {
             Tell us what you need to carry, and where. We will bring the drone.
           </p>
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-center mt-[clamp(24px,3vw,40px)]">
-            <Button variant="primary" size="lg" className="bg-white text-blue hover:bg-cyan/10">Let&rsquo;s Connect</Button>
+            <Button tone="onLight" size="lg" className="bg-white text-blue hover:bg-cyan/10">Let&rsquo;s Connect</Button>
           </div>
           <div className="mt-[clamp(24px,3vw,40px)] text-[length:var(--fs-body)] leading-[1.45] text-white/85">
             <p>Contact: Arjun Naik · +91 78998 01210 · arjun@himalayanhaulers.com</p>

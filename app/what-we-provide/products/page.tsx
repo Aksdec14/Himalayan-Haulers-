@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import Button from "@/components/ui/Button";
 
 /* ==========================================================================
@@ -85,8 +84,8 @@ export default function ProductsPage() {
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-3 md:flex-row">
-            <Button variant="primary" size="lg">Request a Quote</Button>
-            <Button variant="outline" size="lg">Download Brochure</Button>
+            <Button tone="onDark" size="lg">Request a Quote</Button>
+            <Button tone="onLight" size="lg">Download Brochure</Button>
           </div>
         </div>
       </div>
@@ -336,7 +335,7 @@ export default function ProductsPage() {
 
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mt-[clamp(24px,3vw,40px)]">
             <div className="flex flex-col gap-3 md:flex-row">
-              <Button variant="primary" size="lg">Talk to Our Engineers</Button>
+              <Button tone="onDark" size="lg">Talk to Our Engineers</Button>
             </div>
           </div>
         </div>
@@ -351,9 +350,7 @@ export default function ProductsPage() {
               You can hire the same drones with crews through our Drone as a Service offering.
             </p>
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-center mt-[clamp(24px,3vw,40px)]">
-              <Button variant="primary" size="lg" asChild>
-                <Link href="/what-we-provide/services">Explore Services</Link>
-              </Button>
+              <Button tone="onDark" size="lg" href="/what-we-provide/services">Explore Services</Button>
             </div>
           </div>
         </div>
@@ -367,8 +364,8 @@ export default function ProductsPage() {
             Share your payload, distance and altitude, and we will recommend the right drone and send a clear quote.
           </p>
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-center mt-[clamp(24px,3vw,40px)]">
-            <Button variant="primary" size="lg" className="bg-white text-blue hover:bg-cyan/10">Request a Quote</Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">Download Brochure</Button>
+            <Button tone="onLight" size="lg" className="bg-white text-blue hover:bg-cyan/10">Request a Quote</Button>
+            <Button tone="onLight" size="lg" className="border-white text-white hover:bg-white/10">Download Brochure</Button>
           </div>
         </div>
       </div>
