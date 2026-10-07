@@ -1,83 +1,62 @@
-import Button from "./ui/Button";
+import Image from "next/image";
 
 /* ==========================================================================
    BANNER — "Drones Solutions for the Power Transmission Infrastructure"
 
-   Basic variant: no photography, just the tri-colour diagonal backdrop, the
-   headline and the CTA. The three wedges are the reference's shapes recoloured
-   to the site palette:
+   Photography variant: the banner is a single prepared PNG that already
+   contains the tri-colour diagonal backdrop, the headline with its cyan
+   accent, the rule and the sub-copy. Nothing here draws text or wedges —
+   the image IS the banner.
 
-     bright red  -> #1cbbe3  (accent band, same family as --cyan)
-     dark red    -> #204392
-     black       -> #0f52a3
+   Server component — no state. The whole card is a single link (href is a
+   placeholder "#" for now) and the image zooms slightly on hover. Render it
+   wherever it fits; it sizes itself to its container.
 
-   Server component — no state. Render it wherever it fits; it sizes itself
-   to its container.
+   The PNG is 1040x313 (3.32:1) and is rendered at its intrinsic aspect
+   ratio, so the card's height comes from the image. That is why CARD has
+   no min-height: a min-height taller than the image would leave a white
+   strip beneath it.
    ========================================================================== */
 
-/* The card fills its container; min-h gives the diagonal zone and the text
-   something to sit in, and relaxes on mobile where the layout stacks. */
+/* The card IS the link (`group`, so the whole banner is one hit area) and
+   keeps the rounded corners, shadow and entry animation the rest of the page
+   expects. overflow-hidden clips the image to the radius — which is also what
+   keeps the hover zoom inside the frame instead of spilling over the sections
+   either side. `block` because the element is now an <a>: an inline anchor
+   wrapping a block image would leave a baseline gap underneath. */
 const CARD =
-  "relative animate-hh-fade overflow-hidden rounded-lg bg-white shadow-[0_12px_32px_rgba(10,25,45,0.12)] min-h-[clamp(340px,30vw,460px)] max-[860px]:min-h-0";
+  "group relative block animate-hh-fade overflow-hidden rounded-lg bg-white shadow-[0_12px_32px_rgba(10,25,45,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1cbbe3]";
 
-/* Diagonals: three full-card layers, each carved with clip-path. Percentages
-   are of the whole card, so the sweep scales with the banner. Three parallel
-   bands leaning left as they descend, stepping right in colour depth. Hidden
-   on mobile, where the stacked layout has no diagonal zone. */
-const WEDGE_BASE = "pointer-events-none absolute inset-0 max-[860px]:hidden";
+/* Block-level so the image takes the full card width without an inline-image
+   baseline gap; h-auto keeps the 3.32:1 ratio at every width.
 
-/* Accent band, anchored to the left edge — the front, brightest shape. */
-const WEDGE_ACCENT = `${WEDGE_BASE} bg-[#1cbbe3] [clip-path:polygon(0_0,26%_0,14%_100%,0_100%)]`;
+   HOVER: group-hover:scale-105 grows the image inside the clipped card, and
+   transition-transform eases it in and back out. transform-gpu avoids the
+   blur a composited scale can pick up mid-animation. */
+const BANNER =
+  "block h-auto w-full transition-transform duration-300 ease-out transform-gpu group-hover:scale-105";
 
-/* Mid band: parallel to the accent and touching its right edge (26/14), so
-   the two read as one stepped diagonal. */
-const WEDGE_MID = `${WEDGE_BASE} bg-[#204392] [clip-path:polygon(26%_0,42%_0,30%_100%,14%_100%)]`;
-
-/* Deep band: closes the sweep at 54% and hands over to the white content
-   area. */
-const WEDGE_DARK = `${WEDGE_BASE} bg-[#0f52a3] [clip-path:polygon(42%_0,54%_0,42%_100%,30%_100%)]`;
-
-/* Content track. Starts clear of the wedges (58%) on desktop, full width on
-   mobile. text-[#0f52a3] is on the WRAPPER, not the heading: the global h1–h6
-   rule in globals.css forces `color: inherit` unlayered, so a colour utility
-   on the h2 itself would lose — inheritance from this div is what makes the
-   headline navy. The accent span is not a heading, so its own colour utility
-   applies normally. */
-const CONTENT =
-  "relative z-10 ml-[58%] w-[42%] flex flex-col justify-center gap-[clamp(18px,2.2vw,30px)] py-[clamp(44px,5vw,72px)] pl-[clamp(16px,2vw,28px)] pr-[clamp(24px,3vw,48px)] text-[#0f52a3] max-[860px]:ml-0 max-[860px]:w-full max-[860px]:px-[clamp(20px,5vw,32px)] max-[860px]:py-[clamp(36px,7vw,52px)]";
-
-/* Sized from the root ramp (this component may be rendered outside any
-   section's type overrides). uppercase matches the reference's treatment. */
-const HEADLINE =
-  "m-0 text-[length:calc(var(--fs-h2)*1.1)] uppercase leading-[1.12]";
-
-const ACCENT = "text-[#1cbbe3]";
-
-const CTA = "mt-[clamp(4px,0.5vw,8px)] self-start";
+/* Real intrinsic dimensions above are what reserve the layout box before
+   the file decodes — no cumulative layout shift. sizes lets the optimizer
+   pick a candidate close to the rendered width instead of always serving
+   the full-size file. */
+const SIZES = "(max-width: 860px) 100vw, 92vw";
 
 /**
- * Diagonal colour banner for power-transmission marketing blocks.
+ * Image banner for power-transmission marketing blocks — clickable, zoom on hover.
  * Self-contained: export and render it anywhere inside a padded container.
  */
 export default function BannerPower() {
   return (
-    <div className={CARD}>
-      {/* Diagonal backdrop */}
-      <div className={WEDGE_MID} aria-hidden="true" />
-      <div className={WEDGE_ACCENT} aria-hidden="true" />
-      <div className={WEDGE_DARK} aria-hidden="true" />
-
-      {/* Headline + CTA */}
-      <div className={CONTENT}>
-        <h2 className={HEADLINE}>
-          Drones Solutions for the{" "}
-          <span className={ACCENT}>Power Transmission Infrastructure</span>
-        </h2>
-
-        <Button href="#industries" tone="onLight" size="lg" withArrow className={CTA}>
-          Explore More
-        </Button>
-      </div>
-    </div>
+    <a href="#" className={CARD} aria-label="Explore drone solutions for power transmission infrastructure">
+      <Image
+        src="/media/Banner.png"
+        alt="Drone solutions for the power transmission infrastructure — aerial stringing, pulling and material movement for transmission projects."
+        width={1040}
+        height={313}
+        sizes={SIZES}
+        className={BANNER}
+      />
+    </a>
   );
 }
