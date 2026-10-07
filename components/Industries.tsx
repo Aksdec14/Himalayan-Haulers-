@@ -49,75 +49,61 @@ const INDUSTRIES: Industry[] = [
   },
 ];
 
-/* White surface, navy text. Type sizes read from the shared ramp UNMODIFIED, so
-   this section sets type at exactly the Hero's sizes — same rungs, same values.
-   The Hero is the reference: it is the only place on the site that overrides
-   nothing, so matching it means dropping the multipliers the other sections
-   carry rather than adding new ones here.
+/* Layout idea, taken from the reference: a heading with one small link on the
+   right, then a numbered list of rows divided by hairlines. Each row reads
+   picture, number, then title with its description underneath.
 
-   --content-pad is --hero-left, which keeps the heading on the same vertical line
-   as the navbar logo and the hero headline. */
+   Theme is unchanged: white page, navy text, cyan accents, and the same type
+   tokens this section already used. --content-pad is --hero-left, which keeps the
+   heading on the same vertical line as the navbar logo and the hero headline. */
 const SECTION =
   "bg-white text-blue animate-hh-fade py-[length:var(--section-pad)]";
 
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
-/* Images left, content right — a mirror of the previous layout. The fr values
-   swap with the DOM order, so each block keeps the width it had: the text grid
-   still gets the wider 7fr track and the images the narrower 5fr, just on the
-   other side. Stacks below 900px, images first. */
-const LAYOUT =
-  "grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-start gap-[clamp(32px,5vw,80px)] max-w-[length:var(--content-max,1200px)] max-[900px]:grid-cols-1";
-
-/* ---- Left: eyebrow, heading, subheading, 2x2 content ----------------------- */
-
-const EYEBROW =
-  "m-0 mb-[clamp(12px,1.4vw,20px)] text-[length:var(--fs-small)] font-bold tracking-[0.12em] uppercase text-cyan";
+/* Heading left, link right, bottoms aligned. Wraps the link under the heading on
+   narrow screens instead of squeezing either. */
+const HEADER =
+  "flex flex-wrap items-end justify-between gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(14px,2vw,24px)] max-w-[length:var(--content-max,1200px)] mb-[clamp(28px,3.5vw,56px)]";
 
 const TITLE = "m-0 text-[length:var(--fs-h1)] uppercase text-blue";
 
-/* leading-[1.38] and text-pretty match the Hero's lede exactly. */
-const SUBLINE =
-  "mt-[clamp(14px,1.8vw,24px)] mb-0 max-w-[46ch] text-[length:var(--fs-lead)] leading-[1.38] text-blue/75 text-pretty";
+/* The reference's "Ready to get started? Contact us" with its underline. The rule
+   turns cyan on hover, the same accent the shared Button uses. */
+const HEADER_LINK =
+  "inline-block border-0 border-b-2 border-solid border-blue pb-[0.35em] text-[length:var(--fs-small)] font-semibold text-blue no-underline transition-colors hover:border-cyan focus-visible:border-cyan";
 
-/* No boxes: each industry is text under a hairline rule, 2x2, dropping to one
-   column on phones. */
-const GRID =
-  "grid grid-cols-2 gap-x-[clamp(20px,3vw,48px)] gap-y-[clamp(24px,3vw,44px)] mt-[clamp(32px,4vw,56px)] mb-0 mx-0 px-0 pb-0 list-none max-[700px]:grid-cols-1";
+/* ---- Rows -------------------------------------------------------------------
+   Three tracks: picture, number, text. The picture track is the widest so the
+   number lands about 40% across, as in the reference; the picture itself keeps a
+   fixed size at the left of its track. At phone width the number moves into the
+   text column and the picture spans both lines beside it. */
+const LIST =
+  "m-0 p-0 list-none max-w-[length:var(--content-max,1200px)] border-b border-blue/15";
 
-const ITEM = "flex flex-col pt-[clamp(16px,1.8vw,24px)] border-t border-blue/15";
+const ROW =
+  "group grid grid-cols-[minmax(0,4fr)_minmax(0,0.7fr)_minmax(0,5.3fr)] items-start gap-x-[clamp(16px,2.4vw,40px)] border-t border-blue/15 py-[clamp(18px,2.4vw,36px)] max-[700px]:grid-cols-[clamp(96px,28vw,160px)_minmax(0,1fr)] max-[700px]:gap-x-[clamp(14px,4vw,24px)] max-[700px]:gap-y-[0.4em]";
+
+const THUMB =
+  "relative w-[clamp(120px,14vw,200px)] aspect-[4/3] overflow-hidden rounded-lg max-[700px]:row-span-2 max-[700px]:w-full";
+
+const NUMBER =
+  "m-0 text-[length:var(--fs-h3)] leading-[1.2] text-blue max-[700px]:col-start-2 max-[700px]:text-[length:var(--fs-small)] max-[700px]:text-cyan";
+
+const TEXT = "min-w-0 max-[700px]:col-start-2";
 
 const ITEM_TITLE = "m-0 text-[length:var(--fs-h3)] text-blue";
 
-/* --fs-small with leading-[1.35], matching the Hero's feature-strip body rather
-   than --fs-body. That is the element this one corresponds to: a short supporting
-   line under a small heading. */
 const ITEM_BODY =
-  "mt-[clamp(10px,1.2vw,16px)] mb-[clamp(16px,1.8vw,26px)] text-[length:var(--fs-h4)] leading-[1.35] text-blue/75 text-pretty";
+  "mt-[clamp(8px,1vw,14px)] mb-0 max-w-[52ch] text-[length:var(--fs-h4)] leading-[1.35] text-blue/75 text-pretty";
 
-/* mt-auto pins every CTA to the bottom of its item. Items in a row share one
-   height (the grid stretches them), so the buttons line up whatever the text
-   length. The body's bottom margin is the minimum gap above the button. */
-const ITEM_CTA = "self-start mt-auto";
-
-/* ---- Right: 2x2 images ------------------------------------------------------ */
-
-/* Sticky on wide screens so the images stay in view while the longer left side
-   scrolls past; static once stacked. */
-const IMAGES_WRAP =
-  "min-[901px]:sticky min-[901px]:top-[clamp(16px,6vh,72px)]";
-
-const IMAGES = "grid grid-cols-2 gap-[clamp(10px,1.4vw,20px)]";
-
-/* 4:5 portrait rather than square: the frames are half a grid column wide, so a
-   1:1 box is short enough to leave the sticky column much shorter than the text
-   beside it. 4:5 adds ~25% height without changing the grid or the gap tokens. */
-const IMG_FRAME = "relative w-full aspect-[4/5] overflow-hidden rounded-md";
+/* The row's own link, kept from the previous version. */
+const ITEM_CTA = "self-start mt-[clamp(10px,1.2vw,18px)]";
 
 /**
- * "Industries We Serve" — white section. Left: a 2x2 image grid, one image per
- * industry. Right: eyebrow, heading, subheading and the 2x2 industry text.
+ * "Industries We Serve" — a heading with a contact link, then a numbered list of
+ * the four industries, one row each: picture, number, title, description.
  *
  * Server component; the only interactive part is the shared Button.
  */
@@ -129,50 +115,51 @@ export default function Industries() {
       aria-labelledby="industries-title"
     >
       <div className={INNER}>
-        <div className={LAYOUT}>
-          <div className={`${IMAGES_WRAP} animate-hh-fade`}>
-            <div className={IMAGES}>
-              {INDUSTRIES.map((industry) => (
-                <div key={industry.id} className={IMG_FRAME}>
-                  <Image
-                    src={industry.image.src}
-                    alt={industry.image.alt}
-                    fill
-                    sizes="(max-width: 900px) 45vw, 20vw"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        <header className={`${HEADER} animate-hh-fade`}>
+          <h2 id="industries-title" className={TITLE}>
+            Industries We Serve
+          </h2>
+          <a href="#contact" className={HEADER_LINK}>
+            Ready to get started? Contact us
+          </a>
+        </header>
 
-          <div className="animate-hh-fade [animation-delay:150ms]">
-            <p className={EYEBROW}>Industries</p>
-            <h2 id="industries-title" className={TITLE}>
-              Industries We Serve
-            </h2>
-            <p className={SUBLINE}>
-              Different sectors, same problem: hard-to-reach places.
-            </p>
+        <ol className={LIST}>
+          {INDUSTRIES.map((industry, index) => (
+            <li
+              key={industry.id}
+              className={`${ROW} animate-hh-fade`}
+              style={{ animationDelay: `${150 + index * 100}ms` }}
+            >
+              <div className={THUMB}>
+                <Image
+                  src={industry.image.src}
+                  alt={industry.image.alt}
+                  fill
+                  sizes="(max-width: 700px) 28vw, 200px"
+                  className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none"
+                />
+              </div>
 
-            <ul className={GRID}>
-              {INDUSTRIES.map((industry) => (
-                <li key={industry.id} className={ITEM}>
-                  <h3 className={ITEM_TITLE}>{industry.title}</h3>
-                  <p className={ITEM_BODY}>{industry.body}</p>
-                  <Button
-                    href={industry.cta.href}
-                    tone="onLight"
-                    withArrow
-                    className={ITEM_CTA}
-                  >
-                    {industry.cta.label}
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+              <p className={NUMBER} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+
+              <div className={TEXT}>
+                <h3 className={ITEM_TITLE}>{industry.title}</h3>
+                <p className={ITEM_BODY}>{industry.body}</p>
+                <Button
+                  href={industry.cta.href}
+                  tone="onLight"
+                  withArrow
+                  className={ITEM_CTA}
+                >
+                  {industry.cta.label}
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
