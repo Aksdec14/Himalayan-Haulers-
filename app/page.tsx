@@ -14,7 +14,6 @@ export default function HomePage() {
       <Solutions />
       <BannerPower />
       <Industries />
-      
       <Contact />
     </main>
   );

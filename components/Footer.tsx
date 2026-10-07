@@ -9,7 +9,7 @@ type FooterLink = { label: string; href: string };
    or sections exist. */
 const navLinks: FooterLink[] = [
   { label: "What We Provide", href: "#provide" },
-  { label: "Solutions", href: "#solutions" },
+  { label: "Solutions", href: "/solutions" },
   { label: "Industries", href: "#industries" },
   { label: "Contact", href: "#contact" },
 ];
