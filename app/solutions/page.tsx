@@ -21,16 +21,27 @@ export const metadata: Metadata = {
      4. detail          each service as a heading and three muted-label columns
      5. back to top     one centred pill, where the reference has "all projects"
 
-   One visual language: white page, navy type, light weights, 16px radii, and
-   pill buttons (glass over photos, pale blue on white).
+   One visual language: white page, navy type, 16px radii, and pill buttons
+   (glass over photos, pale blue on white).
 
-   - SIZES read --fs-* rungs. The page-level steps live on the root as
-     --fs-*-xl multipliers, which are DIFFERENT custom properties from the
-     rungs they read (a self-referencing --fs-* is a cycle and silently
-     collapses every heading to its inherited size).
+   Type and vertical rhythm are the site's, not this page's, and this route
+   reads them the way the main routes do:
+
+   - SIZES read raw --fs-* rungs and nothing else — h1 -> h2 -> h3 -> lead ->
+     body -> small, one rung per level, exactly as app/industries/page.tsx
+     reads them. Weight, line-height, tracking, balance and colour come from
+     the h1-h6 rule in globals.css, which is unlayered and so outranks any
+     utility on a heading: a heading here carries its size (plus `uppercase`
+     on h2, the site's convention) and leaves weight and leading alone.
+   - There is no page-level type multiplier. `--fs-h2:calc(var(--fs-h2)*1.6)`
+     reads the property it is defining, which is a cycle; the value goes
+     guaranteed-invalid and every heading silently drops to its inherited
+     size. Raw rungs are the only scale this page uses.
    - THE GRID: --content-pad left-anchors every section; --content-max caps
      the measure.
-   - GAPS: --gap / --gap-peer / --gap-block are declared once on the root.
+   - RHYTHM: --section-pad is the only vertical section padding on the page,
+     and --gap, --gap-peer, --gap-block and --card-gap carry everything
+     inside a section. Nothing here invents a vertical value of its own.
 
    Page chrome (navbar, footer) is untouched.
    ========================================================================== */
@@ -38,7 +49,7 @@ export const metadata: Metadata = {
 /* ---- Page shell ---------------------------------------------------------- */
 
 const PAGE =
-  "text-ink [--gap:clamp(14px,1.6vw,24px)] [--gap-peer:calc(var(--gap)*1.5)] [--gap-block:calc(var(--gap)*3)] [--fs-h1-xl:calc(var(--fs-h1)*1.3)] [--fs-h2-xl:calc(var(--fs-h2)*1.6)] [--fs-h3-xl:calc(var(--fs-h3)*1.35)] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-lead-xl:calc(var(--fs-lead)*1.45)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
+  "text-ink [--gap:clamp(14px,1.6vw,24px)] [--gap-peer:calc(var(--gap)*1.5)] [--gap-block:calc(var(--gap)*3)]";
 
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
@@ -62,24 +73,30 @@ function Wrap({
 
 /* ---- Type ---------------------------------------------------------------- */
 
-const H2 =
-  "m-0 text-balance text-[length:var(--fs-h3-xl)] font-light leading-[1.15] text-blue";
+const H2 = "m-0 text-[length:var(--fs-h2)] uppercase";
 
-/* The pale grey-blue label above each column of text. */
-const LABEL = "m-0 text-[length:var(--fs-body-xl)] font-normal text-blue/55";
+/* The label above a field's text. --fs-small is the rung the site's own small
+   labels sit on, and bold + tracked + uppercase is what makes it read as a
+   label rather than as the first words of the sentence. Muted navy rather
+   than cyan: cyan on white is 2.7:1, which is fine for a rule and not for a
+   word this size has to carry. */
+const LABEL =
+  "m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-blue/70";
+
+/* A column heading or a service heading: both are h3, so both take the h3
+   rung and nothing else. */
+const SUBHEAD = "m-0 text-[length:var(--fs-h3)]";
 
 const INTRO =
-  "m-0 max-w-[72ch] text-[length:var(--fs-body-xl)] leading-[1.5] text-ink/80 text-pretty";
+  "m-0 max-w-[68ch] text-[length:var(--fs-lead)] leading-[1.38] text-ink/88 text-pretty";
 
 const BODY =
-  "m-0 text-[length:var(--fs-body)] leading-[1.5] text-ink/80 text-pretty";
+  "m-0 text-[length:var(--fs-body)] leading-[1.45] text-ink/80 text-pretty";
 
-const SERVICE_TITLE =
-  "m-0 text-balance text-[length:var(--fs-h3)] font-light leading-[1.2] text-blue";
+const SERVICE_TITLE = SUBHEAD;
 
 /* Three equal columns: the grid every text block on the page sits on. */
-const COLS =
-  "grid gap-[clamp(20px,2.4vw,40px)] min-[860px]:grid-cols-3";
+const COLS = "grid gap-[length:var(--card-gap)] min-[860px]:grid-cols-3";
 
 const PHOTO =
   "object-cover transition-transform duration-500 ease-out transform-gpu motion-safe:group-hover:scale-105 motion-reduce:transition-none";
@@ -111,7 +128,7 @@ function Pill({
   return (
     <a
       href={href}
-      className={`inline-flex w-fit items-center gap-[0.9em] rounded-full px-[1.5em] py-[0.8em] text-[length:var(--fs-small-xl)] no-underline transition-colors duration-300 ${PILL_TONES[tone]} ${className}`}
+      className={`inline-flex w-fit items-center gap-[0.9em] rounded-full px-[1.5em] py-[0.8em] text-[length:var(--fs-nav,16px)] no-underline transition-colors duration-300 ${PILL_TONES[tone]} ${className}`}
     >
       {children}
       <Icon size={13} strokeWidth={1.6} aria-hidden="true" />
@@ -126,7 +143,7 @@ function Fields({ fields }: { fields: Field[] }) {
       {fields.map((field) => (
         <div key={field.label}>
           <dt className={LABEL}>{field.label}</dt>
-          <dd className={`${BODY} mt-[0.6em]`}>{field.body}</dd>
+          <dd className={`${BODY} mt-[0.5em]`}>{field.body}</dd>
         </div>
       ))}
     </dl>
@@ -364,19 +381,19 @@ export default function SolutionsPage() {
         />
 
         <div
-          className={`${INNER} flex min-h-[clamp(480px,66vh,760px)] items-center py-[clamp(48px,8vh,96px)]`}
+          className={`${INNER} flex min-h-[clamp(460px,62vh,720px)] items-center py-[length:var(--section-pad)]`}
         >
           <div className="flex w-full flex-col gap-[length:var(--gap)] text-white min-[860px]:ml-[48%] min-[860px]:w-[46%] min-[860px]:max-w-[560px]">
-            <h1 className="m-0 text-balance text-[length:var(--fs-h1)] font-light leading-[1.12] animate-hh-rise [animation-delay:100ms]">
+            <h1 className="m-0 text-balance text-[length:var(--fs-h1)] animate-hh-rise [animation-delay:100ms]">
               Operational Capabilities &amp; Technical Services
             </h1>
 
-            <p className="m-0 max-w-[36ch] text-[length:var(--fs-body-xl)] font-light leading-[1.45] text-white/90 animate-hh-rise [animation-delay:200ms]">
+            <p className="m-0 max-w-[38ch] text-[length:var(--fs-lead)] leading-[1.38] text-white/90 animate-hh-rise [animation-delay:200ms]">
               The right drone, sensor and crew for work at height, at distance or
               in confined spaces.
             </p>
 
-            <div className="flex flex-wrap gap-[length:var(--gap)] pt-[length:var(--gap)] animate-hh-rise [animation-delay:300ms]">
+            <div className="mt-[length:var(--gap)] flex flex-wrap gap-[length:var(--gap)] animate-hh-rise [animation-delay:300ms]">
               <Pill href="#capabilities" tone="glass">
                 View Capabilities
               </Pill>
@@ -391,7 +408,7 @@ export default function SolutionsPage() {
       {/* ---- 2. About us ---------------------------------------------------- */}
       <section
         id="about"
-        className="scroll-mt-[96px] bg-white py-[clamp(48px,6vw,96px)]"
+        className="scroll-mt-[96px] bg-white py-[length:var(--section-pad)]"
       >
         <Wrap>
           <h2 className={H2}>About Us</h2>
@@ -399,17 +416,17 @@ export default function SolutionsPage() {
           <p className={`${INTRO} mt-[length:var(--gap)]`}>{ABOUT}</p>
 
           {/* Three muted-label columns. */}
-          <div className={`${COLS} mt-[clamp(28px,3.4vw,56px)]`}>
+          <div className={`${COLS} mt-[length:var(--gap-block)]`}>
             {CONTEXTS.map((context) => (
               <div key={context.title}>
-                <h3 className={LABEL}>{context.title}</h3>
-                <p className={`${BODY} mt-[0.6em]`}>{context.body}</p>
+                <h3 className={SUBHEAD}>{context.title}</h3>
+                <p className={`${BODY} mt-[0.5em]`}>{context.body}</p>
               </div>
             ))}
           </div>
 
           {/* Media row: small photo + pill | index rows | large photo. */}
-          <div className={`${COLS} mt-[clamp(36px,5vw,80px)] items-stretch`}>
+          <div className={`${COLS} mt-[length:var(--gap-block)] items-stretch`}>
             <div className="flex flex-col justify-between gap-[length:var(--gap-peer)]">
               <div className="relative aspect-[10/9] w-[46%] min-w-[96px] overflow-hidden rounded-2xl bg-ink">
                 <Image
@@ -434,12 +451,12 @@ export default function SolutionsPage() {
                 >
                   <a
                     href={`#capability-${cap.n}`}
-                    className="group grid grid-cols-2 gap-[length:var(--gap)] py-[clamp(12px,1.3vw,20px)] text-inherit no-underline"
+                    className="group grid grid-cols-2 gap-[length:var(--gap)] py-[length:var(--gap)] text-inherit no-underline"
                   >
-                    <span className="text-[length:var(--fs-body-xl)] leading-[1.3] text-blue underline-offset-[6px] decoration-cyan decoration-2 group-hover:underline">
+                    <span className="text-[length:var(--fs-body)] leading-[1.3] text-blue underline-offset-[6px] decoration-cyan decoration-2 group-hover:underline">
                       {cap.category}
                     </span>
-                    <span className="text-[length:var(--fs-small-xl)] leading-[1.4] text-ink/60">
+                    <span className="text-[length:var(--fs-small)] leading-[1.4] text-ink/60">
                       {cap.services.map((service) => service.title).join(" · ")}
                     </span>
                   </a>
@@ -463,14 +480,14 @@ export default function SolutionsPage() {
       {/* ---- 3. Capabilities: three-up rounded photo cards ----------------- */}
       <section
         id="capabilities"
-        className="scroll-mt-[96px] bg-white pb-[clamp(48px,6vw,96px)]"
+        className="scroll-mt-[96px] bg-white pb-[length:var(--section-pad)]"
       >
         <Wrap>
           <h2 className={H2}>Capabilities</h2>
 
-          <div className="mt-[clamp(24px,3vw,44px)] grid gap-x-[length:var(--gap)] gap-y-[clamp(28px,3.2vw,48px)] min-[640px]:grid-cols-2 min-[960px]:grid-cols-3">
+          <div className="mt-[length:var(--gap-block)] grid gap-x-[length:var(--gap)] gap-y-[length:var(--gap-block)] min-[640px]:grid-cols-2 min-[960px]:grid-cols-3">
             {CAPABILITIES.map((cap) => (
-              <article key={cap.n} className="group flex flex-col gap-[0.9em]">
+              <article key={cap.n} className="group flex flex-col gap-[length:var(--gap)]">
                 <div className="relative aspect-[5/6] overflow-hidden rounded-2xl bg-ink">
                   <Image
                     src={cap.image.src}
@@ -499,13 +516,11 @@ export default function SolutionsPage() {
                 </div>
 
                 <div>
-                  <h3 className="m-0 text-[length:var(--fs-body-xl)] font-normal leading-[1.35] text-blue">
-                    {cap.category}
-                  </h3>
+                  <h3 className="m-0 text-[length:var(--fs-h3)]">{cap.category}</h3>
                   {cap.services.map((service) => (
                     <p
                       key={service.title}
-                      className="m-0 mt-[0.25em] text-[length:var(--fs-small-xl)] leading-[1.4] text-ink/60"
+                      className="m-0 mt-[0.3em] text-[length:var(--fs-small)] leading-[1.4] text-ink/60"
                     >
                       {service.title}
                     </p>
@@ -515,12 +530,12 @@ export default function SolutionsPage() {
             ))}
 
             {/* Sixth cell: the call to action. */}
-            <div className="flex flex-col justify-between gap-[length:var(--gap-block)] rounded-2xl bg-blue p-[clamp(20px,2.4vw,36px)] text-white max-[959px]:min-h-[260px]">
+            <div className="flex flex-col justify-between gap-[length:var(--gap-block)] rounded-2xl bg-blue p-[clamp(24px,3vw,40px)] text-white max-[959px]:min-h-[260px]">
               <div className="flex flex-col gap-[length:var(--gap)]">
-                <h3 className="m-0 text-balance text-[length:var(--fs-h3-xl)] font-light leading-[1.15]">
+                <h3 className="m-0 text-balance text-[length:var(--fs-h3)] uppercase">
                   Put the Capability to Work
                 </h3>
-                <p className="m-0 text-[length:var(--fs-body-xl)] font-light leading-[1.45] text-white/85 text-pretty">
+                <p className="m-0 text-[length:var(--fs-lead)] leading-[1.38] text-white/85 text-pretty">
                   Tell us the site, the payload and the hazard. We bring the
                   drone, the sensors and the crew.
                 </p>
@@ -537,17 +552,17 @@ export default function SolutionsPage() {
       {/* ---- 4. Detail: each service as three muted-label columns ---------- */}
       <section
         id="detail"
-        className="scroll-mt-[96px] bg-white pb-[clamp(48px,6vw,96px)]"
+        className="scroll-mt-[96px] bg-white pb-[length:var(--section-pad)]"
       >
         <Wrap>
           <h2 className={H2}>Capability Detail</h2>
 
-          <div className="mt-[clamp(24px,3vw,44px)] flex flex-col gap-[clamp(36px,4.4vw,72px)]">
+          <div className="mt-[length:var(--gap-block)] flex flex-col gap-[length:var(--gap-block)]">
             {CAPABILITIES.map((cap) => (
               <article
                 key={cap.n}
                 id={`capability-${cap.n}`}
-                className="scroll-mt-[96px] border-t border-blue/15 pt-[clamp(20px,2.4vw,36px)]"
+                className="scroll-mt-[96px] border-t border-blue/15 pt-[length:var(--gap-block)]"
               >
                 <p className={LABEL}>{cap.category}</p>
 
@@ -557,7 +572,7 @@ export default function SolutionsPage() {
                     className={
                       index === 0
                         ? "mt-[length:var(--gap)]"
-                        : "mt-[clamp(28px,3.4vw,52px)]"
+                        : "mt-[length:var(--gap-block)]"
                     }
                   >
                     <h3 className={SERVICE_TITLE}>{service.title}</h3>
@@ -569,7 +584,7 @@ export default function SolutionsPage() {
           </div>
 
           {/* One centred pill closes the page. */}
-          <div className="flex justify-center pt-[clamp(40px,5vw,72px)]">
+          <div className="flex justify-center pt-[length:var(--section-pad)]">
             <Pill href="#top" icon={ArrowUp}>
               Back to top
             </Pill>
