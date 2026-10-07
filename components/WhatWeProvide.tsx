@@ -112,8 +112,15 @@ const SUBLINE =
 const GRID =
   "grid grid-cols-[repeat(2,minmax(0,1fr))] gap-[26%] m-0 p-0 list-none max-[860px]:grid-cols-[minmax(0,1fr)] max-[860px]:gap-[20px]";
 
-/* Shared offer shell. Surface and mobile full-bleed treatment per tone. */
-const OFFER = "flex flex-col justify-center";
+/* Shared offer shell. Surface and mobile full-bleed treatment per tone.
+
+   GAP is the ONE vertical spacing value inside an offer: eyebrow → title →
+   body → each list item → CTA all sit exactly this far apart. The flex gap
+   carries it between blocks, and LIST_ITEM repeats the same value per item,
+   so no pair of lines is tighter or looser than any other. */
+const GAP = "gap-[clamp(12px,1.4vw,18px)]";
+
+const OFFER = `flex flex-col justify-center ${GAP}`;
 
 const OFFER_LIGHT = `${OFFER} text-ink`;
 
@@ -135,24 +142,24 @@ const NUMBER = "text-cyan";
 /* Colour comes from the offer shell via inheritance — the global h1–h6 rule
    forces `color: inherit` unlayered, so a colour utility on the h3 itself
    would lose anyway. The size utility is safe: only colour is forced. */
-const OFFER_TITLE = "mt-[clamp(6px,0.7vw,8px)] text-[length:var(--fs-h3)]";
+const OFFER_TITLE = "text-[length:var(--fs-h3)]";
 
 const OFFER_BODY = (dark: boolean) =>
-  `mt-[clamp(8px,0.9vw,10px)] text-[length:var(--fs-body)] leading-[1.4] text-pretty ${
+  `text-[length:var(--fs-body)] leading-[1.4] text-pretty ${
     dark ? "text-white/85" : "text-ink/75"
   }`;
 
-const LIST = "mt-[clamp(10px,1.2vw,14px)] mb-0 mx-0 px-0 pb-0 list-none";
+const LIST = "mb-0 mx-0 px-0 pb-0 list-none";
 
 /* Items carry a small cyan dot so both offers read as lists without tick
    columns eating horizontal room. */
 const LIST_ITEM = (dark: boolean) =>
-  `relative pl-[1.15em] text-[length:var(--fs-body)] leading-[1.4] before:absolute before:left-0 before:top-[0.55em] before:h-[0.42em] before:w-[0.42em] before:rounded-full before:bg-cyan before:content-[''] not-first:mt-[0.4em] ${
+  `relative pl-[1.15em] text-[length:var(--fs-body)] leading-[1.4] before:absolute before:left-0 before:top-[0.55em] before:h-[0.42em] before:w-[0.42em] before:rounded-full before:bg-cyan before:content-[''] not-first:mt-[clamp(12px,1.4vw,18px)] ${
     dark ? "text-white/90" : "text-ink/85"
   }`;
 
 /* Alignment only. Colour, border, arrow and hover belong to the shared Button. */
-const OFFER_CTA = "self-start mt-[clamp(14px,1.6vw,20px)]";
+const OFFER_CTA = "self-start";
 
 /**
  * "What We Provide" — the first light section after the video hero.
