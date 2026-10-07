@@ -2,8 +2,10 @@ import Button from "./ui/Button";
 
 type Offer = {
   id: string;
-  /** "blue" inverts the card to a solid dark surface with white text. */
+  /** "blue" flips the half to a solid navy surface with white text. */
   tone?: "light" | "blue";
+  /** Small uppercase kicker above the title — drawn from the section subline. */
+  eyebrow: string;
   title: string;
   body: string;
   items: string[];
@@ -13,6 +15,7 @@ type Offer = {
 const OFFERS: Offer[] = [
   {
     id: "products",
+    eyebrow: "Own them",
     title: "Drone Products",
     body: "Purpose-built heavy-lift logistics drones, plus surveillance and custom platforms, built in India for Indian conditions.",
     items: [
@@ -20,11 +23,12 @@ const OFFERS: Offer[] = [
       "Surveillance drones",
       "Custom-built drones",
     ],
-    cta: { label: "Explore Products", href: "#products" },
+    cta: { label: "Explore Products", href: "/what-we-provide/products" },
   },
   {
     id: "daas",
     tone: "blue",
+    eyebrow: "Hire the capability",
     title: "Drone as a Service",
     body: "Get the result without owning the drone. Our crews bring the aircraft, pilots, batteries and support to your site.",
     items: [
@@ -33,7 +37,7 @@ const OFFERS: Offer[] = [
       "Industrial sensor surveys",
       "Drone-based tower stringing",
     ],
-    cta: { label: "Explore Services", href: "#services" },
+    cta: { label: "Explore Services", href: "/what-we-provide/services" },
   },
 ];
 
@@ -42,73 +46,129 @@ const OFFERS: Offer[] = [
    globals.css (which would resize the hero headline and navbar too).
    Multipliers keep the frame-relative shape of the original clamp()s.
 
-   --fs-h3 is included because the card titles use it and want to be larger than
-   the hero's h3s. Scoping it to this section is what keeps the hero slider titles
-   at their own size: the token is shared, the override is not. */
+   --fs-h3 is included because the offer titles use it and want to be larger
+   than the hero's h3s. Scoping it to this section is what keeps the hero
+   slider titles at their own size: the token is shared, the override is not.
+
+   `relative` (not decoration): the diagonal paint layers below are children of
+   the section, and this container has to sit above them. */
 const SECTION =
-  "bg-[#f4f7fa] text-ink animate-hh-fade [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)] py-[length:var(--section-pad)]";
+  "relative bg-[#f4f7fa] text-ink animate-hh-fade [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)] py-[length:calc(var(--section-pad)*0.5)]";
 
-/* Left-anchored: same --hero-left line as the hero headline and navbar logo. */
+/* Left-anchored: same --hero-left line as the hero headline and navbar logo.
+   relative + z-10: paints the whole content column above the section's
+   diagonal backdrop. */
 const INNER =
-  "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
+  "relative z-10 pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
-/* Measure cap only. The left edge stays flush with --content-pad. */
+/* ---------------------------------------------------------------------------
+   THE DIAGONAL — the WHOLE section is split, full-bleed, edge to edge.
+
+   Two absolute layers paint the split across the entire section box (paddings
+   included), no panel, no rounded corners, no shadow:
+
+     navy  : polygon(58% 0, 100% 0, 100% 100%, 42% 100%) — right side, seam
+             sweeping from 58% of the width at the top down to 42% at the
+             bottom: the same left-leaning "/" as the BannerPower wedges.
+     stripe: a 2% cyan accent riding just inside the navy edge.
+
+   Content is a two-column grid whose gap is the seam corridor. The numbers
+   below are tuned so the columns clear the seam at every viewport width
+   between 860px and ultrawide, measured through INNER's paddings:
+
+     gap 26%  -> left column ends at ~38% of the section (seam bottom 42%,
+                 stripe to 44%) and the right column starts at ~62% (seam
+                 top 58%, stripe to 60%). No text ever lands on the wrong
+                 side of the split.
+
+   Header is capped at min(62ch, 52%) for the same reason: its box ends
+   around 54% — clear of the seam's 58% at the top.
+
+   Mobile (<860px): layers hide; columns stack; the navy offer becomes a
+   full-bleed band (negative margins cancelling INNER's padding) with a cyan
+   top border standing in for the seam.
+   ------------------------------------------------------------------------- */
+const NAVY =
+  "pointer-events-none absolute inset-0 bg-blue max-[860px]:hidden [clip-path:polygon(58%_0,100%_0,100%_100%,42%_100%)]";
+
+const SEAM =
+  "pointer-events-none absolute inset-0 bg-cyan max-[860px]:hidden [clip-path:polygon(58%_0,60%_0,44%_100%,42%_100%)]";
+
+/* Header box: the 52% cap is what keeps it left of the seam (see above).
+   Full measure again once the split is gone on mobile. */
 const HEADER =
-  "max-w-[min(62ch,var(--content-max,1200px))] mb-[clamp(32px,4.5vw,64px)]";
+  "max-w-[min(62ch,52%)] max-[860px]:max-w-full mb-[clamp(16px,2.2vw,32px)]";
 
 const TITLE = "text-[length:var(--fs-h1)] uppercase";
 
 const ACCENT = "text-cyan";
 
 const SUBLINE =
-  "mt-[clamp(12px,1.6vw,20px)] text-[length:var(--fs-lead)] leading-[1.45] text-ink/72 text-pretty";
+  "mt-[clamp(8px,1vw,12px)] text-[length:var(--fs-lead)] leading-[1.45] text-ink/72 text-pretty";
 
-/* Caps track width on ultrawide; collapses to one column on width, not type. */
+/* The gap IS the seam corridor — 26% on desktop, ordinary stack spacing on
+   mobile. No max-width cap: narrowing the grid would break the clearance
+   math against the seam (which is measured against the full section). */
 const GRID =
-  "grid grid-cols-[repeat(2,minmax(0,1fr))] max-w-[length:var(--content-max,1200px)] gap-[length:var(--card-gap)] m-0 p-0 list-none max-[860px]:grid-cols-[minmax(0,1fr)]";
+  "grid grid-cols-[repeat(2,minmax(0,1fr))] gap-[26%] m-0 p-0 list-none max-[860px]:grid-cols-[minmax(0,1fr)] max-[860px]:gap-[20px]";
 
-/* Shared card shell. Surface (bg / text / border colour) is set per tone below. */
-const CARD =
-  "flex flex-col p-[clamp(24px,2.8vw,40px)] rounded-lg border shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.06)] transition-[border-color,box-shadow,transform] duration-300";
+/* Shared offer shell. Surface and mobile full-bleed treatment per tone. */
+const OFFER = "flex flex-col justify-center";
 
-const CARD_LIGHT = "bg-white text-ink border-blue/10";
-const CARD_DARK = "bg-blue text-white border-white/12";
+const OFFER_LIGHT = `${OFFER} text-ink`;
 
-const CARD_HOVER =
-  "hover:border-cyan/50 hover:shadow-[0_4px_8px_rgba(10,25,45,0.05),0_20px_44px_rgba(10,25,45,0.1)] motion-safe:hover:-translate-y-0.5";
+/* Mobile: negative margins cancel INNER's padding so the navy band runs
+   edge to edge; padding goes back in so the text stays on the content line.
+   Desktop: no background of its own — the section's navy layer paints it. */
+const OFFER_DARK = `${OFFER} text-white max-[860px]:-ml-[length:var(--content-pad)] max-[860px]:-mr-[length:var(--content-pad-end,clamp(20px,5vw,64px))] max-[860px]:pl-[length:var(--content-pad)] max-[860px]:pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))] max-[860px]:py-[clamp(20px,4vw,28px)] max-[860px]:bg-blue max-[860px]:border-t-[3px] max-[860px]:border-cyan`;
 
-const CARD_TITLE = (dark: boolean) =>
-  `text-[length:var(--fs-h3)] ${dark ? "text-white" : "text-ink"}`;
+/* Number + kicker. The muted colour sits on the <p>; the cyan number span
+   overrides it (a <p> is not a heading, so the global h1–h6 inherit rule
+   does not interfere with either colour). */
+const EYEBROW = (dark: boolean) =>
+  `flex items-center gap-[0.8em] m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.14em] ${
+    dark ? "text-white/55" : "text-ink/55"
+  }`;
 
-const CARD_BODY = (dark: boolean) =>
-  `mt-[clamp(12px,1.4vw,18px)] text-[length:var(--fs-body)] leading-[1.45] text-pretty ${
+const NUMBER = "text-cyan";
+
+/* Colour comes from the offer shell via inheritance — the global h1–h6 rule
+   forces `color: inherit` unlayered, so a colour utility on the h3 itself
+   would lose anyway. The size utility is safe: only colour is forced. */
+const OFFER_TITLE = "mt-[clamp(6px,0.7vw,8px)] text-[length:var(--fs-h3)]";
+
+const OFFER_BODY = (dark: boolean) =>
+  `mt-[clamp(8px,0.9vw,10px)] text-[length:var(--fs-body)] leading-[1.4] text-pretty ${
     dark ? "text-white/85" : "text-ink/75"
   }`;
 
-/* mt-auto pushes the CTA row to the bottom so buttons align across cards.
-   Margin and padding are set per side so nothing conflicts with mt-auto. */
-const LIST =
-  "mt-auto mb-0 mx-0 px-0 pb-0 pt-[clamp(18px,2.2vw,26px)] list-none";
+const LIST = "mt-[clamp(10px,1.2vw,14px)] mb-0 mx-0 px-0 pb-0 list-none";
 
-/* Plain text items: no tick marks, separated by space and the item's own weight.
-   The padding-left that the tick needed has gone with it. */
+/* Items carry a small cyan dot so both offers read as lists without tick
+   columns eating horizontal room. */
 const LIST_ITEM = (dark: boolean) =>
-  `text-[length:var(--fs-body)] leading-[1.4] not-first:mt-[0.6em] ${
+  `relative pl-[1.15em] text-[length:var(--fs-body)] leading-[1.4] before:absolute before:left-0 before:top-[0.55em] before:h-[0.42em] before:w-[0.42em] before:rounded-full before:bg-cyan before:content-[''] not-first:mt-[0.4em] ${
     dark ? "text-white/90" : "text-ink/85"
   }`;
 
 /* Alignment only. Colour, border, arrow and hover belong to the shared Button. */
-const CARD_CTA = "self-start mt-[clamp(24px,2.6vw,36px)]";
+const OFFER_CTA = "self-start mt-[clamp(14px,1.6vw,20px)]";
 
 /**
  * "What We Provide" — the first light section after the video hero.
  *
- * Two cards for the two ways to work with us: buy the aircraft, or hire the
- * capability. Server component; the only interactive part is the shared Button.
+ * The section itself is divided by a full-bleed diagonal: light side carries
+ * the header and Drone Products, the navy side carries Drone as a Service,
+ * with a cyan stripe on the seam. Server component; the only interactive
+ * part is the shared Button.
  */
 export default function WhatWeProvide() {
   return (
     <section id="provide" className={SECTION} aria-labelledby="provide-title">
+      {/* Diagonal backdrop, edge to edge (desktop only) */}
+      <div className={NAVY} aria-hidden="true" />
+      <div className={SEAM} aria-hidden="true" />
+
       <div className={INNER}>
         <header className={HEADER}>
           <h2 id="provide-title" className={TITLE}>
@@ -121,17 +181,19 @@ export default function WhatWeProvide() {
         </header>
 
         <ul className={GRID}>
-          {OFFERS.map((offer) => {
+          {OFFERS.map((offer, index) => {
             const dark = offer.tone === "blue";
             return (
-              <li
-                key={offer.id}
-                className={`${CARD} ${CARD_HOVER} ${
-                  dark ? CARD_DARK : CARD_LIGHT
-                }`}
-              >
-                <h3 className={CARD_TITLE(dark)}>{offer.title}</h3>
-                <p className={CARD_BODY(dark)}>{offer.body}</p>
+              <li key={offer.id} className={dark ? OFFER_DARK : OFFER_LIGHT}>
+                <p className={EYEBROW(dark)}>
+                  <span className={NUMBER}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {offer.eyebrow}
+                </p>
+
+                <h3 className={OFFER_TITLE}>{offer.title}</h3>
+                <p className={OFFER_BODY(dark)}>{offer.body}</p>
 
                 <ul className={LIST}>
                   {offer.items.map((item) => (
@@ -145,7 +207,7 @@ export default function WhatWeProvide() {
                   href={offer.cta.href}
                   tone={dark ? "onDark" : "onLight"}
                   withArrow
-                  className={CARD_CTA}
+                  className={OFFER_CTA}
                 >
                   {offer.cta.label}
                 </Button>

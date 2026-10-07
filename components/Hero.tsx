@@ -30,10 +30,10 @@ const VIDEO_SOURCES = [
    they can never overlap, at any width or height — the old absolute positioning
    could. */
 const FRAME =
-  "absolute top-[length:var(--frame-top)] bottom-[length:var(--frame-bottom)] left-[length:var(--frame-left)] right-[length:var(--frame-right)] z-[2] [container-type:size] overflow-hidden flex flex-col px-[4.9cqw] bg-[radial-gradient(circle_at_22%_18%,rgba(160,200,235,0.28),transparent_38%),linear-gradient(to_bottom,rgba(10,25,45,0.18),rgba(10,25,45,0)_40%,rgba(10,20,30,0.45))] [--hero-gap:clamp(12px,2.6cqh,28px)] max-h-[620px]:[--hero-gap:clamp(8px,2cqh,16px)]";
+  "absolute top-[length:var(--frame-top)] bottom-[length:var(--frame-bottom)] left-[length:var(--frame-left)] right-[length:var(--frame-right)] z-[2] [container-type:size] overflow-hidden flex flex-col px-[4.9cqw] bg-[radial-gradient(circle_at_22%_18%,rgba(160,200,235,0.28),transparent_38%),linear-gradient(to_bottom,rgba(10,25,45,0.46),rgba(10,25,45,0)_40%,rgba(10,20,30,0.7))] [--hero-gap:clamp(12px,2.6cqh,28px)] max-h-[620px]:[--hero-gap:clamp(8px,2cqh,16px)]";
 
 const BLUR =
-  "absolute inset-0 z-[1] bg-[rgba(20,35,55,0.18)] backdrop-blur-[14px] hero-frame-cutout";
+  "absolute inset-0 z-[1] bg-[rgba(20,35,55,0.5)] backdrop-blur-[14px] hero-frame-cutout";
 
 /* One gap token (--hero-gap) separates headline, lede and button, so all three
    gaps are identical. Margins on the children are zeroed so a global heading or
