@@ -42,10 +42,11 @@ const LAYOUT = "grid grid-cols-2 max-[900px]:grid-cols-1";
 
 /* ---- Left: white ------------------------------------------------------------- */
 
-/* Vertical padding matches the navy panel's, so the two halves stay level at the
-   top edge and neither column is taller than it needs to be. */
+/* Vertical padding matches the navy panel's (both are --section-pad, the same
+   rhythm every section uses), so the two halves stay level at the top edge and
+   neither column is taller than it needs to be. */
 const LEFT =
-  "flex min-w-0 flex-col bg-white text-blue py-[clamp(24px,3vw,44px)] pl-[length:var(--content-pad)] pr-[clamp(20px,4vw,64px)]";
+  "flex min-w-0 flex-col bg-white text-blue py-[length:var(--section-pad)] pl-[length:var(--content-pad)] pr-[clamp(20px,4vw,64px)]";
 
 const EYEBROW =
   "m-0 mb-[clamp(10px,1.4vw,20px)] text-[length:var(--fs-small)] font-bold tracking-[0.12em] uppercase text-cyan";
@@ -80,7 +81,7 @@ const DETAIL_LINK =
    from the stretch, not from the fields. Horizontal padding tightens on small
    screens to give the card room. */
 const RIGHT =
-  "flex min-w-0 items-start bg-blue py-[clamp(24px,3vw,44px)] px-[clamp(12px,3vw,48px)]";
+  "flex min-w-0 items-start bg-blue py-[length:var(--section-pad)] px-[clamp(12px,3vw,48px)]";
 
 const CARD =
   "mx-auto w-full max-w-[720px] rounded-lg bg-white text-blue px-[clamp(20px,2.5vw,36px)] py-[clamp(28px,3.5vw,48px)] shadow-[0_2px_4px_rgba(0,0,0,0.08),0_20px_44px_rgba(0,0,0,0.2)]";

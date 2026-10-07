@@ -53,7 +53,7 @@ const OFFERS: Offer[] = [
    `relative` (not decoration): the diagonal paint layers below are children of
    the section, and this container has to sit above them. */
 const SECTION =
-  "relative bg-[#f4f7fa] text-ink animate-hh-fade [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)] py-[length:calc(var(--section-pad)*0.5)]";
+  "relative bg-[#f4f7fa] text-ink animate-hh-fade [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)] py-[length:var(--section-pad)]";
 
 /* Left-anchored: same --hero-left line as the hero headline and navbar logo.
    relative + z-10: paints the whole content column above the section's
