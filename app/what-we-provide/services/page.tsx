@@ -1,378 +1,541 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import {
+  Plus,
+  Route,
+  Scale,
+  ShieldCheck,
+  Timer,
+  Users,
+  Wallet,
+} from "lucide-react";
+
 import Button from "@/components/ui/Button";
+
+import {
+  BODY,
+  CAP_GRID,
+  CARD,
+  CARD_BODY,
+  CARD_PAD,
+  CARD_TITLE,
+  CHIP,
+  CONFIRM,
+  IconTile,
+  Section,
+  SectionHead,
+  ClosingCTA,
+  PageHero,
+  Bullet,
+  Bullets,
+  CardPhoto,
+} from "../ui";
+
+export const metadata: Metadata = {
+  title:
+    "Drone as a Service in India | Logistics, Inspection, Tower Stringing | Himalayan Haulers",
+  description:
+    "Hire heavy-lift drones with crews. Logistics Drone as a Service, drone inspections, industrial surveys and tower stringing, without owning a fleet.",
+};
 
 /* ==========================================================================
    SERVICES PAGE — Drone as a Service
    ========================================================================== */
 
+/* Same type ramp as Products: the section steps up from the hero's scale via
+   per-level multipliers, scoped to this page only. */
 const SECTION =
-  "bg-white text-ink animate-hh-fade [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)] py-[length:var(--section-pad)]";
+  "bg-white text-ink animate-hh-fade py-[length:var(--section-pad)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
 
-const INNER =
-  "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
-
-const HEADER =
-  "max-w-[min(62ch,var(--content-max,1200px))] mb-[clamp(32px,4.5vw,64px)]";
-
-const TITLE = "text-[length:var(--fs-h1)] uppercase";
-
-const ACCENT = "text-cyan";
-
-const SUBLINE =
-  "mt-[clamp(12px,1.6vw,20px)] text-[length:var(--fs-lead)] leading-[1.45] text-ink/72 text-pretty";
-
-const EYEBROW =
-  "mb-[clamp(8px,1vw,12px)] text-[length:var(--fs-small)] font-bold tracking-[0.1em] uppercase text-cyan";
-
-const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
-
-const CARD =
-  "flex flex-col p-[clamp(24px,2.8vw,40px)] rounded-lg border shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.06)] transition-[border-color,box-shadow,transform] duration-300";
-
-const CARD_LIGHT = "bg-white text-ink border-blue/10";
-
-const CARD_HOVER =
-  "hover:border-cyan/50 hover:shadow-[0_4px_8px_rgba(10,25,45,0.05),0_20px_44px_rgba(10,25,45,0.1)] motion-safe:hover:-translate-y-0.5";
-
-const CARD_TITLE = "text-[length:var(--fs-h3)] text-ink";
-
-const CARD_BODY =
-  "mt-[clamp(12px,1.4vw,18px)] text-[length:var(--fs-body)] leading-[1.45] text-pretty text-ink/75";
-
-const LIST = "mt-auto mb-0 mx-0 px-0 pb-0 pt-[clamp(18px,2.2vw,26px)] list-none";
-
-const LIST_ITEM =
-  "text-[length:var(--fs-body)] leading-[1.4] not-first:mt-[0.6em] text-ink/85";
+/* In-card subhead ("Typical uses:", "How it works:"). One level below the
+   card title, so it reads --fs-h3 like the card title but not bold-cyan. */
+const SUBHEAD = "m-0 mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] font-bold text-ink";
 
 const GRID_TWO =
   "grid grid-cols-[repeat(2,minmax(0,1fr))] gap-[length:var(--card-gap)] max-[860px]:grid-cols-[minmax(0,1fr)]";
 
 const GRID_FOUR =
-  "grid grid-cols-[repeat(4,minmax(0,1fr))] gap-[length:var(--card-gap)] max-[1100px]:grid-cols-2 max-[600px]:grid-cols-1";
+  "grid grid-cols-4 gap-[length:var(--card-gap)] max-[1100px]:grid-cols-2 max-[600px]:grid-cols-1";
 
-const CTA_SECTION =
-  "bg-blue text-white rounded-lg p-[clamp(32px,4vw,56px)] text-center";
+/* "How it works" — numbered steps, cyan numeral in a tinted circle. */
+const STEP =
+  "flex items-start gap-[clamp(10px,1.2vw,14px)] text-[length:var(--fs-body)] leading-[1.45] text-ink/75";
 
-const CTA_TITLE = "text-[length:var(--fs-h2)] uppercase";
+const STEP_NUM =
+  "grid size-7 shrink-0 place-items-center rounded-full bg-cyan/10 text-[length:var(--fs-small)] font-bold text-cyan";
 
-const CTA_TEXT =
-  "mt-[clamp(12px,1.6vw,20px)] text-[length:var(--fs-lead)] leading-[1.45] text-white/85 text-pretty max-w-[60ch] mx-auto";
+/* FAQ: native <details>, so it opens without JavaScript and still works if
+   scripts fail. group-open rotates the + into a ×. */
+const FAQ_LIST = "mt-0 max-w-[84ch] border-t border-blue/15";
 
-const SERVICE_CARD = `${CARD} ${CARD_LIGHT} ${CARD_HOVER}`;
+const FAQ_ITEM = "group border-b border-blue/15 py-[clamp(14px,1.6vw,20px)]";
 
+const FAQ_Q =
+  "flex cursor-pointer list-none items-start justify-between gap-4 text-[length:var(--fs-body)] font-bold leading-[1.4] text-ink transition-colors hover:text-cyan [&::-webkit-details-marker]:hidden";
+
+const FAQ_A =
+  "m-0 mt-[clamp(10px,1.2vw,16px)] max-w-[72ch] text-[length:var(--fs-body)] leading-[1.55] text-ink/70";
+
+/* ---- Content -------------------------------------------------------------- */
+
+const BENEFITS: {
+  icon: typeof Wallet;
+  title: string;
+  body: string;
+}[] = [
+  {
+    icon: Wallet,
+    title: "No capital cost",
+    body: "Use heavy-lift drones without buying a fleet.",
+  },
+  {
+    icon: Users,
+    title: "No pilots to hire",
+    body: "Our trained crews operate everything.",
+  },
+  {
+    icon: Route,
+    title: "Right drone for the job",
+    body: "We match the platform to your payload, altitude and route.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Safer work",
+    body: "Keep people off cliffs, towers and out of confined spaces.",
+  },
+  {
+    icon: Timer,
+    title: "Faster delivery",
+    body: "Minutes in the air instead of days on foot or by mule.",
+  },
+  {
+    icon: Scale,
+    title: "Scales with your project",
+    body: "Pay only for the days, tonnes or scope you need.",
+  },
+];
+
+const LDaaS_USES = [
+  "Materials and tools to remote construction and tower sites",
+  "Rations, medicine and spares to isolated posts",
+  "Equipment moves across valleys and rivers",
+  "Emergency supply when roads are cut",
+];
+
+const COMMERCIAL_MODELS = ["Per metric ton", "Per day", "Turnkey for a project"];
+
+const LDaaS_STEPS = [
+  "Tell us the job: route, load, timeline.",
+  "We plan and deploy: right drone, crew and batteries on site.",
+  "We fly it: you get the delivery, we handle the rest.",
+];
+
+const INDUSTRIES: { name: string; body: string; image: string; alt: string }[] =
+  [
+    {
+      name: "Power",
+      body: "Transmission towers, substations, line inspection and stringing.",
+      image: "/media/power.jpg",
+      alt: "Drone stringing a pilot line between power towers",
+    },
+    {
+      name: "Energy",
+      body: "Pipelines, refineries, wind farms, solar fields and methane monitoring.",
+      image: "/media/energy.jpg",
+      alt: "Drone inspecting a refinery stack",
+    },
+    {
+      name: "Defence",
+      body: "High-altitude resupply, border surveillance, forward area logistics.",
+      image: "/media/defence.jpg",
+      alt: "Heavy-lift drone delivering supplies at altitude",
+    },
+    {
+      name: "Construction",
+      body: "Remote site delivery, progress surveys, tower erection and confined space inspection.",
+      image: "/media/construction.jpg",
+      alt: "Drone surveying a construction site",
+    },
+  ];
+
+const FAQS: { q: string; a: string; confirm?: string }[] = [
+  {
+    q: "Do I need any drone licence or permission?",
+    a: "Our crews handle operations and work with you on the permissions your site needs.",
+    confirm: "[CONFIRM] Please add your standard compliance wording.",
+  },
+  {
+    q: "How soon can you deploy?",
+    a: "Tell us the location and scope and we will give a mobilisation timeline with the quote.",
+    confirm: "[CONFIRM]",
+  },
+  {
+    q: "Can I buy the drone later?",
+    a: "Yes. Many customers start with DAAS and move to owning once they have proven the use case.",
+  },
+  {
+    q: "What areas do you cover?",
+    a: "We operate across India, including high-altitude and remote regions.",
+    confirm: "[CONFIRM]",
+  },
+];
+
+/** Navy underline link used inside the closing panel's contact line. */
+const CONTACT_LINK =
+  "text-white underline decoration-white/40 underline-offset-4 transition-colors hover:text-cyan hover:decoration-cyan";
+
+/**
+ * /what-we-provide/services — the hire-the-capability page.
+ *
+ * Server component: the FAQ accordion is native <details>, so no client JS is
+ * needed anywhere on the page.
+ */
 export default function ServicesPage() {
   return (
     <main className={SECTION}>
       {/* Hero */}
-      <div className={INNER}>
-        <header className={HEADER}>
-          <p className={EYEBROW}>DRONE AS A SERVICE</p>
-          <h1 className={TITLE}>
-            Pay for the Haul, <span className={ACCENT}>Not the Hardware</span>
-          </h1>
-          <p className={SUBLINE}>
-            We bring the drones, pilots, batteries and support to your site. You get the result, without owning or operating anything.
-          </p>
-        </header>
-
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-col gap-3 md:flex-row">
-            <Button tone="onDark" size="lg">Get a Quote</Button>
-            <Button tone="onLight" size="lg">Talk to Our Team</Button>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        eyebrow="Drone as a Service"
+        title={
+          <>
+            Pay for the Haul, <span className="text-cyan">Not the Hardware</span>
+          </>
+        }
+        lead="We bring the drones, pilots, batteries and support to your site. You get the result, without owning or operating anything."
+        actions={
+          <>
+            <Button href="/#connect" tone="onLight" size="lg" withArrow>
+              Get a Quote
+            </Button>
+            <Button tone="onLight" size="lg">
+              Talk to Our Team
+            </Button>
+          </>
+        }
+      />
 
       {/* Intro */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <h2 className="text-[length:var(--fs-h2)] uppercase mb-[clamp(16px,2vw,24px)]">
-            Drone Capability on Demand
-          </h2>
-          <p className={CARD_BODY}>
-            Owning drones means buying aircraft, hiring and training pilots, managing batteries, maintenance and permissions. With Drone as a Service, Himalayan Haulers carries all of that. Our crews deploy to your project, fly the job, and move on when it is done.
-          </p>
-        </div>
-      </div>
+      <Section>
+        <SectionHead title="Drone Capability on Demand" />
+        <p className={`max-w-[78ch] ${BODY}`}>
+          Owning drones means buying aircraft, hiring and training pilots,
+          managing batteries, maintenance and permissions. With Drone as a
+          Service, Himalayan Haulers carries all of that. Our crews deploy to
+          your project, fly the job, and move on when it is done.
+        </p>
+      </Section>
 
       {/* Why Choose DAAS */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <h2 className="text-[length:var(--fs-h2)] uppercase mb-[clamp(16px,2vw,24px)]">
-            Why Choose DAAS
-          </h2>
-          <ul className="flex flex-col gap-3">
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>No capital cost: use heavy-lift drones without buying a fleet.</span>
-            </li>
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>No pilots to hire: our trained crews operate everything.</span>
-            </li>
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>Right drone for the job: we match the platform to your payload, altitude and route.</span>
-            </li>
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>Safer work: keep people off cliffs, towers and out of confined spaces.</span>
-            </li>
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>Faster delivery: minutes in the air instead of days on foot or by mule.</span>
-            </li>
-            <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <span className="mt-1 shrink-0 text-cyan">•</span>
-              <span>Scales with your project: pay only for the days, tonnes or scope you need.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <Section>
+        <SectionHead
+          title="Why Choose DAAS"
+          lead="Six reasons teams hire the capability instead of buying it."
+        />
+        <ul className={CAP_GRID}>
+          {BENEFITS.map((benefit) => (
+            <IconTile key={benefit.title} {...benefit} />
+          ))}
+        </ul>
+      </Section>
 
       {/* Service 1: LDaaS */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <div className={SERVICE_CARD}>
-            <h2 className={CARD_TITLE}>Logistics Drone as a Service (LDaaS)</h2>
-            <p className={CARD_BODY}><strong>Last-Mile Delivery Where There Is No Road</strong></p>
+      <Section>
+        <article className={CARD}>
+          <CardPhoto
+            src="/media/Logistics.jpeg"
+            alt="Heavy-lift drone carrying a payload to a remote site"
+            sizes="(max-width: 860px) 92vw, 1200px"
+            ratio="aspect-[16/7] max-[700px]:aspect-[16/9]"
+          />
+          <div className={`flex flex-1 flex-col ${CARD_PAD}`}>
+            <p className="m-0 mb-[clamp(6px,0.8vw,10px)] text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-cyan">
+              Service 01
+            </p>
+            <h2 className={CARD_TITLE}>
+              Logistics Drone as a Service (LDaaS)
+            </h2>
             <p className={CARD_BODY}>
-              LDaaS is built for EPC and other companies that need to move materials from an accessible road head to a remote location with no road access. We provide the drones, crew and logistics planning. You provide the load and the destination.
+              <strong>Last-Mile Delivery Where There Is No Road</strong>
+            </p>
+            <p className={CARD_BODY}>
+              LDaaS is built for EPC and other companies that need to move
+              materials from an accessible road head to a remote location with
+              no road access. We provide the drones, crew and logistics
+              planning. You provide the load and the destination.
             </p>
 
-            <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">Typical uses:</h3>
-            <ul className="flex flex-col gap-2 mt-2">
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Materials and tools to remote construction and tower sites</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Rations, medicine and spares to isolated posts</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Equipment moves across valleys and rivers</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Emergency supply when roads are cut</span>
-              </li>
-            </ul>
+            <h3 className={SUBHEAD}>Typical uses:</h3>
+            <div className="mt-[clamp(10px,1.2vw,16px)]">
+              <Bullets>
+                {LDaaS_USES.map((use) => (
+                  <Bullet key={use}>{use}</Bullet>
+                ))}
+              </Bullets>
+            </div>
 
-            <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">Commercial models (pick the one that fits):</h3>
-            <ul className="flex flex-col gap-2 mt-2">
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Per metric ton</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Per day</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span>Turnkey for a project</span>
-              </li>
+            <h3 className={SUBHEAD}>Commercial models (pick the one that fits):</h3>
+            <ul className="m-0 mt-[clamp(12px,1.4vw,18px)] flex list-none flex-wrap gap-2 p-0">
+              {COMMERCIAL_MODELS.map((model) => (
+                <li key={model} className={CHIP}>
+                  {model}
+                </li>
+              ))}
             </ul>
 
             <p className={CARD_BODY}>
-              <strong>Drone options:</strong> HH Freightor C100, C200 and C300 (see the LDaaS deck).
-              <em className="text-ink/60"> [CONFIRM] LDaaS deck calls these C-series; product decks call them D-series. Please confirm which name to use on the site.</em>
+              <strong>Drone options:</strong> HH Freightor C100, C200 and C300
+              (see the LDaaS deck).
+            </p>
+            <p className={CONFIRM}>
+              <em>
+                [CONFIRM] LDaaS deck calls these C-series; product decks call
+                them D-series. Please confirm which name to use on the site.
+              </em>
             </p>
 
-            <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">How it works:</h3>
-            <ol className="flex flex-col gap-2 mt-2 list-decimal list-inside text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-              <li>Tell us the job: route, load, timeline.</li>
-              <li>We plan and deploy: right drone, crew and batteries on site.</li>
-              <li>We fly it: you get the delivery, we handle the rest.</li>
+            <h3 className={SUBHEAD}>How it works:</h3>
+            <ol className="m-0 mt-[clamp(12px,1.4vw,18px)] flex list-none flex-col gap-[clamp(10px,1.2vw,14px)] p-0">
+              {LDaaS_STEPS.map((step, index) => (
+                <li key={step} className={STEP}>
+                  <span className={STEP_NUM} aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
             </ol>
 
-            <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-              <Button tone="onDark" size="lg">Get an LDaaS Quote</Button>
+            <div className="mt-[clamp(24px,3vw,40px)]">
+              <Button tone="onLight" size="lg" withArrow>
+                Get an LDaaS Quote
+              </Button>
             </div>
           </div>
-        </div>
-      </div>
+        </article>
+      </Section>
 
       {/* Service 2: Drone Inspections */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <div className={SERVICE_CARD}>
+      <Section>
+        <article className={CARD}>
+          <CardPhoto
+            src="/media/Inspection.jpeg"
+            alt="Drone inspecting an industrial structure"
+            sizes="(max-width: 860px) 92vw, 1200px"
+            ratio="aspect-[16/7] max-[700px]:aspect-[16/9]"
+          />
+          <div className={`flex flex-1 flex-col ${CARD_PAD}`}>
+            <p className="m-0 mb-[clamp(6px,0.8vw,10px)] text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-cyan">
+              Service 02
+            </p>
             <h2 className={CARD_TITLE}>Drone Inspections</h2>
-            <p className={CARD_BODY}><strong>Inspect Without Sending People In or Up</strong></p>
             <p className={CARD_BODY}>
-              Drones reach places that are dangerous, expensive or slow to inspect by hand, and send data straight to your engineers.
+              <strong>Inspect Without Sending People In or Up</strong>
+            </p>
+            <p className={CARD_BODY}>
+              Drones reach places that are dangerous, expensive or slow to
+              inspect by hand, and send data straight to your engineers.
             </p>
 
-            <ul className="flex flex-col gap-2 mt-2">
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span><strong>Confined space inspection:</strong> collision-tolerant drones fly inside tanks, boilers and ducts, so nobody has to enter.</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span><strong>External visual and thermal inspection:</strong> stacks, flare tips, pipelines, tanks and structures, from the air.</span>
-              </li>
-              <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                <span className="mt-1 shrink-0 text-cyan">•</span>
-                <span><strong>Ultrasonic thickness and coating measurement:</strong> contact-based drone measurements (UT, EMAT, high-temperature UT, DFT) on structures at height.</span>
-              </li>
-            </ul>
+            <div className="mt-[clamp(14px,1.8vw,22px)]">
+              <Bullets>
+                <Bullet>
+                  <strong>Confined space inspection:</strong> collision-tolerant
+                  drones fly inside tanks, boilers and ducts, so nobody has to
+                  enter.
+                </Bullet>
+                <Bullet>
+                  <strong>External visual and thermal inspection:</strong>{" "}
+                  stacks, flare tips, pipelines, tanks and structures, from the
+                  air.
+                </Bullet>
+                <Bullet>
+                  <strong>
+                    Ultrasonic thickness and coating measurement:
+                  </strong>{" "}
+                  contact-based drone measurements (UT, EMAT, high-temperature
+                  UT, DFT) on structures at height.
+                </Bullet>
+              </Bullets>
+            </div>
 
             <p className={CARD_BODY}>
-              <strong>Good for:</strong> refineries, pipelines, power plants, industrial facilities.
+              <strong>Good for:</strong> refineries, pipelines, power plants,
+              industrial facilities.
             </p>
 
-            <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-              <Button tone="onDark" size="lg">Request an Inspection</Button>
+            <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
+              <Button tone="onLight" size="lg" withArrow>
+                Request an Inspection
+              </Button>
             </div>
           </div>
-        </div>
-      </div>
+        </article>
+      </Section>
 
       {/* Service 3 & 4: Industrial Sensor Surveys & Tower Stringing */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <div className={GRID_TWO}>
-            <article className={SERVICE_CARD}>
+      <Section>
+        <div className={GRID_TWO}>
+          <article className={CARD}>
+            <CardPhoto
+              src="/media/construction.jpg"
+              alt="Drone surveying a construction site"
+              sizes="(max-width: 860px) 92vw, 46vw"
+            />
+            <div className={`flex flex-1 flex-col ${CARD_PAD}`}>
+              <p className="m-0 mb-[clamp(6px,0.8vw,10px)] text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-cyan">
+                Service 03
+              </p>
               <h2 className={CARD_TITLE}>Industrial Sensor Surveys</h2>
-              <p className={CARD_BODY}><strong>Data from the Air, Ready to Act On</strong></p>
-              <ul className="flex flex-col gap-2 mt-2">
-                <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                  <span className="mt-1 shrink-0 text-cyan">•</span>
-                  <span><strong>Bathymetry:</strong> water depth and bed profile for dams, reservoirs and rivers.</span>
-                </li>
-                <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                  <span className="mt-1 shrink-0 text-cyan">•</span>
-                  <span><strong>Ground-penetrating radar (GPR):</strong> detect utilities and subsurface features before you dig or build.</span>
-                </li>
-                <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                  <span className="mt-1 shrink-0 text-cyan">•</span>
-                  <span><strong>Methane detection:</strong> screen pipelines, gas facilities and landfills for leaks.</span>
-                </li>
-              </ul>
-              <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-                <Button tone="onDark" size="lg">Request a Survey</Button>
-              </div>
-            </article>
+              <p className={CARD_BODY}>
+                <strong>Data from the Air, Ready to Act On</strong>
+              </p>
 
-            <article className={SERVICE_CARD}>
+              <div className="mt-[clamp(14px,1.8vw,22px)]">
+                <Bullets>
+                  <Bullet>
+                    <strong>Bathymetry:</strong> water depth and bed profile for
+                    dams, reservoirs and rivers.
+                  </Bullet>
+                  <Bullet>
+                    <strong>Ground-penetrating radar (GPR):</strong> detect
+                    utilities and subsurface features before you dig or build.
+                  </Bullet>
+                  <Bullet>
+                    <strong>Methane detection:</strong> screen pipelines, gas
+                    facilities and landfills for leaks.
+                  </Bullet>
+                </Bullets>
+              </div>
+
+              <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
+                <Button tone="onLight" size="lg" withArrow>
+                  Request a Survey
+                </Button>
+              </div>
+            </div>
+          </article>
+
+          <article className={CARD}>
+            <CardPhoto
+              src="/media/Tower-stringing.jpeg"
+              alt="Drone laying a pilot line across a transmission tower"
+              sizes="(max-width: 860px) 92vw, 46vw"
+            />
+            <div className={`flex flex-1 flex-col ${CARD_PAD}`}>
+              <p className="m-0 mb-[clamp(6px,0.8vw,10px)] text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-cyan">
+                Service 04
+              </p>
               <h2 className={CARD_TITLE}>Drone-Based Tower Stringing</h2>
-              <p className={CARD_BODY}><strong>Pilot Lines Across Towers, Without the Climb</strong></p>
               <p className={CARD_BODY}>
-                Stringing the first line across towers is slow and risky over mountains, forests and rivers. We fly the pilot line across by drone, which your team then uses to pull heavier lines.
+                <strong>Pilot Lines Across Towers, Without the Climb</strong>
+              </p>
+              <p className={CARD_BODY}>
+                Stringing the first line across towers is slow and risky over
+                mountains, forests and rivers. We fly the pilot line across by
+                drone, which your team then uses to pull heavier lines.
               </p>
 
-              <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">What we provide:</h3>
-              <ul className="flex flex-col gap-2 mt-2">
-                <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                  <span className="mt-1 shrink-0 text-cyan">•</span>
-                  <span>Drone, batteries and crew</span>
-                </li>
-              </ul>
-
-              <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">What you provide:</h3>
-              <ul className="flex flex-col gap-2 mt-2">
-                <li className="flex items-start gap-3 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                  <span className="mt-1 shrink-0 text-cyan">•</span>
-                  <span>Lines, winches and installation team</span>
-                </li>
-              </ul>
-
-              <h3 className="mt-[clamp(16px,2vw,24px)] text-[length:var(--fs-h3)] text-ink">Benefits:</h3>
-              <p className={CARD_BODY}>
-                Faster crossings, fewer climbs and ground crossings, safer crews, less disturbance to terrain and crops.
-              </p>
-
-              <div className="flex flex-col gap-3 md:flex-row mt-[clamp(24px,3vw,40px)]">
-                <Button tone="onDark" size="lg">Plan a Stringing Project</Button>
+              <div className="mt-[clamp(14px,1.8vw,22px)]">
+                <Bullets>
+                  <Bullet>
+                    <strong>We provide:</strong> drone, batteries and crew.
+                  </Bullet>
+                  <Bullet>
+                    <strong>You provide:</strong> lines, winches and
+                    installation team.
+                  </Bullet>
+                </Bullets>
               </div>
-            </article>
-          </div>
+
+              <p className={CARD_BODY}>
+                <strong>Benefits:</strong> faster crossings, fewer climbs and
+                ground crossings, safer crews, less disturbance to terrain and
+                crops.
+              </p>
+
+              <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
+                <Button tone="onLight" size="lg" withArrow>
+                  Plan a Stringing Project
+                </Button>
+              </div>
+            </div>
+          </article>
         </div>
-      </div>
+      </Section>
 
       {/* Who We Serve */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <h2 className="text-[length:var(--fs-h2)] uppercase mb-[clamp(16px,2vw,24px)]">
-            Who We Serve
-          </h2>
-          <div className={GRID_FOUR}>
-            <article className={`${CARD} ${CARD_LIGHT} ${CARD_HOVER} text-center`}>
-              <h3 className={CARD_TITLE}>Power</h3>
-              <p className={CARD_BODY}>Transmission towers, substations, line inspection and stringing.</p>
+      <Section>
+        <SectionHead
+          title="Who We Serve"
+          lead="Power, Energy, Defence and Construction — each industry applies these services differently."
+        />
+        <div className={GRID_FOUR}>
+          {INDUSTRIES.map((industry) => (
+            <article key={industry.name} className={CARD}>
+              <CardPhoto
+                src={industry.image}
+                alt={industry.alt}
+                sizes="(max-width: 600px) 92vw, (max-width: 1100px) 46vw, 280px"
+                ratio="aspect-[16/10]"
+              />
+              <div className={`flex flex-1 flex-col ${CARD_PAD}`}>
+                <h3 className={CARD_TITLE}>{industry.name}</h3>
+                <p className={CARD_BODY}>{industry.body}</p>
+              </div>
             </article>
-            <article className={`${CARD} ${CARD_LIGHT} ${CARD_HOVER} text-center`}>
-              <h3 className={CARD_TITLE}>Energy</h3>
-              <p className={CARD_BODY}>Pipelines, refineries, wind farms, solar fields and methane monitoring.</p>
-            </article>
-            <article className={`${CARD} ${CARD_LIGHT} ${CARD_HOVER} text-center`}>
-              <h3 className={CARD_TITLE}>Defence</h3>
-              <p className={CARD_BODY}>High-altitude resupply, border surveillance, forward area logistics.</p>
-            </article>
-            <article className={`${CARD} ${CARD_LIGHT} ${CARD_HOVER} text-center`}>
-              <h3 className={CARD_TITLE}>Construction</h3>
-              <p className={CARD_BODY}>Remote site delivery, progress surveys, tower erection and confined space inspection.</p>
-            </article>
-          </div>
+          ))}
         </div>
-      </div>
+      </Section>
 
       {/* FAQs */}
-      <div className={INNER}>
-        <div className={CONTENT_MAX}>
-          <h2 className="text-[length:var(--fs-h2)] uppercase mb-[clamp(16px,2vw,24px)]">
-            FAQs
-          </h2>
-          <dl className="flex flex-col gap-[clamp(16px,2vw,24px)]">
-            <div>
-              <dt className="text-[length:var(--fs-h3)] text-ink">Do I need any drone licence or permission?</dt>
-              <dd className="mt-2 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                Our crews handle operations and work with you on the permissions your site needs.
-                <em className="text-ink/60"> [CONFIRM] Please add your standard compliance wording.</em>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[length:var(--fs-h3)] text-ink">How soon can you deploy?</dt>
-              <dd className="mt-2 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                Tell us the location and scope and we will give a mobilisation timeline with the quote.
-                <em className="text-ink/60"> [CONFIRM]</em>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[length:var(--fs-h3)] text-ink">Can I buy the drone later?</dt>
-              <dd className="mt-2 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                Yes. Many customers start with DAAS and move to owning once they have proven the use case.
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[length:var(--fs-h3)] text-ink">What areas do you cover?</dt>
-              <dd className="mt-2 text-[length:var(--fs-body)] leading-[1.45] text-ink/75">
-                We operate across India, including high-altitude and remote regions.
-                <em className="text-ink/60"> [CONFIRM]</em>
-              </dd>
-            </div>
-          </dl>
+      <Section>
+        <SectionHead title="FAQs" />
+        <div className={FAQ_LIST}>
+          {FAQS.map((faq) => (
+            <details key={faq.q} className={FAQ_ITEM}>
+              <summary className={FAQ_Q}>
+                {faq.q}
+                <Plus
+                  size={18}
+                  strokeWidth={2}
+                  className="mt-[0.2em] shrink-0 text-cyan transition-transform duration-300 group-open:rotate-45"
+                  aria-hidden="true"
+                />
+              </summary>
+              <p className={FAQ_A}>
+                {faq.a}
+                {faq.confirm ? (
+                  <>
+                    {" "}
+                    <em className="text-ink/55">{faq.confirm}</em>
+                  </>
+                ) : null}
+              </p>
+            </details>
+          ))}
         </div>
-      </div>
+      </Section>
 
       {/* Closing CTA */}
-      <div className={INNER}>
-        <div className={CTA_SECTION}>
-          <h2 className={CTA_TITLE}>Let&rsquo;s Move Something Impossible</h2>
-          <p className={CTA_TEXT}>
-            Tell us what you need to carry, and where. We will bring the drone.
+      <ClosingCTA
+        title={<>Let&rsquo;s Move Something Impossible</>}
+        text="Tell us what you need to carry, and where. We will bring the drone."
+        footer={
+          <p className="m-0">
+            Contact: Arjun Naik &middot;{" "}
+            <a href="tel:+917899801210" className={CONTACT_LINK}>
+              +91 78998 01210
+            </a>{" "}
+            &middot;{" "}
+            <a href="mailto:arjun@himalayanhaulers.com" className={CONTACT_LINK}>
+              arjun@himalayanhaulers.com
+            </a>
           </p>
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-center mt-[clamp(24px,3vw,40px)]">
-            <Button tone="onLight" size="lg" className="bg-white text-blue hover:bg-cyan/10">Let&rsquo;s Connect</Button>
-          </div>
-          <div className="mt-[clamp(24px,3vw,40px)] text-[length:var(--fs-body)] leading-[1.45] text-white/85">
-            <p>Contact: Arjun Naik · +91 78998 01210 · arjun@himalayanhaulers.com</p>
-          </div>
-        </div>
-      </div>
+        }
+      >
+        <Button href="/#connect" tone="onDark" size="lg" withArrow>
+          Let&rsquo;s Connect
+        </Button>
+      </ClosingCTA>
     </main>
   );
 }

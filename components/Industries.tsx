@@ -49,13 +49,15 @@ const INDUSTRIES: Industry[] = [
   },
 ];
 
-/* Layout idea, taken from the reference: a heading with one small link on the
-   right, then a numbered list of rows divided by hairlines. Each row reads
-   picture, number, then title with its description underneath.
+/* Layout: a heading with one small link on the right, then a 2x2 grid of
+   photo cards. Each card is a navy tile with the photo filling it; the number
+   and title rest on the bottom scrim, and the description + CTA fade up on
+   hover.
 
    Theme is unchanged: white page, navy text, cyan accents, and the same type
-   tokens this section already used. --content-pad is --hero-left, which keeps the
-   heading on the same vertical line as the navbar logo and the hero headline. */
+   tokens this section already used. --content-pad is --hero-left, which keeps
+   the heading on the same vertical line as the navbar logo and the hero
+   headline. */
 const SECTION =
   "bg-white text-blue animate-hh-fade py-[length:var(--section-pad)]";
 
@@ -74,36 +76,65 @@ const TITLE = "m-0 text-[length:var(--fs-h1)] uppercase text-blue";
 const HEADER_LINK =
   "inline-block border-0 border-b-2 border-solid border-blue pb-[0.35em] text-[length:var(--fs-small)] font-semibold text-blue no-underline transition-colors hover:border-cyan focus-visible:border-cyan";
 
-/* ---- Rows -------------------------------------------------------------------
-   Three tracks: picture, number, text. The picture track is the widest so the
-   number lands about 40% across, as in the reference; the picture itself keeps a
-   fixed size at the left of its track. At phone width the number moves into the
-   text column and the picture spans both lines beside it. */
-const LIST =
-  "m-0 p-0 list-none max-w-[length:var(--content-max,1200px)] border-b border-blue/15";
+/* ---- Cards -----------------------------------------------------------------
+   Two equal columns; collapses to one below 860px. min-h keeps every card in
+   a row the same height so the four tiles read as one block — sized to fit the
+   resting content (number + title) plus the revealed block without clipping. */
+const GRID =
+  "m-0 grid grid-cols-2 list-none p-0 gap-[length:var(--card-gap)] max-w-[length:var(--content-max,1200px)] max-[860px]:grid-cols-1";
 
-const ROW =
-  "group grid grid-cols-[minmax(0,4fr)_minmax(0,0.7fr)_minmax(0,5.3fr)] items-start gap-x-[clamp(16px,2.4vw,40px)] border-t border-blue/15 py-[clamp(18px,2.4vw,36px)] max-[700px]:grid-cols-[clamp(96px,28vw,160px)_minmax(0,1fr)] max-[700px]:gap-x-[clamp(14px,4vw,24px)] max-[700px]:gap-y-[0.4em]";
+const CARD =
+  "group relative isolate min-h-[clamp(240px,22vw,320px)] overflow-hidden rounded-lg border border-blue/10 bg-blue text-white shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-cyan/50 hover:shadow-[0_4px_8px_rgba(10,25,45,0.05),0_20px_44px_rgba(10,25,45,0.12)]";
 
-const THUMB =
-  "relative w-[clamp(120px,14vw,200px)] aspect-[4/3] overflow-hidden rounded-lg max-[700px]:row-span-2 max-[700px]:w-full";
+/* Photo fills the tile and drifts in slightly on hover — the same motion the
+   thumbnails used in the old row layout. */
+const CARD_PHOTO =
+  "absolute inset-0 h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none";
+
+/* Bottom-up navy scrim: solid enough at the base that white text stays
+   readable whatever the photo does behind it. */
+const SCRIM = "absolute inset-0 bg-linear-to-t from-blue via-blue/60 to-blue/5";
+
+/* Bottom-anchored text block. The number and title are always visible so a
+   card is never an unlabelled photo; the description and CTA are the part that
+   waits for hover. */
+const CARD_TEXT = "absolute inset-x-0 bottom-0 p-[clamp(20px,2.4vw,32px)]";
 
 const NUMBER =
-  "m-0 text-[length:var(--fs-h3)] leading-[1.2] text-blue max-[700px]:col-start-2 max-[700px]:text-[length:var(--fs-small)] max-[700px]:text-cyan";
+  "m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-cyan";
 
-const TEXT = "min-w-0 max-[700px]:col-start-2";
+/* Title is white at rest, sized a notch above --fs-h3 so it reads as the
+   card's headline against the photo.
 
-const ITEM_TITLE = "m-0 text-[length:var(--fs-h3)] text-blue";
+   Two defences on the colour: the global h1–h6 rule in globals.css sets
+   `color: inherit` UNLAYERED, which beats layered utilities — so the h3 takes
+   its colour from the parent card (text-white, inherited) and the trailing `!`
+   makes the utility itself important enough to win anyway. Font-size is not
+   touched by that rule, so the calc below applies normally. */
+const ITEM_TITLE =
+  "m-0 mt-[0.35em] text-[length:calc(var(--fs-h3)*1.15)] leading-[1.2] text-white!";
+
+/* The hover-revealed block.
+
+   Base state is VISIBLE: on touch devices (@media (hover: none)) there is no
+   hover to trigger, so the content stays put. Only devices that actually hover
+   hide it — @media(hover:hover) hides, group-hover reveals, and
+   group-focus-within reveals it again for keyboard users tabbing to the CTA
+   (focus must never land on something invisible). pointer-events follow the
+   same pattern so the hidden CTA cannot be clicked by accident. */
+const REVEAL =
+  "mt-[clamp(10px,1.2vw,16px)] transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:translate-y-2 [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto";
 
 const ITEM_BODY =
-  "mt-[clamp(8px,1vw,14px)] mb-0 max-w-[52ch] text-[length:var(--fs-h4)] leading-[1.35] text-blue/75 text-pretty";
+  "m-0 max-w-[46ch] text-[length:calc(var(--fs-body)*1.1)] leading-[1.45] text-white text-pretty";
 
-/* The row's own link, kept from the previous version. */
-const ITEM_CTA = "self-start mt-[clamp(10px,1.2vw,18px)]";
+/* `text-white!` overrides the Button's onDark tone (white/88), so the label is
+   full white like the rest of the card's text. */
+const ITEM_CTA = "mt-[clamp(16px,1.8vw,22px)] text-white!";
 
 /**
- * "Industries We Serve" — a heading with a contact link, then a numbered list of
- * the four industries, one row each: picture, number, title, description.
+ * "Industries We Serve" — a heading with a contact link, then a 2x2 grid of
+ * photo cards: number and title at rest, description and CTA on hover.
  *
  * Server component; the only interactive part is the shared Button.
  */
@@ -124,38 +155,39 @@ export default function Industries() {
           </a>
         </header>
 
-        <ol className={LIST}>
+        <ol className={GRID}>
           {INDUSTRIES.map((industry, index) => (
             <li
               key={industry.id}
-              className={`${ROW} animate-hh-fade`}
+              className={`${CARD} animate-hh-fade`}
               style={{ animationDelay: `${150 + index * 100}ms` }}
             >
-              <div className={THUMB}>
-                <Image
-                  src={industry.image.src}
-                  alt={industry.image.alt}
-                  fill
-                  sizes="(max-width: 700px) 28vw, 200px"
-                  className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none"
-                />
-              </div>
+              <Image
+                src={industry.image.src}
+                alt={industry.image.alt}
+                fill
+                sizes="(max-width: 860px) 92vw, 46vw"
+                className={CARD_PHOTO}
+              />
+              <div className={SCRIM} aria-hidden="true" />
 
-              <p className={NUMBER} aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-
-              <div className={TEXT}>
+              <div className={CARD_TEXT}>
+                <p className={NUMBER} aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
                 <h3 className={ITEM_TITLE}>{industry.title}</h3>
-                <p className={ITEM_BODY}>{industry.body}</p>
-                <Button
-                  href={industry.cta.href}
-                  tone="onLight"
-                  withArrow
-                  className={ITEM_CTA}
-                >
-                  {industry.cta.label}
-                </Button>
+
+                <div className={REVEAL}>
+                  <p className={ITEM_BODY}>{industry.body}</p>
+                  <Button
+                    href={industry.cta.href}
+                    tone="onDark"
+                    withArrow
+                    className={ITEM_CTA}
+                  >
+                    {industry.cta.label}
+                  </Button>
+                </div>
               </div>
             </li>
           ))}
