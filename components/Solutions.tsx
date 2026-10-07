@@ -90,10 +90,9 @@ const PAGE_COUNT = Math.ceil(SOLUTIONS.length / PER_PAGE);
    grey closed panels become the #f4f7fa tint "What We Provide" already uses.
 
    Same type multipliers as WhatWeProvide, so the two sections set identical type
-   at identical levels. The top margin is kept from the previous version, so the
-   gap above this section still shows the page background. */
+   at identical levels. */
 const SECTION =
-  "bg-white text-blue mt-[clamp(24px,3vw,48px)] py-[length:var(--ry)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
+  "bg-white text-blue py-[length:var(--ry)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
 
 /* Left-anchored: --content-pad is --hero-left, so the heading shares the vertical
    line of the navbar logo and the hero headline. */
@@ -101,7 +100,7 @@ const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
 const HEADLINE =
-  "m-0 text-[length:var(--fs-h1)] uppercase text-blue min-[1100px]:whitespace-nowrap";
+  "m-0 pt-10 text-[length:var(--fs-h1)] uppercase text-blue min-[1100px]:whitespace-nowrap";
 
 const SUBHEAD =
   "mt-[length:var(--ry)] mb-0 max-w-[46ch] text-[length:var(--fs-lead)] leading-[1.45] text-blue/75 text-pretty";
