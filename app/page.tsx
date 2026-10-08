@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
-      <WhatWeProvide />
+      {/* <WhatWeProvide /> */}
       <Solutions />
       <BannerPower />
       <Industries />
