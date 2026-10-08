@@ -10,12 +10,15 @@ export type NavLink = {
   active?: boolean;
 };
 
+/* Every href is absolute. The navbar renders on all seven routes, so a bare
+   fragment ("#industries") resolves against the CURRENT path and dead-ends on
+   the six pages that have no such id. */
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/", active: true },
   { label: "What We Provide", href: "/what-we-provide" },
   { label: "Solutions", href: "/solutions" },
-  { label: "Industries", href: "#industries" },
-  { label: "Contact", href: "#connect" },
+  { label: "Industries", href: "/industries" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const LOGO = "/media/HH-Logo-Ink.png";

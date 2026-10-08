@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   /solutions — the plain, light layout from the marine-construction reference.
+   /solutions â€” the plain, light layout from the marine-construction reference.
 
      1. hero            full-bleed photo, navy wash, headline on the right half
      2. about us        heading, intro, three muted-label columns, then a
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
    Type and vertical rhythm are the site's, not this page's, and this route
    reads them the way the main routes do:
 
-   - SIZES read raw --fs-* rungs and nothing else — h1 -> h2 -> h3 -> lead ->
+   - SIZES read raw --fs-* rungs and nothing else â€” h1 -> h2 -> h3 -> lead ->
      body -> small, one rung per level, exactly as app/industries/page.tsx
      reads them. Weight, line-height, tracking, balance and colour come from
      the h1-h6 rule in globals.css, which is unlayered and so outranks any
@@ -143,7 +143,7 @@ const CAPABILITIES: Capability[] = [
     image: {
       src: "/media/Logistics.jpeg",
       alt: "Heavy-lift drone carrying a payload over remote terrain",
-      /* 1980x3520 with the drone high in the frame — a centred crop loses it. */
+      /* 1980x3520 with the drone high in the frame â€” a centred crop loses it. */
       position: "center top",
     },
     services: [
@@ -331,7 +331,7 @@ const CONTEXTS = [
 ];
 
 /**
- * /solutions — Operational Capabilities & Technical Services.
+ * /solutions â€” Operational Capabilities & Technical Services.
  *
  * Server component. The only client code is the detail slider and its side
  * panel, in ./capability-showcase. Keeping the page here is what allows the
@@ -372,7 +372,7 @@ export default function SolutionsPage() {
               <Pill href="#capabilities" tone="glass">
                 View Capabilities
               </Pill>
-              <Pill href="/#contact" tone="glass">
+              <Pill href="/contact" tone="glass">
                 Let&rsquo;s Connect
               </Pill>
             </div>
@@ -432,7 +432,7 @@ export default function SolutionsPage() {
                       {cap.category}
                     </span>
                     <span className="text-[length:var(--fs-small)] leading-[1.4] text-ink/60">
-                      {cap.services.map((service) => service.title).join(" · ")}
+                      {cap.services.map((service) => service.title).join(" Â· ")}
                     </span>
                   </a>
                 </li>
@@ -544,7 +544,7 @@ export default function SolutionsPage() {
                 </p>
               </div>
 
-              <Pill href="/#contact" tone="glass">
+              <Pill href="/contact" tone="glass">
                 Let&rsquo;s Connect
               </Pill>
             </div>

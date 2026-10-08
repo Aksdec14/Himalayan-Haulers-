@@ -14,7 +14,7 @@ const INDUSTRIES: Industry[] = [
     id: "power",
     title: "Power",
     body: "Pilot-line stringing, tower-site delivery and line inspection across rough terrain.",
-    cta: { label: "Explore Power", href: "#power" },
+    cta: { label: "Explore Power", href: "/industries" },
     image: {
       src: "/media/power.jpg",
       alt: "Drone stringing a pilot line between power towers",
@@ -24,14 +24,14 @@ const INDUSTRIES: Industry[] = [
     id: "energy",
     title: "Energy",
     body: "Confined space, thermal and visual inspections, thickness checks and methane screening.",
-    cta: { label: "Explore Energy", href: "#energy" },
+    cta: { label: "Explore Energy", href: "/industries" },
     image: { src: "/media/energy.jpg", alt: "Drone inspecting a refinery stack" },
   },
   {
     id: "defence",
     title: "Defence",
     body: "Heavy-lift resupply to remote posts, with airdrops and high-altitude operation.",
-    cta: { label: "Explore Defence", href: "#defence" },
+    cta: { label: "Explore Defence", href: "/industries" },
     image: {
       src: "/media/defence.jpg",
       alt: "Heavy-lift drone delivering supplies at altitude",
@@ -41,7 +41,7 @@ const INDUSTRIES: Industry[] = [
     id: "construction",
     title: "Construction",
     body: "Materials to sites machines can't reach, plus GPR and bathymetry surveys.",
-    cta: { label: "Explore Construction", href: "#construction" },
+    cta: { label: "Explore Construction", href: "/industries" },
     image: {
       src: "/media/construction.jpg",
       alt: "Drone surveying a construction site",
@@ -150,7 +150,7 @@ export default function Industries() {
           <h2 id="industries-title" className={TITLE}>
             Industries We Serve
           </h2>
-          <a href="#contact" className={HEADER_LINK}>
+          <a href="/contact" className={HEADER_LINK}>
             Ready to get started? Contact us
           </a>
         </header>

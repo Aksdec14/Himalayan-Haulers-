@@ -4,34 +4,40 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 type FooterLink = { label: string; href: string };
 
-/* Each list is data, so a label and its target live together. Anchors point at
-   section ids already on the page; swap the ones marked below once those pages
-   or sections exist. */
+/* Each list is data, so a label and its target live together.
+
+   Every href is absolute. The footer renders on all seven routes, so a bare
+   fragment resolves against the CURRENT path and dead-ends everywhere except
+   the home page. `#products` / `#services` live on /what-we-provide, not on /,
+   which is why they carry that path. */
 const navLinks: FooterLink[] = [
-  { label: "What We Provide", href: "#provide" },
+  { label: "What We Provide", href: "/#provide" },
   { label: "Solutions", href: "/solutions" },
-  { label: "Industries", href: "#industries" },
-  { label: "Contact", href: "#contact" },
+  { label: "Industries", href: "/industries" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const droneProducts: FooterLink[] = [
-  { label: "Freightor D-Series logistics drones", href: "#products" },
-  { label: "Surveillance drones", href: "#products" },
-  { label: "Custom-built drones", href: "#products" },
+  { label: "Freightor D-Series logistics drones", href: "/what-we-provide#products" },
+  { label: "Surveillance drones", href: "/what-we-provide#products" },
+  { label: "Custom-built drones", href: "/what-we-provide#products" },
 ];
 
 const droneServices: FooterLink[] = [
-  { label: "Logistics Drone as a Service (LDaaS)", href: "#services" },
-  { label: "Drone inspections", href: "#services" },
-  { label: "Industrial sensor surveys", href: "#services" },
-  { label: "Drone-based tower stringing", href: "#services" },
+  {
+    label: "Logistics Drone as a Service (LDaaS)",
+    href: "/what-we-provide#services",
+  },
+  { label: "Drone inspections", href: "/what-we-provide#services" },
+  { label: "Industrial sensor surveys", href: "/what-we-provide#services" },
+  { label: "Drone-based tower stringing", href: "/what-we-provide#services" },
 ];
 
 const industries: FooterLink[] = [
-  { label: "Power", href: "#industries" },
-  { label: "Energy", href: "#industries" },
-  { label: "Defence", href: "#industries" },
-  { label: "Construction", href: "#industries" },
+  { label: "Power", href: "/industries" },
+  { label: "Energy", href: "/industries" },
+  { label: "Defence", href: "/industries" },
+  { label: "Construction", href: "/industries" },
 ];
 
 const COLUMNS: { title: string; links: FooterLink[] }[] = [
@@ -72,12 +78,9 @@ const CONTACT_TEXT =
   "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-blue/70 break-words";
 const CONTACT_LINK = `${CONTACT_TEXT} transition-colors hover:text-blue`;
 
-const SOCIAL =
-  "text-white/70 transition-colors hover:text-white focus-visible:text-white";
-
 /**
- * Site footer: brand and contact details, four link columns, then a navy bar with
- * the legal links and social icons.
+ * Site footer: brand and contact details, four link columns, then a navy bar
+ * carrying the copyright line.
  *
  * Server component — nothing here needs client state.
  */
@@ -162,49 +165,11 @@ export default function Footer() {
             &copy; 2026 Himalayan Haulers Pvt. Ltd.
           </p>
 
-          <div className="flex items-center gap-5">
-            <a
-              href="/privacy"
-              className={`${SOCIAL} text-[length:calc(var(--fs-small)*1.15)]`}
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="/terms"
-              className={`${SOCIAL} text-[length:calc(var(--fs-small)*1.15)]`}
-            >
-              Terms
-            </a>
-          </div>
-
-          {/* Socials: placeholder hrefs, replace with the real profiles. */}
-          <div className="flex items-center gap-4">
-            <a href="#" aria-label="Facebook" className={SOCIAL}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-              </svg>
-            </a>
-
-            <a href="#" aria-label="Twitter" className={SOCIAL}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-              </svg>
-            </a>
-
-            <a href="#" aria-label="YouTube" className={SOCIAL}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
-
-            <a href="#" aria-label="LinkedIn" className={SOCIAL}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                <rect x="2" y="9" width="4" height="12" />
-                <circle cx="4" cy="4" r="2" />
-              </svg>
-            </a>
-          </div>
+          {/* The legal links and the social row were both removed: /privacy and
+             /terms are not routes, and the social anchors were href="#", so every
+             one of them dead-ended. Restore them when there is somewhere to send
+             them — a real /privacy page, a real /terms page, and the company's
+             actual profile URLs. */}
         </div>
       </div>
     </footer>

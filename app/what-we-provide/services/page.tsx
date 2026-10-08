@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   SERVICES PAGE — Drone as a Service
+   SERVICES PAGE â€” Drone as a Service
    ========================================================================== */
 
 /* ---- Page chrome ------------------------------------------------------------
@@ -63,7 +63,7 @@ const BODY =
  *  shadow, and a lift on hover. Images and content are layered inside it, so
  *  the card itself clips (overflow-hidden) to keep photos in the rounded box.
  *  text-ink is set here because headings inside the card inherit their colour
- *  from it (the global h1–h6 rule forces `color: inherit`). */
+ *  from it (the global h1â€“h6 rule forces `color: inherit`). */
 const CARD =
   "group flex flex-col overflow-hidden rounded-lg border border-blue/10 bg-white text-ink shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.06)] transition-[border-color,box-shadow,transform] duration-300 hover:border-cyan/50 hover:shadow-[0_4px_8px_rgba(10,25,45,0.05),0_20px_44px_rgba(10,25,45,0.1)] motion-safe:hover:-translate-y-0.5";
 
@@ -76,7 +76,7 @@ const CARD_TITLE = "m-0 text-[length:var(--fs-h3)] text-ink";
 const CARD_BODY =
   "m-0 mt-[clamp(10px,1.2vw,16px)] text-[length:var(--fs-body)] leading-[1.45] text-ink/75 text-pretty";
 
-/** Confirm note — the draft's [CONFIRM] markers stay visible until cleared. */
+/** Confirm note â€” the draft's [CONFIRM] markers stay visible until cleared. */
 const CONFIRM =
   "mt-[clamp(12px,1.4vw,18px)] m-0 text-[length:var(--fs-small)] text-ink/55";
 
@@ -102,8 +102,8 @@ const CAP_BODY =
 const CHIP =
   "rounded-full border border-blue/15 bg-white px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold text-ink/70";
 
-/* Action row in the hero. The stagger uses `[animation-delay:…]`, not
-   `delay-[…]`: that utility sets transition-delay, which does nothing. */
+/* Action row in the hero. The stagger uses `[animation-delay:â€¦]`, not
+   `delay-[â€¦]`: that utility sets transition-delay, which does nothing. */
 const HERO_ACTIONS =
   "mt-[clamp(24px,3vw,40px)] flex animate-hh-fade flex-wrap items-center gap-x-[clamp(20px,2.4vw,32px)] gap-y-3 [animation-delay:120ms]";
 
@@ -230,7 +230,7 @@ function CardPhoto({
  *
  * BAND layout: the copy sits on the page's white surface and the photo runs
  * below it. The route index lays its copy over the photo instead, which is why
- * this is not shared code — the two layouts genuinely differ.
+ * this is not shared code â€” the two layouts genuinely differ.
  */
 function PageHero({
   eyebrow,
@@ -326,7 +326,7 @@ const GRID_TWO =
 const GRID_FOUR =
   "grid grid-cols-4 gap-[length:var(--card-gap)] max-[1100px]:grid-cols-2 max-[600px]:grid-cols-1";
 
-/* "How it works" — numbered steps, cyan numeral in a tinted circle. */
+/* "How it works" â€” numbered steps, cyan numeral in a tinted circle. */
 const STEP =
   "flex items-start gap-[clamp(10px,1.2vw,14px)] text-[length:var(--fs-body)] leading-[1.45] text-ink/75";
 
@@ -334,7 +334,7 @@ const STEP_NUM =
   "grid size-7 shrink-0 place-items-center rounded-full bg-cyan/10 text-[length:var(--fs-small)] font-bold text-cyan";
 
 /* FAQ: native <details>, so it opens without JavaScript and still works if
-   scripts fail. group-open rotates the + into a ×. */
+   scripts fail. group-open rotates the + into a Ã—. */
 const FAQ_LIST = "mt-0 max-w-[84ch] border-t border-blue/15";
 
 const FAQ_ITEM = "group border-b border-blue/15 py-[clamp(14px,1.6vw,20px)]";
@@ -454,7 +454,7 @@ const CONTACT_LINK =
   "text-white underline decoration-white/40 underline-offset-4 transition-colors hover:text-cyan hover:decoration-cyan";
 
 /**
- * /what-we-provide/services — the hire-the-capability page.
+ * /what-we-provide/services â€” the hire-the-capability page.
  *
  * Server component: the FAQ accordion is native <details>, so no client JS is
  * needed anywhere on the page.
@@ -473,10 +473,10 @@ export default function ServicesPage() {
         lead="We bring the drones, pilots, batteries and support to your site. You get the result, without owning or operating anything."
         actions={
           <>
-            <Button href="/#connect" tone="onLight" size="lg" withArrow>
+            <Button href="/contact" tone="onLight" size="lg" withArrow>
               Get a Quote
             </Button>
-            <Button href="/#connect" tone="onLight" size="lg">
+            <Button href="/contact" tone="onLight" size="lg">
               Talk to Our Team
             </Button>
           </>
@@ -575,7 +575,7 @@ export default function ServicesPage() {
             </ol>
 
             <div className="mt-[clamp(24px,3vw,40px)]">
-              <Button href="/#connect" tone="onLight" size="lg" withArrow>
+              <Button href="/contact" tone="onLight" size="lg" withArrow>
                 Get an LDaaS Quote
               </Button>
             </div>
@@ -633,7 +633,7 @@ export default function ServicesPage() {
             </p>
 
             <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-              <Button href="/#connect" tone="onLight" size="lg" withArrow>
+              <Button href="/contact" tone="onLight" size="lg" withArrow>
                 Request an Inspection
               </Button>
             </div>
@@ -677,7 +677,7 @@ export default function ServicesPage() {
               </div>
 
               <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-                <Button href="/#connect" tone="onLight" size="lg" withArrow>
+                <Button href="/contact" tone="onLight" size="lg" withArrow>
                   Request a Survey
                 </Button>
               </div>
@@ -723,7 +723,7 @@ export default function ServicesPage() {
               </p>
 
               <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-                <Button href="/#connect" tone="onLight" size="lg" withArrow>
+                <Button href="/contact" tone="onLight" size="lg" withArrow>
                   Plan a Stringing Project
                 </Button>
               </div>
@@ -736,7 +736,7 @@ export default function ServicesPage() {
       <Section>
         <SectionHead
           title="Who We Serve"
-          lead="Power, Energy, Defence and Construction — each industry applies these services differently."
+          lead="Power, Energy, Defence and Construction â€” each industry applies these services differently."
         />
         <div className={GRID_FOUR}>
           {INDUSTRIES.map((industry) => (
@@ -802,7 +802,7 @@ export default function ServicesPage() {
           </p>
         }
       >
-        <Button href="/#connect" tone="onDark" size="lg" withArrow>
+        <Button href="/contact" tone="onDark" size="lg" withArrow>
           Let&rsquo;s Connect
         </Button>
       </ClosingCTA>

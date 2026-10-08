@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { FaFacebook } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
 import Button from "@/components/ui/Button";
 
 /* app/contact/page.tsx
@@ -57,29 +53,22 @@ const INTERESTS = [
 
 const INDUSTRY_OPTIONS = ["Power", "Energy", "Defence", "Construction", "Other"];
 
-const SOCIALS = [
-  { label: "LinkedIn", href: "#", Icon: FaLinkedin },
-  { label: "Facebook", href: "#", Icon: FaFacebook },
-  { label: "Twitter", href: "#", Icon: FaTwitter },
-  { label: "YouTube", href: "#", Icon: FaYoutube },
-];
-
 /* Closing three-up, written from copy already on the site. */
 const BLURBS = [
   {
     title: "Drone Products",
     body: "Purpose-built heavy-lift logistics drones, plus surveillance and custom platforms, built in India for Indian conditions.",
-    cta: { label: "Explore Products", href: "/#products" },
+    cta: { label: "Explore Products", href: "/what-we-provide#products" },
   },
   {
     title: "Drone as a Service",
     body: "Get the result without owning the drone. Our crews bring the aircraft, pilots, batteries and support to your site.",
-    cta: { label: "Explore Services", href: "/#services" },
+    cta: { label: "Explore Services", href: "/what-we-provide#services" },
   },
   {
     title: "Industries We Serve",
     body: "Different sectors, same problem: hard-to-reach places. Power, energy, defence and construction.",
-    cta: { label: "Explore Industries", href: "/#industries" },
+    cta: { label: "Explore Industries", href: "/industries" },
   },
 ];
 
@@ -134,9 +123,6 @@ const ICON = "mt-[0.2em] shrink-0 text-cyan";
 const LINE = "m-0 text-[length:var(--fs-small)] leading-[1.4] text-blue/80 break-words";
 const LINK =
   "text-blue underline decoration-blue/30 underline-offset-4 transition-colors hover:decoration-cyan focus-visible:decoration-cyan";
-
-const SOCIAL =
-  "text-blue/70 transition-colors hover:text-cyan focus-visible:text-cyan";
 
 const FORM_WRAP = "pt-[clamp(28px,3.5vw,56px)]";
 
@@ -289,16 +275,9 @@ export default function ContactPage() {
                   </p>
                 </address>
 
-                {/* Placeholder hrefs: replace with the real profiles. */}
-                <ul className="m-0 mt-[clamp(16px,2vw,28px)] flex list-none gap-4 p-0">
-                  {SOCIALS.map(({ label, href, Icon }) => (
-                    <li key={label}>
-                      <a href={href} aria-label={label} className={SOCIAL}>
-                        <Icon size={20} aria-hidden="true" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                {/* The social row was removed: every one of its anchors was
+                    href="#", so none of them went anywhere. Restore it when the
+                    company's real profile URLs are known. */}
               </div>
 
               <div className="relative mt-auto aspect-[4/3] w-full">

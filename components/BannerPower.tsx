@@ -48,7 +48,11 @@ const SIZES = "(max-width: 860px) 100vw, 92vw";
  */
 export default function BannerPower() {
   return (
-    <a href="#" className={CARD} aria-label="Explore drone solutions for power transmission infrastructure">
+    <a
+      href="/industries"
+      className={CARD}
+      aria-label="Explore drone solutions for power transmission infrastructure"
+    >
       <Image
         src="/media/Banner.png"
         alt="Drone solutions for the power transmission infrastructure — aerial stringing, pulling and material movement for transmission projects."

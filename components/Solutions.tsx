@@ -228,7 +228,7 @@ export default function Solutions() {
                   <div className={TITLE_ROW}>
                     <h3 className={ITEM_TITLE}>{item.title}</h3>
                     <a
-                      href="#contact"
+                      href="/contact"
                       aria-label={`Enquire about ${item.title}`}
                       className={ARROW}
                     >

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   /industries — "Industries We Serve"
+   /industries â€” "Industries We Serve"
 
    Left: heading and sub-heading. Right: a mosaic of grayscale photo tiles,
    each with a white industry icon and its name, like the reference. Tiles
@@ -402,12 +402,12 @@ export default function IndustriesPage() {
                   while maximizing efficiency and data accuracy.
                 </p>
                 <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-blue">
-                  {CONDITIONS.join(" · ")}
+                  {CONDITIONS.join(" Â· ")}
                 </p>
               </div>
 
               <div className="flex flex-nowrap gap-[length:var(--gap)]">
-                <Pill href="/#contact" tone="solid">
+                <Pill href="/contact" tone="solid">
                   Let&rsquo;s Connect
                 </Pill>
                 <Pill href="/solutions" tone="light">
@@ -504,7 +504,7 @@ export default function IndustriesPage() {
             </div>
 
             <div className="flex flex-nowrap gap-[length:var(--gap)]">
-              <Pill href="/#contact" tone="white">
+              <Pill href="/contact" tone="white">
                 Let&rsquo;s Connect
               </Pill>
               <Pill href="/solutions" tone="glass">

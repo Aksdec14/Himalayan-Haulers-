@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   WHAT WE PROVIDE — the index for the route, laid out after the "Palma House"
+   WHAT WE PROVIDE â€” the index for the route, laid out after the "Palma House"
    main-page wireframe (the wireframe's navbar and footer are the site's own
    and are not part of this page).
 
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
    itself is a cycle, the browser discards it, and every size that read it
    silently fell back to the inherited font size.
 
-   COLOUR. The global h1–h6 rule forces `color: inherit`, so a colour utility
+   COLOUR. The global h1â€“h6 rule forces `color: inherit`, so a colour utility
    on a heading loses. Colour is set on the wrapper and inherited.
    ========================================================================== */
 
@@ -117,7 +117,7 @@ function Bullets({ children }: { children: ReactNode }) {
   );
 }
 
-/** The wireframe's "VIEW COLLECTION ——>" link: small caps with a thin line and
+/** The wireframe's "VIEW COLLECTION â€”â€”>" link: small caps with a thin line and
  *  arrowhead underneath that lengthens on hover. Navy text, cyan line. */
 function LineLink({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -258,7 +258,7 @@ const CAPABILITIES: {
 ];
 
 /**
- * /what-we-provide — the index for the route: which drone products exist, and
+ * /what-we-provide â€” the index for the route: which drone products exist, and
  * whether you should buy one or hire the capability instead.
  *
  * Server component. The only client code is the hero's arrow slider, in
@@ -304,7 +304,7 @@ export default function WhatWeProvidePage() {
               </p>
 
               <div className="pt-[clamp(8px,1.2vw,16px)]">
-                <LineLink href="/#connect">Request a Quote</LineLink>
+                <LineLink href="/contact">Request a Quote</LineLink>
               </div>
             </div>
           </div>
@@ -438,9 +438,9 @@ export default function WhatWeProvidePage() {
       {/* ---- 6. Closing CTA --------------------------------------------------- */}
       <ClosingCTA
         title="Tell Us What You Need to Carry"
-        text="Share your payload, distance and altitude, and we will recommend the right drone — and whether to buy it or hire it — with a clear quote."
+        text="Share your payload, distance and altitude, and we will recommend the right drone â€” and whether to buy it or hire it â€” with a clear quote."
       >
-        <Button href="/#connect" tone="onDark" size="lg" withArrow>
+        <Button href="/contact" tone="onDark" size="lg" withArrow>
           Request a Quote
         </Button>
         <Button

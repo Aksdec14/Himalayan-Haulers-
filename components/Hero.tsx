@@ -105,7 +105,7 @@ export default function Hero() {
             can&rsquo;t reach. Autonomous, high-altitude ready and built in
             India. Buy the drone, or hire it as a service.
           </p>
-          <Button href="#provide" size="lg" className={CTA}>
+          <Button href="/#provide" size="lg" className={CTA}>
             Explore Drones
           </Button>
         </div>

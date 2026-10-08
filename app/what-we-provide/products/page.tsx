@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   PRODUCTS PAGE — Heavy-Lift Drone Products
+   PRODUCTS PAGE â€” Heavy-Lift Drone Products
    ========================================================================== */
 
 /* ---- Page chrome ------------------------------------------------------------
@@ -64,7 +64,7 @@ const BODY =
  *  shadow, and a lift on hover. Images and content are layered inside it, so
  *  the card itself clips (overflow-hidden) to keep photos in the rounded box.
  *  text-ink is set here because headings inside the card inherit their colour
- *  from it (the global h1–h6 rule forces `color: inherit`). */
+ *  from it (the global h1â€“h6 rule forces `color: inherit`). */
 const CARD =
   "group flex flex-col overflow-hidden rounded-lg border border-blue/10 bg-white text-ink shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.06)] transition-[border-color,box-shadow,transform] duration-300 hover:border-cyan/50 hover:shadow-[0_4px_8px_rgba(10,25,45,0.05),0_20px_44px_rgba(10,25,45,0.1)] motion-safe:hover:-translate-y-0.5";
 
@@ -77,7 +77,7 @@ const CARD_TITLE = "m-0 text-[length:var(--fs-h3)] text-ink";
 const CARD_BODY =
   "m-0 mt-[clamp(10px,1.2vw,16px)] text-[length:var(--fs-body)] leading-[1.45] text-ink/75 text-pretty";
 
-/** Confirm note — the draft's [CONFIRM] markers stay visible until cleared. */
+/** Confirm note â€” the draft's [CONFIRM] markers stay visible until cleared. */
 const CONFIRM =
   "mt-[clamp(12px,1.4vw,18px)] m-0 text-[length:var(--fs-small)] text-ink/55";
 
@@ -103,8 +103,8 @@ const CAP_BODY =
 const CHIP =
   "rounded-full border border-blue/15 bg-white px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold text-ink/70";
 
-/* Action row in the hero. The stagger uses `[animation-delay:…]`, not
-   `delay-[…]`: that utility sets transition-delay, which does nothing. */
+/* Action row in the hero. The stagger uses `[animation-delay:â€¦]`, not
+   `delay-[â€¦]`: that utility sets transition-delay, which does nothing. */
 const HERO_ACTIONS =
   "mt-[clamp(24px,3vw,40px)] flex animate-hh-fade flex-wrap items-center gap-x-[clamp(20px,2.4vw,32px)] gap-y-3 [animation-delay:120ms]";
 
@@ -172,7 +172,7 @@ function SectionHead({
  *
  * BAND layout: the copy sits on the page's white surface and the photo runs
  * below it. The route index lays its copy over the photo instead, which is why
- * this is not shared code — the two layouts genuinely differ.
+ * this is not shared code â€” the two layouts genuinely differ.
  */
 function PageHero({
   eyebrow,
@@ -305,7 +305,7 @@ const ROW = "transition-colors odd:bg-[#f7f9fc] hover:bg-cyan/[0.06]";
 const GRID_TWO =
   "grid grid-cols-[repeat(2,minmax(0,1fr))] gap-[length:var(--card-gap)] max-[860px]:grid-cols-[minmax(0,1fr)]";
 
-/* Payload pill on each model card — the one number buyers compare first. */
+/* Payload pill on each model card â€” the one number buyers compare first. */
 const BADGE =
   "shrink-0 rounded-full bg-cyan/10 px-[0.9em] py-[0.35em] text-[length:var(--fs-small)] font-bold uppercase tracking-[0.04em] text-cyan";
 
@@ -393,7 +393,7 @@ const CHIPS = [
 ];
 
 /**
- * /what-we-provide/products — the buy-the-aircraft page.
+ * /what-we-provide/products â€” the buy-the-aircraft page.
  *
  * Server component: no client state; the only interactive parts are the
  * shared Button links.
@@ -413,10 +413,10 @@ export default function ProductsPage() {
         lead="Logistics, surveillance and custom drones, designed and built in India for high altitude, steep terrain and real payloads."
         actions={
           <>
-            <Button href="/#connect" tone="onLight" size="lg" withArrow>
+            <Button href="/contact" tone="onLight" size="lg" withArrow>
               Request a Quote
             </Button>
-            <Button href="/#connect" tone="onLight" size="lg">
+            <Button href="/contact" tone="onLight" size="lg">
               Download Brochure
             </Button>
           </>
@@ -463,7 +463,7 @@ export default function ProductsPage() {
         </div>
       </Section>
 
-      {/* Product 1: Freightor D-Series — headline + spec table */}
+      {/* Product 1: Freightor D-Series â€” headline + spec table */}
       <Section>
         <SectionHead
           title="HH Freightor D-Series Logistics Drones"
@@ -699,7 +699,7 @@ export default function ProductsPage() {
               payload mounts, avionics and sensors to your requirement.
             </p>
             <div className="mt-[clamp(20px,2.4vw,32px)]">
-              <Button href="/#connect" tone="onLight" size="lg" withArrow>
+              <Button href="/contact" tone="onLight" size="lg" withArrow>
                 Talk to Our Engineers
               </Button>
             </div>
@@ -754,10 +754,10 @@ export default function ProductsPage() {
         title="Tell Us What You Need to Carry"
         text="Share your payload, distance and altitude, and we will recommend the right drone and send a clear quote."
       >
-        <Button href="/#connect" tone="onDark" size="lg" withArrow>
+        <Button href="/contact" tone="onDark" size="lg" withArrow>
           Request a Quote
         </Button>
-        <Button href="/#connect" tone="onDark" size="lg">
+        <Button href="/contact" tone="onDark" size="lg">
           Download Brochure
         </Button>
       </ClosingCTA>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 /* ==========================================================================
-   Capability Detail — a card slider, and a side panel that opens from it.
+   Capability Detail â€” a card slider, and a side panel that opens from it.
 
    The slider follows the reference: a grey band with the heading, a line of
    copy and two round arrows, and below it a row of cards that run off the
@@ -43,7 +43,7 @@ const ROUND_BUTTON =
   "grid size-[clamp(44px,3.6vw,52px)] place-items-center rounded-full transition-[background-color,color,opacity] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan disabled:cursor-not-allowed disabled:opacity-40";
 
 /** A service's fields as plain text: a heading, then its paragraph.
- *  No cards, borders or dashes — only spacing separates the items. */
+ *  No cards, borders or dashes â€” only spacing separates the items. */
 function FieldList({ fields }: { fields: Field[] }) {
   return (
     <div className="mt-[length:var(--gap)] flex flex-col gap-[length:var(--gap)]">
@@ -313,7 +313,7 @@ export default function CapabilityShowcase({
                       {item.category}
                     </span>
                     <span className="line-clamp-2 block text-[length:var(--fs-small)] leading-[1.4] text-ink/60">
-                      {item.services.map((service) => service.title).join(" · ")}
+                      {item.services.map((service) => service.title).join(" Â· ")}
                     </span>
 
                     <span
@@ -446,7 +446,7 @@ export default function CapabilityShowcase({
               </div>
 
               <Link
-                href="/#contact"
+                href="/contact"
                 className="mt-[length:var(--gap-block)] inline-flex w-fit items-center gap-[0.9em] rounded-full bg-blue px-[1.5em] py-[0.8em] text-[length:var(--fs-nav,16px)] text-white no-underline transition-colors duration-300 hover:bg-cyan hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
               >
                 Let&rsquo;s Connect
