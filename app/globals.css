@@ -163,13 +163,18 @@
      limits length. Note the container is NOT centred — a centred block would
      put its left edge at (100vw - max) / 2, which is nowhere near the hero's
      left-anchored text on a wide screen. */
-  /* Dense, evenly-spaced column rhythm for the Solutions section: section
-     padding, the gap between its text blocks, and the gap between list items all
-     read this one value, so the column is distributed evenly by construction.
+  /* --ry is the vertical gap between a Solutions block and the row beneath it:
+     the subhead's top margin, the collage row's top margin, and the pager's top
+     margin all read this one value, so the column is distributed evenly by
+     construction. Its only consumer is components/Solutions.tsx (the home page
+     section).
 
-     Much tighter than --section-pad on purpose. That token is sized for a
-     standalone section between two others; Solutions is a single dense column
-     beside a collage, where --section-pad pushed the list below the fold. */
+     NOT to be confused with the /solutions route's own rhythm —
+     --gap / --gap-peer / --gap-block — which is a separate, tighter scale
+     declared on that page's <main> in app/solutions/page.tsx, because
+     capability-showcase.tsx reads it. That one is much tighter than
+     --section-pad on purpose: /solutions is a single dense column beside a
+     collage, where --section-pad pushed the list below the fold. */
   --ry: clamp(14px, 1.6vw, 22px);
 
   --section-pad: clamp(56px, 9vw, 120px);

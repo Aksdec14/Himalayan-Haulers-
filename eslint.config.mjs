@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored tooling, not app source. Without this, every lint run reports
+    // ~94 no-unused-expressions warnings from minified third-party scripts and
+    // buries anything real. Add it to .gitignore too if it is not tracked.
+    ".agents/**",
   ]),
 ]);
 

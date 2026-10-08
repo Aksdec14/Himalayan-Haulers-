@@ -416,7 +416,7 @@ export default function ProductsPage() {
             <Button href="/#connect" tone="onLight" size="lg" withArrow>
               Request a Quote
             </Button>
-            <Button tone="onLight" size="lg">
+            <Button href="/#connect" tone="onLight" size="lg">
               Download Brochure
             </Button>
           </>
@@ -699,7 +699,7 @@ export default function ProductsPage() {
               payload mounts, avionics and sensors to your requirement.
             </p>
             <div className="mt-[clamp(20px,2.4vw,32px)]">
-              <Button tone="onLight" size="lg" withArrow>
+              <Button href="/#connect" tone="onLight" size="lg" withArrow>
                 Talk to Our Engineers
               </Button>
             </div>
@@ -757,7 +757,7 @@ export default function ProductsPage() {
         <Button href="/#connect" tone="onDark" size="lg" withArrow>
           Request a Quote
         </Button>
-        <Button tone="onDark" size="lg">
+        <Button href="/#connect" tone="onDark" size="lg">
           Download Brochure
         </Button>
       </ClosingCTA>

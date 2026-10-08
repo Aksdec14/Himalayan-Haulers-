@@ -476,7 +476,7 @@ export default function ServicesPage() {
             <Button href="/#connect" tone="onLight" size="lg" withArrow>
               Get a Quote
             </Button>
-            <Button tone="onLight" size="lg">
+            <Button href="/#connect" tone="onLight" size="lg">
               Talk to Our Team
             </Button>
           </>
@@ -575,7 +575,7 @@ export default function ServicesPage() {
             </ol>
 
             <div className="mt-[clamp(24px,3vw,40px)]">
-              <Button tone="onLight" size="lg" withArrow>
+              <Button href="/#connect" tone="onLight" size="lg" withArrow>
                 Get an LDaaS Quote
               </Button>
             </div>
@@ -633,7 +633,7 @@ export default function ServicesPage() {
             </p>
 
             <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-              <Button tone="onLight" size="lg" withArrow>
+              <Button href="/#connect" tone="onLight" size="lg" withArrow>
                 Request an Inspection
               </Button>
             </div>
@@ -677,7 +677,7 @@ export default function ServicesPage() {
               </div>
 
               <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-                <Button tone="onLight" size="lg" withArrow>
+                <Button href="/#connect" tone="onLight" size="lg" withArrow>
                   Request a Survey
                 </Button>
               </div>
@@ -723,7 +723,7 @@ export default function ServicesPage() {
               </p>
 
               <div className="mt-auto pt-[clamp(24px,3vw,40px)]">
-                <Button tone="onLight" size="lg" withArrow>
+                <Button href="/#connect" tone="onLight" size="lg" withArrow>
                   Plan a Stringing Project
                 </Button>
               </div>

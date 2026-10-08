@@ -62,8 +62,6 @@ const TEXT =
 const DETAILS =
   "m-0 p-0 flex flex-col gap-[clamp(12px,1.6vw,22px)] not-italic";
 
-const DETAIL_NAME = "m-0 text-[length:var(--fs-h3)] text-blue";
-
 /* break-words lets the long email wrap on a narrow screen instead of pushing the
    page sideways. */
 const DETAIL_LINE =

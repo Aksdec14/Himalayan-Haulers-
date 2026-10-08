@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 /* ==========================================================================
@@ -444,13 +445,13 @@ export default function CapabilityShowcase({
                 ))}
               </div>
 
-              <a
+              <Link
                 href="/#contact"
                 className="mt-[length:var(--gap-block)] inline-flex w-fit items-center gap-[0.9em] rounded-full bg-blue px-[1.5em] py-[0.8em] text-[length:var(--fs-nav,16px)] text-white no-underline transition-colors duration-300 hover:bg-cyan hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
               >
                 Let&rsquo;s Connect
                 <ArrowRight size={14} strokeWidth={1.7} aria-hidden="true" />
-              </a>
+              </Link>
             </div>
           </div>
         </aside>
