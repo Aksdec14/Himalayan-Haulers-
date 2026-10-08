@@ -280,10 +280,105 @@ const STEPS = [
   },
 ];
 
+type Detail = (typeof DETAIL)[number];
+
+function DetailCard({ item, index }: { item: Detail; index: number }) {
+  return (
+    <article className="group flex flex-col border border-blue/10 bg-white shadow-[0_18px_40px_-24px_rgba(10,25,45,0.28)] transition-shadow duration-300 hover:shadow-[0_24px_48px_-20px_rgba(10,25,45,0.38)]">
+      <span
+        aria-hidden="true"
+        className="block h-[3px] w-full bg-blue transition-colors duration-300 group-hover:bg-cyan"
+      />
+
+      <div className="flex flex-1 flex-col p-[clamp(18px,1.8vw,26px)]">
+        <div className="flex items-baseline justify-between gap-[length:var(--gap)]">
+          <h3 className="m-0 text-[length:var(--fs-h3)]">{item.name}</h3>
+          <span aria-hidden="true" className={LABEL}>
+            0{index + 1}
+          </span>
+        </div>
+
+        <p className={`${LABEL} mt-[length:var(--gap)]`}>Scope</p>
+        <p className={`${BODY} mt-[0.3em]`}>{item.work}</p>
+
+        <div className="mt-[length:var(--gap)] border-t border-blue/10 pt-[length:var(--gap)]">
+          <p className={LABEL}>Hazard removed</p>
+          <p className={`${BODY} mt-[0.3em]`}>{item.hazard}</p>
+        </div>
+
+        <div className="flex flex-wrap gap-[0.5em] pt-[length:var(--gap)]">
+          {item.caps.map((n) => (
+            <a
+              key={n}
+              href={`/solutions#capability-${n}`}
+              className="rounded-full bg-[#f0f2f5] px-[1em] py-[0.4em] text-[length:var(--fs-small)] text-blue no-underline transition-colors duration-300 hover:bg-blue hover:text-white"
+            >
+              {CAPS[Number(n) - 1]}
+            </a>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* Two vertical carousels: one drifts up, one drifts down. The list is drawn
+   twice and the track moves by exactly one copy (-50%), so the loop is
+   seamless. The second copy is inert: hidden from assistive tech and the Tab
+   order. Hover or focus pauses; reduced motion stops it and lets the column
+   scroll by hand. */
+const MARQUEE_CSS = `
+@keyframes hh-up{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes hh-down{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+.hh-track-up{animation:hh-up 50s linear infinite;will-change:transform}
+.hh-track-down{animation:hh-down 42s linear infinite;will-change:transform}
+.hh-col:hover .hh-track-up,.hh-col:hover .hh-track-down,
+.hh-col:focus-within .hh-track-up,.hh-col:focus-within .hh-track-down{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){
+.hh-track-up,.hh-track-down{animation:none}
+.hh-col{overflow-y:auto}
+}`;
+
+function Column({
+  items,
+  dir,
+  className = "",
+}: {
+  items: { item: Detail; index: number }[];
+  dir: "up" | "down";
+  className?: string;
+}) {
+  const copy = (hidden: boolean) => (
+    <div
+      aria-hidden={hidden || undefined}
+      inert={hidden || undefined}
+      className="flex flex-col gap-[length:var(--card-gap,24px)] pb-[length:var(--card-gap,24px)]"
+    >
+      {items.map(({ item, index }) => (
+        <DetailCard key={item.name} item={item} index={index} />
+      ))}
+    </div>
+  );
+
+  return (
+    <div
+      className={`hh-col h-[clamp(460px,72vh,620px)] min-w-0 overflow-hidden px-[10px] [mask-image:linear-gradient(to_bottom,transparent,black_8%,black_92%,transparent)] ${className}`}
+    >
+      <div className={dir === "up" ? "hh-track-up" : "hh-track-down"}>
+        {copy(false)}
+        {copy(true)}
+      </div>
+    </div>
+  );
+}
+
+const COL_A = DETAIL.map((item, index) => ({ item, index })).filter((_, i) => i % 2 === 0);
+const COL_B = DETAIL.map((item, index) => ({ item, index })).filter((_, i) => i % 2 === 1);
+
 export default function IndustriesPage() {
   return (
     <main id="top" className={PAGE}>
-      <section className="overflow-x-clip bg-[#f0f2f5] py-[calc(var(--section-pad)*0.6)]">
+      <section className="overflow-x-clip bg-[#f0f2f5] py-[calc(var(--section-pad)*0.9)]">
         <div className={INNER}>
           <div className="mx-auto grid w-full max-w-[1400px] items-stretch gap-[length:var(--gap-block)] min-[860px]:grid-cols-[minmax(0,0.3fr)_minmax(0,0.7fr)]">
             {/* Left: heading, copy, conditions, CTAs. It stretches to the
@@ -339,51 +434,36 @@ export default function IndustriesPage() {
         id="industry-detail"
         className="scroll-mt-[96px] overflow-x-clip bg-white py-[calc(var(--section-pad)*0.8)]"
       >
+        <style>{MARQUEE_CSS}</style>
         <div className={INNER}>
           <div className={WRAP}>
-            <h2 className={H2}>What We Do In Each Industry</h2>
+            <div className="grid items-center gap-[length:var(--gap-block)] min-[860px]:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)]">
+              {/* Left: heading and sub-heading */}
+              <div className="flex flex-col gap-[length:var(--gap)]">
+                <span
+                  aria-hidden="true"
+                  className="block h-[2px] w-[clamp(80px,10vw,140px)] bg-blue"
+                />
+                <h2 className={H2}>What We Do In Each Industry</h2>
+                <p className="m-0 max-w-[30ch] text-[length:var(--fs-lead)] leading-[1.38] text-ink/88 text-pretty">
+                  Nine industries, one aim: keep people out of harm&rsquo;s way.
+                </p>
+                <p className={`${BODY} max-w-[44ch]`}>
+                  For each sector, here is the work we take on, the hazard it
+                  removes, and the capability behind it.
+                </p>
+                <div className="mt-[length:var(--gap)]">
+                  <Pill href="/solutions" tone="solid">
+                    View Capabilities
+                  </Pill>
+                </div>
+              </div>
 
-            <div className="mt-[length:var(--gap-block)] grid gap-[length:var(--card-gap,24px)] min-[640px]:grid-cols-2 min-[960px]:grid-cols-3">
-              {DETAIL.map((item, index) => (
-                <article
-                  key={item.name}
-                  className="group flex h-full flex-col border border-blue/10 bg-white shadow-[0_18px_40px_-24px_rgba(10,25,45,0.28)] transition-shadow duration-300 hover:shadow-[0_24px_48px_-20px_rgba(10,25,45,0.38)]"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="block h-[3px] w-full bg-blue transition-colors duration-300 group-hover:bg-cyan"
-                  />
-
-                  <div className="flex flex-1 flex-col p-[clamp(20px,2vw,28px)]">
-                    <div className="flex items-baseline justify-between gap-[length:var(--gap)]">
-                      <h3 className="m-0 text-[length:var(--fs-h3)]">{item.name}</h3>
-                      <span aria-hidden="true" className={LABEL}>
-                        0{index + 1}
-                      </span>
-                    </div>
-
-                    <p className={`${LABEL} mt-[length:var(--gap)]`}>Scope</p>
-                    <p className={`${BODY} mt-[0.3em]`}>{item.work}</p>
-
-                    <div className="mt-[length:var(--gap)] border-t border-blue/10 pt-[length:var(--gap)]">
-                      <p className={LABEL}>Hazard removed</p>
-                      <p className={`${BODY} mt-[0.3em]`}>{item.hazard}</p>
-                    </div>
-
-                    <div className="mt-auto flex flex-wrap gap-[0.5em] pt-[length:var(--gap)]">
-                      {item.caps.map((n) => (
-                        <a
-                          key={n}
-                          href={`/solutions#capability-${n}`}
-                          className="rounded-full bg-[#f0f2f5] px-[1em] py-[0.4em] text-[length:var(--fs-small)] text-blue no-underline transition-colors duration-300 hover:bg-blue hover:text-white"
-                        >
-                          {CAPS[Number(n) - 1]}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
+              {/* Right: two vertical carousels, up and down */}
+              <div className="grid min-w-0 grid-cols-1 gap-[length:var(--gap)] min-[860px]:grid-cols-2">
+                <Column items={COL_A} dir="up" />
+                <Column items={COL_B} dir="down" className="max-[859px]:hidden" />
+              </div>
             </div>
           </div>
         </div>
