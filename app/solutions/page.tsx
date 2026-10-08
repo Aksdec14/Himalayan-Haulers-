@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUp, ArrowUpRight, type LucideIcon } from "lucide-react";
 
+import CapabilityShowcase, {
+  type Capability,
+} from "./capability-showcase";
+
 export const metadata: Metadata = {
   title: "Operational Capabilities & Technical Services | Himalayan Haulers",
   description:
@@ -16,9 +20,15 @@ export const metadata: Metadata = {
      2. about us        heading, intro, three muted-label columns, then a
                         three-column media row: small photo + pill | an index
                         of rows with hairlines | large photo
-     3. capabilities    three-up rounded photo cards, a centred pill over each,
-                        caption underneath; the sixth cell is a call-to-action
-     4. detail          each service as a heading and three muted-label columns
+     3. capabilities    three-up rounded photo cards. A full-width bar sits on
+                        the bottom edge of each photo; hovering the card lays
+                        that capability's technical value over the photo. The
+                        sixth cell is a call-to-action
+     4. detail          a grey band with a card slider whose cards run off the
+                        right edge; pressing a card (or any #capability-0N
+                        link) opens a side panel with a photo and the full
+                        detail. Lives in ./capability-showcase, the page's
+                        only client code
      5. back to top     one centred pill, where the reference has "all projects"
 
    One visual language: white page, navy type, 16px radii, and pill buttons
@@ -75,14 +85,6 @@ function Wrap({
 
 const H2 = "m-0 text-[length:var(--fs-h2)] uppercase";
 
-/* The label above a field's text. --fs-small is the rung the site's own small
-   labels sit on, and bold + tracked + uppercase is what makes it read as a
-   label rather than as the first words of the sentence. Muted navy rather
-   than cyan: cyan on white is 2.7:1, which is fine for a rule and not for a
-   word this size has to carry. */
-const LABEL =
-  "m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-blue/70";
-
 /* A column heading or a service heading: both are h3, so both take the h3
    rung and nothing else. */
 const SUBHEAD = "m-0 text-[length:var(--fs-h3)]";
@@ -92,8 +94,6 @@ const INTRO =
 
 const BODY =
   "m-0 text-[length:var(--fs-body)] leading-[1.45] text-ink/80 text-pretty";
-
-const SERVICE_TITLE = SUBHEAD;
 
 /* Three equal columns: the grid every text block on the page sits on. */
 const COLS = "grid gap-[length:var(--card-gap)] min-[860px]:grid-cols-3";
@@ -108,8 +108,6 @@ const PILL_TONES = {
   light: "bg-[#d5dfe9] text-blue hover:bg-[#c2d1e0]",
   /* Frosted over a photo, white type. */
   glass: "bg-white/25 text-white backdrop-blur-md hover:bg-white/35",
-  /* Frosted white over a darkened photo, navy type. */
-  solid: "bg-white/85 text-blue backdrop-blur-sm hover:bg-white",
 } as const;
 
 function Pill({
@@ -136,30 +134,7 @@ function Pill({
   );
 }
 
-/** Labelled fields as three columns: muted label, dark text. */
-function Fields({ fields }: { fields: Field[] }) {
-  return (
-    <dl className={`${COLS} m-0 mt-[length:var(--gap-peer)]`}>
-      {fields.map((field) => (
-        <div key={field.label}>
-          <dt className={LABEL}>{field.label}</dt>
-          <dd className={`${BODY} mt-[0.5em]`}>{field.body}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
 /* ---- Content: capability copy verbatim from the draft -------------------- */
-
-type Field = { label: string; body: string };
-type Service = { title: string; fields: Field[] };
-type Capability = {
-  n: string;
-  category: string;
-  image: { src: string; alt: string; position?: string };
-  services: Service[];
-};
 
 const CAPABILITIES: Capability[] = [
   {
@@ -358,9 +333,9 @@ const CONTEXTS = [
 /**
  * /solutions — Operational Capabilities & Technical Services.
  *
- * Server component, no client JS: the content is static, and every control on
- * the page is a plain link. Keeping it here is what allows the `metadata`
- * export.
+ * Server component. The only client code is the detail slider and its side
+ * panel, in ./capability-showcase. Keeping the page here is what allows the
+ * `metadata` export.
  */
 export default function SolutionsPage() {
   return (
@@ -381,7 +356,7 @@ export default function SolutionsPage() {
         />
 
         <div
-          className={`${INNER} flex min-h-[clamp(460px,62vh,720px)] items-center py-[length:var(--section-pad)]`}
+          className={`${INNER} flex min-h-[clamp(580px,80vh,880px)] items-center py-[length:var(--section-pad)]`}
         >
           <div className="flex w-full flex-col gap-[length:var(--gap)] text-white min-[860px]:ml-[48%] min-[860px]:w-[46%] min-[860px]:max-w-[560px]">
             <h1 className="m-0 text-balance text-[length:var(--fs-h1)] animate-hh-rise [animation-delay:100ms]">
@@ -486,48 +461,76 @@ export default function SolutionsPage() {
           <h2 className={H2}>Capabilities</h2>
 
           <div className="mt-[length:var(--gap-block)] grid gap-x-[length:var(--gap)] gap-y-[length:var(--gap-block)] min-[640px]:grid-cols-2 min-[960px]:grid-cols-3">
-            {CAPABILITIES.map((cap) => (
-              <article key={cap.n} className="group flex flex-col gap-[length:var(--gap)]">
-                <div className="relative aspect-[5/6] overflow-hidden rounded-2xl bg-ink">
-                  <Image
-                    src={cap.image.src}
-                    alt={cap.image.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw"
-                    className={PHOTO}
-                    style={{ objectPosition: cap.image.position ?? "center" }}
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-blue/35"
-                  />
+            {CAPABILITIES.map((cap) => {
+              /* Every service's second field is its Technical Value, which is
+                 the one line worth showing before the visitor commits to the
+                 detail section. */
+              const preview = cap.services[0].fields[1];
 
-                  {/* The pill's ::after stretches over the whole photo, so the
-                      entire card is the link. */}
-                  <div className="absolute inset-0 grid place-items-center">
-                    <Pill
+              return (
+                <article
+                  key={cap.n}
+                  className="group flex flex-col gap-[length:var(--gap)]"
+                >
+                  {/* flex-col + justify-end puts the bar on the photo's bottom
+                      edge at the photo's full width. The bar is a flex item,
+                      not absolutely positioned, so its ::after can stretch
+                      to the photo box and make the whole photo the link. */}
+                  <div className="relative flex aspect-square flex-col justify-end overflow-hidden rounded-2xl bg-ink">
+                    <Image
+                      src={cap.image.src}
+                      alt={cap.image.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw"
+                      className={PHOTO}
+                      style={{ objectPosition: cap.image.position ?? "center" }}
+                    />
+
+                    {/* A light foot so the bar always has something to sit on. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-[linear-gradient(to_top,rgba(14,38,66,0.55)_0%,rgba(14,38,66,0)_45%)]"
+                    />
+
+                    {/* Hover / focus reveal. It repeats the detail section, so
+                        it is hidden from assistive tech; the bottom padding
+                        keeps the copy clear of the bar. Touch screens have no
+                        hover, and simply get the bar. */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 flex flex-col justify-end gap-[0.5em] bg-blue/85 p-[clamp(18px,2vw,28px)] pb-[clamp(64px,5.5vw,84px)] text-white opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
+                    >
+                      <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-cyan">
+                        {preview.label}
+                      </p>
+                      <p className="m-0 text-[length:var(--fs-body)] leading-[1.45] text-white/90 text-pretty">
+                        {preview.body}
+                      </p>
+                    </div>
+
+                    <a
                       href={`#capability-${cap.n}`}
-                      tone="solid"
-                      className="after:absolute after:inset-0 after:content-['']"
+                      className="z-10 flex items-center justify-between gap-[length:var(--gap)] bg-white/90 px-[clamp(16px,1.8vw,24px)] py-[clamp(12px,1.2vw,16px)] text-[length:var(--fs-nav,16px)] text-blue no-underline backdrop-blur-sm transition-colors duration-300 after:absolute after:inset-0 after:z-10 after:content-[''] hover:bg-cyan hover:text-ink focus-visible:bg-cyan focus-visible:text-ink"
                     >
                       View details
-                    </Pill>
+                      <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />
+                    </a>
                   </div>
-                </div>
 
-                <div>
-                  <h3 className="m-0 text-[length:var(--fs-h3)]">{cap.category}</h3>
-                  {cap.services.map((service) => (
-                    <p
-                      key={service.title}
-                      className="m-0 mt-[0.3em] text-[length:var(--fs-small)] leading-[1.4] text-ink/60"
-                    >
-                      {service.title}
-                    </p>
-                  ))}
-                </div>
-              </article>
-            ))}
+                  <div>
+                    <h3 className="m-0 text-[length:var(--fs-h3)]">{cap.category}</h3>
+                    {cap.services.map((service) => (
+                      <p
+                        key={service.title}
+                        className="m-0 mt-[0.3em] text-[length:var(--fs-small)] leading-[1.4] text-ink/60"
+                      >
+                        {service.title}
+                      </p>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
 
             {/* Sixth cell: the call to action. */}
             <div className="flex flex-col justify-between gap-[length:var(--gap-block)] rounded-2xl bg-blue p-[clamp(24px,3vw,40px)] text-white max-[959px]:min-h-[260px]">
@@ -549,48 +552,12 @@ export default function SolutionsPage() {
         </Wrap>
       </section>
 
-      {/* ---- 4. Detail: each service as three muted-label columns ---------- */}
-      <section
-        id="detail"
-        className="scroll-mt-[96px] bg-white pb-[length:var(--section-pad)]"
-      >
-        <Wrap>
-          <h2 className={H2}>Capability Detail</h2>
-
-          <div className="mt-[length:var(--gap-block)] flex flex-col gap-[length:var(--gap-block)]">
-            {CAPABILITIES.map((cap) => (
-              <article
-                key={cap.n}
-                id={`capability-${cap.n}`}
-                className="scroll-mt-[96px] border-t border-blue/15 pt-[length:var(--gap-block)]"
-              >
-                <p className={LABEL}>{cap.category}</p>
-
-                {cap.services.map((service, index) => (
-                  <div
-                    key={service.title}
-                    className={
-                      index === 0
-                        ? "mt-[length:var(--gap)]"
-                        : "mt-[length:var(--gap-block)]"
-                    }
-                  >
-                    <h3 className={SERVICE_TITLE}>{service.title}</h3>
-                    <Fields fields={service.fields} />
-                  </div>
-                ))}
-              </article>
-            ))}
-          </div>
-
-          {/* One centred pill closes the page. */}
-          <div className="flex justify-center pt-[length:var(--section-pad)]">
-            <Pill href="#top" icon={ArrowUp}>
-              Back to top
-            </Pill>
-          </div>
-        </Wrap>
-      </section>
+      {/* ---- 4. Detail: card slider + side panel ---------------------------- */}
+      <CapabilityShowcase capabilities={CAPABILITIES}>
+        <Pill href="#top" icon={ArrowUp}>
+          Back to top
+        </Pill>
+      </CapabilityShowcase>
     </main>
   );
 }

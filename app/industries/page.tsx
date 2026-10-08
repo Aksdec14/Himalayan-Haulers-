@@ -34,8 +34,8 @@ export const metadata: Metadata = {
    The container is the site's left-anchored one (--content-pad / --content-max)
    rather than the centred one /solutions uses, so this page's edge lines up
    with the navbar logo and the hero headline the way the other content
-   routes do. It is declared locally because app/what-we-provide/ui.tsx is
-   deliberately route-scoped and must not be imported from outside its route.
+   routes do. It is declared locally, as on every other content route: each
+   page carries its own copy of these constants rather than sharing a module.
 
    Page chrome (navbar, footer) and the shared UI are untouched.
    ========================================================================== */

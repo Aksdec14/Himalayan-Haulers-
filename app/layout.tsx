@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
         <Footer />
       </body>
     </html>
