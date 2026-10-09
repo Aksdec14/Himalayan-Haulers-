@@ -41,26 +41,27 @@ export default function BackgroundVideo({
   }, []);
 
   return (
-    <video
-      ref={ref}
-      /* Tailwind's preflight sets `height: auto` on media elements; restore the
-         fill so object-fit: cover actually has a box to cover. */
-      className="absolute inset-0 z-0 h-full w-full max-w-none object-cover"
-      autoPlay
-      muted
-      loop
-      playsInline
-      // "metadata" rather than "auto": we only need enough to paint the first
-      // frame. With `auto` the browser competes with the CSS and JS for
-      // bandwidth before the page is interactive.
-      preload="metadata"
-      poster={poster}
-      aria-hidden="true"
-      tabIndex={-1}
-    >
-      {sources.map((source) => (
-        <source key={source.src} src={source.src} type={source.type} />
-      ))}
-    </video>
+    
+<video
+  ref={ref}
+  className="absolute inset-0 z-0 h-full w-full max-w-none object-cover"
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="auto"
+  poster={poster}
+  aria-hidden="true"
+  tabIndex={-1}
+>
+  {sources.map((source) => (
+    <source
+      key={source.src}
+      src={source.src}
+      type={source.type}
+    />
+  ))}
+</video>
+
   );
 }
