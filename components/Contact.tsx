@@ -130,11 +130,10 @@ export default function ContactPage() {
             </p>
 
             <h1 id="contact-title" className={HERO_TITLE}>
-              Let&rsquo;s Move
+            Have a complex site or
               <br />
-              Something
-              <br />
-              <span className="text-[color:var(--cyan)]">Impossible</span>
+              an
+              <span className="text-[color:var(--cyan)]"> operational challenge?</span>
             </h1>
 
             <p className={HERO_LEAD}>
