@@ -151,6 +151,9 @@ type Category = {
   lead: string;
   tags: Tag[];
   cta: { label: string; href: string };
+  /** Cover photo for this category's collage. One image spans every tile, each
+      showing its own piece. Paths are from /public. */
+  image: string;
   drones: Drone[];
 };
 
@@ -165,6 +168,7 @@ const CATEGORIES: Category[] = [
       ["mountain", "All-terrain operations"],
     ],
     cta: { label: "Explore All Drones", href: PRODUCTS_URL },
+    image: "/media/image.png",
     drones: [
       {
         id: "c300",
@@ -239,6 +243,9 @@ const CATEGORIES: Category[] = [
       ["target", "Tactical operations"],
     ],
     cta: { label: "Explore All Defence Drones", href: PRODUCTS_URL },
+    /* Landscape works best here — the layer is sized to the whole collage and
+       cropped per tile, so a portrait image loses most of its frame. */
+    image: "/media/defence-drone.png",
     drones: [
       {
         id: "d300",
@@ -468,15 +475,18 @@ function useIsDesktop() {
 /* Shared image                                                        */
 /* ------------------------------------------------------------------ */
 
-/* One image covers the whole collage; each tile shows its own piece of it.
-   Replace with your own file (put it in /public/images/). */
-const COLLAGE_IMAGE = "/media/image.png";
-
 type Measure = { x: number; y: number; w: number; h: number };
 
-/* Sits inside a tile. It is as big as the whole collage and shifted back by
-   the tile's offset, so every tile lines up like pieces of one picture. */
-function SharedImage({ wrap }: { wrap: RefObject<HTMLDivElement | null> }) {
+/* One image covers the whole collage; each tile shows its own piece of it. The
+   path comes from the active category, so Commercial and Defence can use
+   different covers. */
+function SharedImage({
+  wrap,
+  image,
+}: {
+  wrap: RefObject<HTMLDivElement | null>;
+  image: string;
+}) {
   const self = useRef<HTMLDivElement>(null);
   const [m, setM] = useState<Measure>({ x: 0, y: 0, w: 0, h: 0 });
 
@@ -510,7 +520,7 @@ function SharedImage({ wrap }: { wrap: RefObject<HTMLDivElement | null> }) {
           width: m.w,
           height: m.h,
           transform: `translate(${-m.x}px, ${-m.y}px)`,
-          backgroundImage: `url(${COLLAGE_IMAGE})`,
+          backgroundImage: `url(${image})`,
         }}
       />
       {/* Keeps the text readable on any photo */}
@@ -533,6 +543,7 @@ function DroneCard({
   className = "",
   grow,
   shared,
+  image,
 }: {
   drone: Drone;
   level?: Level;
@@ -540,6 +551,8 @@ function DroneCard({
   className?: string;
   grow?: number;
   shared?: RefObject<HTMLDivElement | null>;
+  /** Only used when `shared` is set — the mobile grid has no collage layer. */
+  image?: string;
 }) {
   const t = shared ? TONES[1] : TONES[tone];
   const lines = level === "md" ? 1 : level === "lg" ? 2 : 0;
@@ -549,7 +562,7 @@ function DroneCard({
       style={grow ? { flex: `${grow} 1 0%` } : undefined}
       className={`group relative flex min-w-0 flex-col justify-between gap-2 overflow-hidden rounded-xl p-[clamp(10px,1vw,14px)] ${t.card} ${className}`}
     >
-      {shared && <SharedImage wrap={shared} />}
+      {shared && image && <SharedImage wrap={shared} image={image} />}
       <div className="relative">
         {level === "lg" && (
           <span className={`mb-2 flex size-8 items-center justify-center rounded-lg ${t.dot}`}>
@@ -597,18 +610,20 @@ function StatTile({
   label,
   slot,
   shared,
+  image,
 }: {
   capacity: string;
   label: string;
   slot: Slot;
   shared: RefObject<HTMLDivElement | null>;
+  image: string;
 }) {
   return (
     <li
       style={{ flex: `${slot.grow} 1 0%` }}
       className={`relative flex min-w-0 flex-col justify-start overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(12px,1.2vw,16px)] text-white ${slot.h}`}
     >
-      <SharedImage wrap={shared} />
+      <SharedImage wrap={shared} image={image} />
       <p className="relative m-0 text-[clamp(22px,2.4vw,28px)] font-bold leading-none [overflow-wrap:anywhere]">
         {capacity}
       </p>
@@ -619,7 +634,7 @@ function StatTile({
   );
 }
 
-function Collage({ drones }: { drones: Drone[] }) {
+function Collage({ drones, image }: { drones: Drone[]; image: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotDrone: (Drone | null)[] = Array(SLOTS.length).fill(null);
   drones.forEach((d, i) => {
@@ -639,6 +654,7 @@ function Collage({ drones }: { drones: Drone[] }) {
           grow={slot.grow}
           className={slot.h}
           shared={wrapRef}
+          image={image}
         />
       );
     }
@@ -650,6 +666,7 @@ function Collage({ drones }: { drones: Drone[] }) {
           label="Heavy-lift capability"
           slot={slot}
           shared={wrapRef}
+          image={image}
         />
       );
     return null; // other free slots stay empty, which keeps the ragged collage edge
@@ -766,7 +783,7 @@ function FreightorDrones() {
               hydration, which is exactly when the two sides are not parallel.
               Collage carries its own `hidden … lg:flex`, so CSS owns the
               breakpoint. */}
-          <Collage drones={current.drones} />
+          <Collage drones={current.drones} image={current.image} />
         </div>
       </div>
     </section>
