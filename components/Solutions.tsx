@@ -104,6 +104,12 @@ const SECTION =
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
+/* Heading block and pager share one row: heading left, pager pushed to the right
+   edge. flex-wrap plus the row gap drops the pager below the heading on narrow
+   screens instead of letting it collide with the text. */
+const HEAD =
+  "flex flex-wrap items-start justify-between gap-x-[clamp(24px,4vw,64px)] gap-y-[length:var(--ry)]";
+
 const HEADLINE =
   "m-0 text-[length:var(--fs-h1)] uppercase text-[color:var(--blue)] min-[1100px]:whitespace-nowrap";
 
@@ -155,9 +161,13 @@ const ARROW =
 const IMAGE_WRAP =
   "absolute inset-x-0 bottom-0 h-[46%] overflow-hidden max-[900px]:relative max-[900px]:h-[clamp(180px,42vw,280px)]";
 
-/* ---- Pager ------------------------------------------------------------------ */
+/* ---- Pager ------------------------------------------------------------------
+   Sits in the header row beside the heading rather than under the panels. Its
+   former top margin is gone: that space was to separate it from the panel row,
+   and in a flex row it would knock it out of alignment with the heading.
+   shrink-0 keeps the controls at their natural size next to a long heading. */
 
-const PAGER = "flex items-center gap-[clamp(12px,1.4vw,20px)] mt-[length:var(--ry)]";
+const PAGER = "flex shrink-0 items-center gap-[clamp(12px,1.4vw,20px)]";
 
 /* Same square, outlined button as the panel arrow, in navy for the white page.
    Disabled at either end rather than wrapping, so the arrows always say which way
@@ -191,14 +201,66 @@ export default function Solutions() {
   return (
     <section id="solutions" className={SECTION} aria-labelledby="solutions-title">
       <div className={INNER}>
-        <div className="[animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]">
-          <h2 id="solutions-title" className={HEADLINE}>
-            Built for the Hard-to-Reach
-          </h2>
-          <p className={SUBHEAD}>
-            The right drone, sensor and crew for work at height, at distance or
-            in confined spaces.
-          </p>
+        <div className={HEAD}>
+          <div className="[animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]">
+            <h2 id="solutions-title" className={HEADLINE}>
+              Built for the Hard-to-Reach
+            </h2>
+            <p className={SUBHEAD}>
+              The right drone, sensor and crew for work at height, at distance or
+              in confined spaces.
+            </p>
+          </div>
+
+          <div className={`${PAGER} [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]`}>
+            <button
+              type="button"
+              className={PAGER_BTN}
+              onClick={() => goTo(page - 1)}
+              disabled={page === 0}
+              aria-label="Show previous solutions"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M19 12H5M11 6l-6 6 6 6" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              className={PAGER_BTN}
+              onClick={() => goTo(page + 1)}
+              disabled={page === PAGE_COUNT - 1}
+              aria-label="Show next solutions"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <span className={PAGER_COUNT} aria-live="polite">
+              {start + 1}&ndash;{start + visible.length} of {SOLUTIONS.length}
+            </span>
+          </div>
         </div>
 
         <ul
@@ -270,56 +332,6 @@ export default function Solutions() {
             );
           })}
         </ul>
-
-        <div className={PAGER}>
-          <button
-            type="button"
-            className={PAGER_BTN}
-            onClick={() => goTo(page - 1)}
-            disabled={page === 0}
-            aria-label="Show previous solutions"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M19 12H5M11 6l-6 6 6 6" />
-            </svg>
-          </button>
-
-          <button
-            type="button"
-            className={PAGER_BTN}
-            onClick={() => goTo(page + 1)}
-            disabled={page === PAGE_COUNT - 1}
-            aria-label="Show next solutions"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </button>
-
-          <span className={PAGER_COUNT} aria-live="polite">
-            {start + 1}&ndash;{start + visible.length} of {SOLUTIONS.length}
-          </span>
-        </div>
       </div>
     </section>
   );

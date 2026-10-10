@@ -521,7 +521,7 @@ function FreightorDrones() {
 
 export default function DronePage() {
   return (
-    <main className="overflow-x-clip bg-white py-0 text-[color:var(--blue)]">
+    <main className="overflow-x-clip bg-white pt-6 text-[color:var(--blue)]">
       <style>{FADE_CSS}</style>
       <div className="flex w-full flex-col">
         <FreightorDrones />
