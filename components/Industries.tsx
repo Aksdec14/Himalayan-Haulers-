@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState, type KeyboardEvent, type ReactElement } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                */
@@ -329,9 +330,9 @@ export default function Industries() {
           <h2 id="industries-title" className={TITLE}>
             Industries We Serve
           </h2>
-          <a href="/contact" className={HEADER_LINK}>
+          <Link href="/contact" className={HEADER_LINK}>
             Ready to get started? Contact us
-          </a>
+          </Link>
         </header>
 
         <div className="grid max-w-[length:var(--content-max,1200px)] grid-cols-1 gap-5 lg:grid-cols-[clamp(220px,22vw,270px)_minmax(0,1fr)] lg:items-stretch lg:gap-0">
@@ -457,13 +458,13 @@ export default function Industries() {
                 ))}
               </ul>
 
-              <a
+              <Link
                 href="/industries"
                 className="mt-6 inline-flex items-center gap-2 text-[length:var(--fs-small)] font-semibold text-[color:var(--blue)] no-underline transition-colors hover:text-[color:var(--cyan)] focus-visible:text-[color:var(--cyan)]"
               >
                 Explore {current.name}
                 <Arrow className="size-3.5" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
