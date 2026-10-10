@@ -1,6 +1,14 @@
 "use client";
 
-import { useId, useRef, useState, type KeyboardEvent, type ReactElement } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactElement,
+  type RefObject,
+} from "react";
 
 /* ------------------------------------------------------------------ */
 /* Icons                                                               */
@@ -107,7 +115,8 @@ function Icon({ name, className }: { name: IconName; className?: string }) {
   );
 }
 
-function Arrow({ className }: { className?: string }) {
+/* Diagonal arrow, like "Visit site" in the reference */
+function ArrowUpRight({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -119,7 +128,7 @@ function Arrow({ className }: { className?: string }) {
       aria-hidden="true"
       className={className}
     >
-      <path d="M3 8h10M9 4l4 4-4 4" />
+      <path d="M4 12L12 4M5.5 4H12v6.5" />
     </svg>
   );
 }
@@ -128,6 +137,9 @@ function Arrow({ className }: { className?: string }) {
 /* Content                                                             */
 /* ------------------------------------------------------------------ */
 
+/* Every CTA and card link on this section goes here */
+const PRODUCTS_URL = "/what-we-provide/products";
+
 type Feature = [IconName, string];
 type Drone = { id: string; model: string; sub: string; features: Feature[] };
 type Tag = [IconName, string];
@@ -135,11 +147,10 @@ type Tag = [IconName, string];
 type Category = {
   id: "commercial" | "defence" | "surveillance";
   tab: string;
-  title: [string, string]; // [navy, cyan]
+  title: [string, string];
   lead: string;
   tags: Tag[];
   cta: { label: string; href: string };
-  columns: string; // grid columns per breakpoint
   drones: Drone[];
 };
 
@@ -148,14 +159,13 @@ const CATEGORIES: Category[] = [
     id: "commercial",
     tab: "Commercial",
     title: ["Freightor", "Logistics Drones"],
-    lead: "Heavy-lift drones from 5 kg to 300 kg, built in India.",
+    lead: "Heavy-lift drones from 5 kg to 300 kg, built in India for every kind of terrain.",
     tags: [
       ["box", "Heavy payloads"],
       ["mountain", "All-terrain operations"],
       ["flag", "Made in India"],
     ],
-    cta: { label: "Explore All Drones", href: "/drones" },
-    columns: "grid-cols-2 md:grid-cols-3 xl:grid-cols-6",
+    cta: { label: "Explore All Drones", href: PRODUCTS_URL },
     drones: [
       {
         id: "c300",
@@ -223,14 +233,13 @@ const CATEGORIES: Category[] = [
     id: "defence",
     tab: "Defence",
     title: ["Freightor", "Defence Drones"],
-    lead: "Mission-ready drone platforms for demanding defence operations.",
+    lead: "Mission-ready drone platforms for demanding defence operations, day and night.",
     tags: [
       ["box", "High payloads"],
       ["route", "Long endurance"],
       ["target", "Tactical operations"],
     ],
-    cta: { label: "Explore All Defence Drones", href: "/drones/defence" },
-    columns: "grid-cols-2 md:grid-cols-3 xl:grid-cols-4",
+    cta: { label: "Explore All Defence Drones", href: PRODUCTS_URL },
     drones: [
       {
         id: "d300",
@@ -308,14 +317,13 @@ const CATEGORIES: Category[] = [
     id: "surveillance",
     tab: "Surveillance",
     title: ["Surveillance", "Drones"],
-    lead: "Advanced aerial surveillance for enhanced situational awareness.",
+    lead: "Advanced aerial surveillance for enhanced situational awareness around the clock.",
     tags: [
       ["eye", "Real-time monitoring"],
       ["radar", "Aerial intelligence"],
       ["target", "Mission-ready operations"],
     ],
-    cta: { label: "Explore Surveillance Solutions", href: "/drones/surveillance" },
-    columns: "grid-cols-2 md:grid-cols-3 xl:grid-cols-6",
+    cta: { label: "Explore Surveillance Solutions", href: PRODUCTS_URL },
     drones: [
       {
         id: "skye-d100",
@@ -335,102 +343,378 @@ const CATEGORIES: Category[] = [
 /* Pieces                                                              */
 /* ------------------------------------------------------------------ */
 
-const PANEL =
-  "relative mb-5 min-w-0 overflow-hidden rounded-none bg-gradient-to-b md:mb-10 from-white to-[color:var(--cyan)]/10 p-[clamp(12px,2vw,24px)]";
-
 const FADE_CSS = `
 @keyframes fd-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .fd-swap{animation:fd-in .35s ease-out both}
 @media (prefers-reduced-motion:reduce){.fd-swap{animation:none}}
 `;
 
-function Heading({ title, lead, tags }: { title: [string, string]; lead: string; tags: Tag[] }) {
+/* Left-anchored on the same content line as the sections above and below:
+   --content-pad is --hero-left, so this shares the vertical line of the
+   navbar logo and the hero headline. Copied from Solutions.tsx so the two
+   bands cannot drift apart. */
+const INNER =
+  "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
+
+function Chevron({ className }: { className?: string }) {
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
-      <div className="min-w-0">
-        <h2 className="m-0 break-words text-[clamp(22px,3.4vw,40px)] font-extrabold leading-[1.08] tracking-tight text-[color:var(--blue)]">
-          {title[0]} <span className="text-[color:var(--cyan)]">{title[1]}</span>
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M6 3l5 5-5 5" />
+    </svg>
+  );
+}
+
+/* "Heavy-lift capability", "Rugged design" -> one readable sentence */
+function describe(features: Feature[]) {
+  const labels = features.map(([, label], i) =>
+    i === 0 ? label : label.charAt(0).toLowerCase() + label.slice(1),
+  );
+  return `${labels.join(", ")}.`;
+}
+
+/* Left side: text only */
+function IntroPanel({ category }: { category: Category }) {
+  return (
+    <div className="flex min-w-0 flex-col justify-between gap-6 py-1 lg:pr-4">
+      <div>
+        <h2 className="m-0 text-[clamp(28px,3.2vw,40px)] font-semibold leading-[1.08] tracking-tight text-[color:var(--blue)] text-balance">
+          {category.title[0]}{" "}
+          <em className="font-serif font-normal italic text-[color:var(--cyan)]">
+            {category.title[1]}
+          </em>
         </h2>
-        <p className="mb-0 mt-1.5 max-w-[48ch] text-[clamp(14px,1.4vw,16px)] leading-[1.5] text-[color:var(--blue)]/70 text-pretty">
-          {lead}
+        <p className="mb-0 mt-3 max-w-[34ch] text-[clamp(13px,1.2vw,15px)] leading-[1.55] text-[color:var(--blue)]/70 text-pretty">
+          {category.lead}
         </p>
+
+        <ul className="m-0 mt-5 flex list-none flex-col gap-1.5 p-0">
+          {category.tags.map(([, label]) => (
+            <li key={label} className="text-[13px] text-[color:var(--blue)]/80">
+              {label}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <ul className="m-0 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 lg:shrink-0 lg:flex-col lg:gap-2">
-        {tags.map(([icon, label]) => (
-          <li
-            key={label}
-            className="flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[color:var(--blue)]/80"
-          >
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[color:var(--cyan)]/15 text-[color:var(--cyan)]">
-              <Icon name={icon} className="size-3" />
-            </span>
-            {label}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function DroneCard({ drone }: { drone: Drone }) {
-  return (
-    <li className="flex min-w-0 flex-col rounded-none border border-[color:var(--blue)]/5 bg-white p-[clamp(10px,1.1vw,14px)] shadow-[0_1px_2px_rgba(10,25,45,0.04),0_8px_24px_rgba(10,25,45,0.06)]">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 className="m-0 break-words text-[clamp(15px,1.4vw,18px)] font-extrabold leading-tight text-[color:var(--blue)]">
-            {drone.model}
-          </h3>
-          <p className="m-0 mt-0.5 text-[12.5px] text-[color:var(--blue)]/70">{drone.sub}</p>
-        </div>
-        <a
-          href={`/drones/${drone.id}`}
-          aria-label={`View ${drone.model}`}
-          className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--cyan)]/15 text-[color:var(--cyan)] transition-colors hover:bg-[color:var(--cyan)] hover:text-white focus-visible:bg-[color:var(--cyan)] focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
-        >
-          <Arrow className="size-3" />
-        </a>
-      </div>
-
-      <ul className="m-0 mt-2.5 flex list-none flex-1 flex-col gap-1.5 p-0">
-        {drone.features.map(([icon, label]) => (
-          <li
-            key={label}
-            className="flex items-start gap-2 text-[12.5px] leading-[1.3] text-[color:var(--blue)]/85"
-          >
-            <Icon name={icon} className="mt-px size-4 shrink-0 text-[color:var(--blue)]/60" />
-            <span className="min-w-0 break-words">{label}</span>
-          </li>
-        ))}
-      </ul>
-    </li>
-  );
-}
-
-function Cta({ label, href }: { label: string; href: string }) {
-  return (
-    <div className="mt-[clamp(12px,1.6vw,18px)] flex items-center gap-4">
-      <span
-        className="hidden h-px flex-1 bg-gradient-to-r from-transparent to-[color:var(--cyan)]/60 sm:block"
-        aria-hidden="true"
-      />
       <a
-        href={href}
-        className="mx-auto inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--blue)] px-[clamp(20px,3vw,32px)] py-2.5 text-center text-[14px] font-semibold text-white no-underline shadow-[0_8px_20px_rgba(10,25,45,0.18)] transition-colors hover:bg-[color:var(--cyan)] focus-visible:bg-[color:var(--cyan)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] sm:mx-0"
+        href={category.cta.href}
+        className="w-fit text-[15px] font-semibold text-[color:var(--blue)] underline decoration-[color:var(--cyan)] decoration-2 underline-offset-4 transition-colors hover:text-[color:var(--cyan)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]"
       >
-        {label}
-        <Arrow className="size-3.5" />
+        {category.cta.label}
       </a>
-      <span
-        className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-[color:var(--cyan)]/60 sm:block"
-        aria-hidden="true"
-      />
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Sections                                                            */
+/* Collage layout (desktop)                                            */
+/* ------------------------------------------------------------------ */
+
+/*
+  Two rows of tiles with different widths and heights, like the
+  collage reference. Top row is bottom-aligned (tops form a staircase),
+  bottom row is top-aligned. `grow` is the relative width.
+
+  Slots in reading order:  A B C D  /  E F G H
+  Drones fill the biggest tiles first (PRIORITY below).
+*/
+type Level = "sm" | "md" | "lg"; // how much text a tile shows
+type Slot = { grow: number; h: string; level: Level; tone: 0 | 1 | 2 };
+
+const SLOTS: Slot[] = [
+  { grow: 82, h: "h-[120px]", level: "sm", tone: 0 }, // A
+  { grow: 112, h: "h-[170px]", level: "md", tone: 0 }, // B
+  { grow: 143, h: "h-[220px]", level: "lg", tone: 1 }, // C
+  { grow: 149, h: "h-[170px]", level: "md", tone: 2 }, // D
+  { grow: 138, h: "h-[110px]", level: "sm", tone: 0 }, // E
+  { grow: 87, h: "h-[150px]", level: "md", tone: 2 }, // F
+  { grow: 175, h: "h-[190px]", level: "lg", tone: 0 }, // G
+  { grow: 88, h: "h-[125px]", level: "sm", tone: 1 }, // H
+];
+
+/* drone index -> slot index (C, G, D, B, F, E, H, A) */
+const PRIORITY = [2, 6, 3, 1, 5, 4, 7, 0];
+
+const TONES = [
+  {
+    card: "bg-white text-[color:var(--blue)] border border-[color:var(--blue)]/10",
+    sub: "text-[color:var(--cyan)]",
+    body: "text-[color:var(--blue)]/70",
+    dot: "bg-[color:var(--cyan)]/15 text-[color:var(--cyan)]",
+  },
+  {
+    card: "bg-[color:var(--blue)] text-white",
+    sub: "text-white/60",
+    body: "text-white/75",
+    dot: "bg-white/15 text-white",
+  },
+  {
+    card: "bg-[color:var(--cyan)]/15 text-[color:var(--blue)]",
+    sub: "text-[color:var(--blue)]/65",
+    body: "text-[color:var(--blue)]/75",
+    dot: "bg-white/70 text-[color:var(--blue)]",
+  },
+] as const;
+
+/* True only on desktop (>= 1024px, Tailwind `lg`). The collage and its image
+   are not mounted at all below that, so phones never download the photo. */
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isDesktop;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared image                                                        */
+/* ------------------------------------------------------------------ */
+
+/* One image covers the whole collage; each tile shows its own piece of it.
+   Replace with your own file (put it in /public/images/). */
+const COLLAGE_IMAGE = "/media/image.png";
+
+type Measure = { x: number; y: number; w: number; h: number };
+
+/* Sits inside a tile. It is as big as the whole collage and shifted back by
+   the tile's offset, so every tile lines up like pieces of one picture. */
+function SharedImage({ wrap }: { wrap: RefObject<HTMLDivElement | null> }) {
+  const self = useRef<HTMLDivElement>(null);
+  const [m, setM] = useState<Measure>({ x: 0, y: 0, w: 0, h: 0 });
+
+  /* useEffect, not useLayoutEffect: a child's layout effect runs before the
+     parent's ref is attached, so wrap.current was null and the image was
+     never sized (0 x 0), which is why nothing showed. */
+  useEffect(() => {
+    const container = wrap.current;
+    const tile = self.current?.parentElement;
+    if (!container || !tile) return;
+
+    const measure = () => {
+      const a = container.getBoundingClientRect();
+      const b = tile.getBoundingClientRect();
+      setM({ x: b.left - a.left, y: b.top - a.top, w: a.width, h: a.height });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    ro.observe(tile);
+    return () => ro.disconnect();
+  }, [wrap]);
+
+  return (
+    <>
+      <div
+        ref={self}
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-0 bg-cover bg-center"
+        style={{
+          width: m.w,
+          height: m.h,
+          transform: `translate(${-m.x}px, ${-m.y}px)`,
+          backgroundImage: `url(${COLLAGE_IMAGE})`,
+        }}
+      />
+      {/* Keeps the text readable on any photo */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--blue)]/85 to-[color:var(--blue)]/35"
+      />
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Cards                                                               */
+/* ------------------------------------------------------------------ */
+
+function DroneCard({
+  drone,
+  level = "md",
+  tone = 0,
+  className = "",
+  grow,
+  shared,
+}: {
+  drone: Drone;
+  level?: Level;
+  tone?: 0 | 1 | 2;
+  className?: string;
+  grow?: number;
+  shared?: RefObject<HTMLDivElement | null>;
+}) {
+  const t = shared ? TONES[1] : TONES[tone];
+  const lines = level === "md" ? 1 : level === "lg" ? 2 : 0;
+
+  return (
+    <li
+      style={grow ? { flex: `${grow} 1 0%` } : undefined}
+      className={`group relative flex min-w-0 flex-col justify-between gap-2 overflow-hidden rounded-xl p-[clamp(10px,1vw,14px)] ${t.card} ${className}`}
+    >
+      {shared && <SharedImage wrap={shared} />}
+      <div className="relative">
+        {level === "lg" && (
+          <span className={`mb-2 flex size-8 items-center justify-center rounded-lg ${t.dot}`}>
+            <Icon name={drone.features[0][0]} className="size-4" />
+          </span>
+        )}
+        <h3
+          className={`m-0 break-words font-bold leading-tight ${
+            level === "lg" ? "text-[clamp(20px,2vw,26px)]" : "text-[16px]"
+          }`}
+        >
+          {drone.model}
+        </h3>
+        <p className={`m-0 mt-0.5 text-[12.5px] font-medium ${t.sub}`}>{drone.sub}</p>
+      </div>
+
+      <div className="relative">
+        {lines > 0 && (
+          <p className={`m-0 text-[12px] leading-[1.4] ${t.body}`}>
+            {describe(drone.features.slice(0, lines))}
+          </p>
+        )}
+        {/* Stretched link: whole card is clickable */}
+        <a
+          href={PRODUCTS_URL}
+          aria-label={`View ${drone.model}`}
+          className="mt-2 inline-flex w-fit items-center gap-1 text-[12px] font-semibold text-inherit no-underline after:absolute after:inset-0 after:rounded-xl after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
+        >
+          View details
+          <Chevron className="size-3 transition-transform group-hover:translate-x-0.5" />
+        </a>
+      </div>
+    </li>
+  );
+}
+
+/* Small summary tile that fills a leftover slot */
+function CountTile({
+  count,
+  slot,
+  shared,
+}: {
+  count: number;
+  slot: Slot;
+  shared: RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <li
+      style={{ flex: `${slot.grow} 1 0%` }}
+      className={`relative flex min-w-0 flex-col justify-end overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(12px,1.2vw,16px)] text-white ${slot.h}`}
+    >
+      <SharedImage wrap={shared} />
+      <p className="relative m-0 text-[clamp(28px,3vw,40px)] font-bold leading-none">{count}</p>
+      <p className="relative m-0 mt-1 text-[12.5px] text-white/80">models</p>
+    </li>
+  );
+}
+
+/* One big card with a full background image, for categories that have a
+   single drone (Surveillance). Desktop-only like the collage. */
+const SINGLE_IMAGE = "/media/Surveillance-drone.jpeg";
+
+function FeatureCard({ drone, showImage }: { drone: Drone; showImage: boolean }) {
+  return (
+    <div className="group relative flex min-h-[300px] min-w-0 flex-col justify-between gap-6 overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(16px,2vw,28px)] text-white lg:h-[420px]">
+      {showImage && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${SINGLE_IMAGE})` }}
+        />
+      )}
+      {/* Keeps the text readable on any photo */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--blue)]/85 to-[color:var(--blue)]/25"
+      />
+
+      <div className="relative">
+        <span className="mb-3 flex size-9 items-center justify-center rounded-lg bg-white/15 text-white">
+          <Icon name={drone.features[0][0]} className="size-[18px]" />
+        </span>
+        <h3 className="m-0 break-words text-[clamp(28px,3.2vw,44px)] font-bold leading-tight">
+          {drone.model}
+        </h3>
+        <p className="m-0 mt-1 text-[14px] font-medium text-white/70">{drone.sub}</p>
+      </div>
+
+      <div className="relative">
+        <p className="m-0 max-w-[40ch] text-[clamp(13px,1.2vw,15px)] leading-[1.5] text-white/85">
+          {describe(drone.features)}
+        </p>
+        {/* Stretched link: whole card is clickable */}
+        <a
+          href={PRODUCTS_URL}
+          aria-label={`View ${drone.model}`}
+          className="mt-3 inline-flex w-fit items-center gap-1 text-[13px] font-semibold text-inherit no-underline after:absolute after:inset-0 after:rounded-xl after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
+        >
+          View details
+          <Chevron className="size-3 transition-transform group-hover:translate-x-0.5" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function Collage({ drones }: { drones: Drone[] }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const slotDrone: (Drone | null)[] = Array(SLOTS.length).fill(null);
+  drones.forEach((d, i) => {
+    if (i < PRIORITY.length) slotDrone[PRIORITY[i]] = d;
+  });
+
+  const renderSlot = (i: number) => {
+    const slot = SLOTS[i];
+    const drone = slotDrone[i];
+    if (drone) {
+      return (
+        <DroneCard
+          key={drone.id}
+          drone={drone}
+          level={slot.level}
+          tone={slot.tone}
+          grow={slot.grow}
+          className={slot.h}
+          shared={wrapRef}
+        />
+      );
+    }
+    if (i === 0) return <CountTile key="count" count={drones.length} slot={slot} shared={wrapRef} />;
+    return null; // other free slots stay empty, which keeps the ragged collage edge
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      className="hidden flex-col justify-center gap-[clamp(8px,1vw,12px)] lg:flex"
+    >
+      <ul className="m-0 flex list-none items-end gap-[clamp(8px,1vw,12px)] p-0">
+        {[0, 1, 2, 3].map(renderSlot)}
+      </ul>
+      <ul className="m-0 flex list-none items-start gap-[clamp(8px,1vw,12px)] p-0">
+        {[4, 5, 6, 7].map(renderSlot)}
+      </ul>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Section                                                             */
 /* ------------------------------------------------------------------ */
 
 function FreightorDrones() {
@@ -438,6 +722,8 @@ function FreightorDrones() {
   const baseId = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const current = CATEGORIES[active];
+  const useCollage = current.drones.length >= 4;
+  const isDesktop = useIsDesktop();
 
   function select(index: number, focus = false) {
     const next = (index + CATEGORIES.length) % CATEGORIES.length;
@@ -456,42 +742,49 @@ function FreightorDrones() {
   }
 
   return (
-    <section className={PANEL} aria-label="Drones">
-      <div key={`head-${current.id}`} className="fd-swap">
-        <Heading title={current.title} lead={current.lead} tags={current.tags} />
-      </div>
+    <section
+      className="relative min-w-0 overflow-hidden bg-white pt-[length:var(--section-pad)] pb-[length:calc(var(--section-pad)*0.45)]"
+      aria-label="Drones"
+    >
+      <div className={INNER}>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--blue)]/[0.06] px-2.5 py-1 text-[10px] font-semibold text-[color:var(--blue)]/80">
+          <span className="size-1 rounded-full bg-[color:var(--blue)]" aria-hidden="true" />
+          Our drones
+        </span>
 
-      <div
-        role="tablist"
-        aria-label="Drone category"
-        onKeyDown={onKeyDown}
-        className="mt-[clamp(12px,1.6vw,18px)] inline-flex max-w-full rounded-full bg-[color:var(--blue)]/[0.06] p-1"
-      >
-        {CATEGORIES.map((cat, index) => {
-          const isActive = index === active;
-          return (
-            <button
-              key={cat.id}
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
-              id={`${baseId}-tab-${cat.id}`}
-              role="tab"
-              type="button"
-              aria-selected={isActive}
-              aria-controls={`${baseId}-panel`}
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => select(index)}
-              className={`min-w-[clamp(84px,18vw,170px)] cursor-pointer rounded-full border-0 px-3 py-2 text-[13px] sm:px-5 sm:text-[14px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] ${
-                isActive
-                  ? "bg-[color:var(--blue)] text-white shadow-[0_4px_12px_rgba(10,25,45,0.2)]"
-                  : "bg-transparent text-[color:var(--blue)]/70 hover:text-[color:var(--blue)]"
-              }`}
-            >
-              {cat.tab}
-            </button>
-          );
-        })}
+        <div
+          role="tablist"
+          aria-label="Drone category"
+          onKeyDown={onKeyDown}
+          className="inline-flex max-w-full rounded-full bg-[color:var(--blue)]/[0.06] p-1"
+        >
+          {CATEGORIES.map((cat, index) => {
+            const isActive = index === active;
+            return (
+              <button
+                key={cat.id}
+                ref={(el) => {
+                  tabRefs.current[index] = el;
+                }}
+                id={`${baseId}-tab-${cat.id}`}
+                role="tab"
+                type="button"
+                aria-selected={isActive}
+                aria-controls={`${baseId}-panel`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => select(index)}
+                className={`min-w-[clamp(84px,18vw,150px)] cursor-pointer rounded-full border-0 px-3 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] sm:px-5 sm:text-[14px] ${
+                  isActive
+                    ? "bg-[color:var(--blue)] text-white shadow-[0_4px_12px_rgba(10,25,45,0.2)]"
+                    : "bg-transparent text-[color:var(--blue)]/70 hover:text-[color:var(--blue)]"
+                }`}
+              >
+                {cat.tab}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div
@@ -499,17 +792,28 @@ function FreightorDrones() {
         id={`${baseId}-panel`}
         role="tabpanel"
         aria-labelledby={`${baseId}-tab-${current.id}`}
-        className="fd-swap"
+        className="fd-swap mt-[clamp(12px,1.6vw,20px)] grid gap-[clamp(8px,1vw,12px)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2.1fr)]"
       >
-        <ul
-          className={`m-0 mt-[clamp(10px,1.4vw,16px)] grid list-none gap-[clamp(8px,1vw,12px)] p-0 ${current.columns}`}
-        >
-          {current.drones.map((drone) => (
-            <DroneCard key={drone.id} drone={drone} />
-          ))}
-        </ul>
+        <IntroPanel category={current} />
 
-        <Cta label={current.cta.label} href={current.cta.href} />
+        {current.drones.length === 1 ? (
+          <FeatureCard drone={current.drones[0]} showImage={isDesktop} />
+        ) : (
+          /* Mobile / tablet (and categories with only a few drones): simple grid */
+          <ul
+            className={`m-0 grid list-none grid-cols-1 content-start gap-[clamp(8px,1vw,12px)] p-0 min-[500px]:grid-cols-2 ${
+              useCollage ? "lg:hidden" : "lg:grid-cols-3"
+            }`}
+          >
+            {current.drones.map((drone) => (
+              <DroneCard key={drone.id} drone={drone} level="lg" tone={0} />
+            ))}
+          </ul>
+        )}
+
+        {/* Desktop: collage */}
+        {useCollage && isDesktop && <Collage drones={current.drones} />}
+      </div>
       </div>
     </section>
   );
