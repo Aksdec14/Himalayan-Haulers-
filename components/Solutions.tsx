@@ -92,7 +92,7 @@ const PAGE_COUNT = Math.ceil(SOLUTIONS.length / PER_PAGE);
    Same type multipliers as WhatWeProvide, so the two sections set identical type
    at identical levels. */
 const SECTION =
-  "bg-white text-blue py-[length:var(--section-pad)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
+  "bg-white text-[color:var(--blue)] py-[length:var(--section-pad)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
 
 /* Left-anchored: --content-pad is --hero-left, so the heading shares the vertical
    line of the navbar logo and the hero headline. */
@@ -100,10 +100,10 @@ const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
 const HEADLINE =
-  "m-0 pt-10 text-[length:var(--fs-h1)] uppercase text-blue min-[1100px]:whitespace-nowrap";
+  "m-0 pt-10 text-[length:var(--fs-h1)] uppercase text-[color:var(--blue)] min-[1100px]:whitespace-nowrap";
 
 const SUBHEAD =
-  "mt-[length:var(--ry)] mb-0 max-w-[46ch] text-[length:var(--fs-lead)] leading-[1.45] text-blue/75 text-pretty";
+  "mt-[length:var(--ry)] mb-0 max-w-[46ch] text-[length:var(--fs-lead)] leading-[1.45] text-[color:var(--blue)]/75 text-pretty";
 
 /* ---- Accordion --------------------------------------------------------------
    One row of panels. The open panel takes 3 shares of the width and each closed
@@ -115,10 +115,10 @@ const ROW =
   "flex gap-[clamp(8px,1vw,16px)] mt-[length:var(--ry)] mb-0 mx-0 p-0 list-none h-[clamp(340px,29vw,440px)] max-[900px]:h-auto max-[900px]:flex-col";
 
 const PANEL_BASE =
-  "relative min-w-0 overflow-hidden rounded-[clamp(16px,1.6vw,24px)] outline-none transition-[flex-grow,background-color,color] duration-[600ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 max-[900px]:flex-none max-[900px]:bg-blue max-[900px]:text-white";
+  "relative min-w-0 overflow-hidden rounded-[clamp(16px,1.6vw,24px)] outline-none transition-[flex-grow,background-color,color] duration-[600ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--cyan)] focus-visible:ring-offset-2 max-[900px]:flex-none max-[900px]:bg-[color:var(--blue)] max-[900px]:text-white";
 
-const PANEL_OPEN = "flex-[3_1_0%] bg-blue text-white";
-const PANEL_CLOSED = "flex-[1_1_0%] bg-[#f4f7fa] text-blue cursor-pointer";
+const PANEL_OPEN = "flex-[3_1_0%] bg-[color:var(--blue)] text-white";
+const PANEL_CLOSED = "flex-[1_1_0%] bg-[#f4f7fa] text-[color:var(--blue)] cursor-pointer";
 
 /* Closed-panel label, set top-to-bottom down the panel's right edge as in the
    reference. It fades out first when a panel opens and in last when it closes, so
@@ -136,14 +136,14 @@ const CONTENT_CLOSED = "invisible opacity-0 delay-0";
 
 const TITLE_ROW = "flex items-start justify-between gap-4";
 
-const ITEM_TITLE = "m-0 text-[length:var(--fs-h3)] text-cyan";
+const ITEM_TITLE = "m-0 text-[length:var(--fs-h3)] text-[color:var(--cyan)]";
 
 const ITEM_BODY =
   "mt-[0.6em] mb-0 max-w-[40ch] text-[length:var(--fs-body)] leading-[1.4] text-white/80 text-pretty";
 
 /* The reference's square arrow button, linking to the enquiry form. */
 const ARROW =
-  "grid h-[clamp(36px,3vw,46px)] w-[clamp(36px,3vw,46px)] shrink-0 place-items-center rounded-md border border-white/70 text-white transition-colors hover:bg-white hover:text-blue focus-visible:bg-white focus-visible:text-blue";
+  "grid h-[clamp(36px,3vw,46px)] w-[clamp(36px,3vw,46px)] shrink-0 place-items-center rounded-md border border-white/70 text-white transition-colors hover:bg-white hover:text-[color:var(--blue)] focus-visible:bg-white focus-visible:text-[color:var(--blue)]";
 
 /* The picture fills the bottom half of the panel. It sits a touch zoomed while the
    panel is closed and settles to full size as it opens. */
@@ -158,9 +158,9 @@ const PAGER = "flex items-center gap-[clamp(12px,1.4vw,20px)] mt-[length:var(--r
    Disabled at either end rather than wrapping, so the arrows always say which way
    is left to go. */
 const PAGER_BTN =
-  "grid h-[clamp(40px,3.2vw,52px)] w-[clamp(40px,3.2vw,52px)] place-items-center rounded-md border border-blue/40 bg-transparent text-blue cursor-pointer transition-colors hover:bg-blue hover:text-white focus-visible:bg-blue focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:text-blue";
+  "grid h-[clamp(40px,3.2vw,52px)] w-[clamp(40px,3.2vw,52px)] place-items-center rounded-md border border-[color:var(--blue)]/40 bg-transparent text-[color:var(--blue)] cursor-pointer transition-colors hover:bg-[color:var(--blue)] hover:text-white focus-visible:bg-[color:var(--blue)] focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:text-[color:var(--blue)]";
 
-const PAGER_COUNT = "text-[length:var(--fs-small)] font-semibold tracking-[0.04em] text-blue/70";
+const PAGER_COUNT = "text-[length:var(--fs-small)] font-semibold tracking-[0.04em] text-[color:var(--blue)]/70";
 
 /**
  * "Solutions" — a row of image panels. Hover (or focus, or tap) one and it opens
@@ -186,7 +186,7 @@ export default function Solutions() {
   return (
     <section id="solutions" className={SECTION} aria-labelledby="solutions-title">
       <div className={INNER}>
-        <div className="animate-hh-fade">
+        <div className="[animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]">
           <h2 id="solutions-title" className={HEADLINE}>
             Built for the Hard-to-Reach
           </h2>
@@ -198,7 +198,7 @@ export default function Solutions() {
 
         <ul
           key={page}
-          className={`${ROW} animate-hh-fade [animation-delay:150ms]`}
+          className={`${ROW} [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:150ms]`}
         >
           {visible.map((item, index) => {
             const open = index === active;

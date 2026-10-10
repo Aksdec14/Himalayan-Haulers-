@@ -25,7 +25,7 @@ import Image from "next/image";
    either side. `block` because the element is now an <a>: an inline anchor
    wrapping a block image would leave a baseline gap underneath. */
 const CARD =
-  "group relative block animate-hh-fade overflow-hidden rounded-lg bg-white shadow-[0_12px_32px_rgba(10,25,45,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1cbbe3]";
+  "group relative block [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] overflow-hidden rounded-lg bg-white shadow-[0_12px_32px_rgba(10,25,45,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1cbbe3]";
 
 /* Block-level so the image takes the full card width without an inline-image
    baseline gap; h-auto keeps the 3.32:1 ratio at every width.

@@ -53,7 +53,7 @@ const TONE: Record<ButtonTone, string> = {
   onDark:
     "text-white/88 border-b-2 border-white/55 hover:text-white hover:border-white",
   onLight:
-    "text-cyan border-b-2 border-cyan hover:text-ink hover:border-ink",
+    "text-[color:var(--cyan)] border-b-2 border-[color:var(--cyan)] hover:text-[color:var(--ink)] hover:border-[color:var(--ink)]",
 };
 
 const SIZE: Record<ButtonSize, string> = {

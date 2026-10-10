@@ -61,22 +61,22 @@ const GRID =
    sizes every h1–h3 for the dark sections, which is why titles set as headings
    came out invisible on this white footer. A <p> is untouched by it. */
 const COL_TITLE =
-  "m-0 mb-[clamp(14px,1.4vw,20px)] text-[length:calc(var(--fs-small)*1.15)] font-bold tracking-[0.1em] uppercase text-blue";
+  "m-0 mb-[clamp(14px,1.4vw,20px)] text-[length:calc(var(--fs-small)*1.15)] font-bold tracking-[0.1em] uppercase text-[color:var(--blue)]";
 
 /* One list style for every column: tight leading (so a wrapped label stays one
    unit) and a fixed gap between items (so spacing never depends on wrapping). */
 const LIST = "m-0 p-0 list-none flex flex-col gap-[clamp(10px,1vw,14px)]";
 
 const LINK =
-  "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-blue/70 transition-colors hover:text-blue focus-visible:text-blue";
+  "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-[color:var(--blue)]/70 transition-colors hover:text-[color:var(--blue)] focus-visible:text-[color:var(--blue)]";
 
 /* shrink-0 is what keeps the icon visible: in a flex row a long email would
    otherwise squeeze the icon to zero width, which is why the mail icon vanished. */
 const CONTACT_ROW = "flex items-start gap-3";
-const ICON = "mt-[0.2em] shrink-0 text-blue";
+const ICON = "mt-[0.2em] shrink-0 text-[color:var(--blue)]";
 const CONTACT_TEXT =
-  "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-blue/70 break-words";
-const CONTACT_LINK = `${CONTACT_TEXT} transition-colors hover:text-blue`;
+  "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-[color:var(--blue)]/70 break-words";
+const CONTACT_LINK = `${CONTACT_TEXT} transition-colors hover:text-[color:var(--blue)]`;
 
 /**
  * Site footer: brand and contact details, four link columns, then a navy bar
@@ -86,7 +86,7 @@ const CONTACT_LINK = `${CONTACT_TEXT} transition-colors hover:text-blue`;
  */
 export default function Footer() {
   return (
-    <footer className="w-full bg-white text-blue">
+    <footer className="w-full bg-white text-[color:var(--blue)]">
       <div
         className={`${INNER} pt-[clamp(40px,5vw,80px)] pb-[clamp(32px,4vw,56px)]`}
       >
@@ -109,7 +109,7 @@ export default function Footer() {
               />
             </Link>
 
-            <p className="m-0 max-w-[28ch] text-[length:calc(var(--fs-small)*1.15)] leading-[1.45] text-blue/70">
+            <p className="m-0 max-w-[28ch] text-[length:calc(var(--fs-small)*1.15)] leading-[1.45] text-[color:var(--blue)]/70">
               Heavy-lift drones for India&rsquo;s toughest terrain.
             </p>
 
@@ -157,7 +157,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar: full-bleed navy, content on the same left line as above. */}
-      <div className="bg-blue">
+      <div className="bg-[color:var(--blue)]">
         <div
           className={`${INNER} flex flex-col gap-4 py-[clamp(16px,2vw,24px)] md:flex-row md:items-center md:justify-between`}
         >

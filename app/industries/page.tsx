@@ -28,7 +28,7 @@ export const metadata: Metadata = {
    ========================================================================== */
 
 const PAGE =
-  "text-ink [--gap:clamp(14px,1.6vw,24px)] [--gap-block:calc(var(--gap)*3)]";
+  "text-[color:var(--ink)] [--gap:clamp(14px,1.6vw,24px)] [--gap-block:calc(var(--gap)*3)]";
 
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
@@ -133,9 +133,9 @@ function Pill({
   tone: "solid" | "light" | "white" | "glass";
 }) {
   const tones = {
-    solid: "bg-blue text-white hover:bg-cyan hover:text-ink",
-    light: "bg-[#d5dfe9] text-blue hover:bg-[#c2d1e0]",
-    white: "bg-white text-blue hover:bg-cyan hover:text-ink",
+    solid: "bg-[color:var(--blue)] text-white hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)]",
+    light: "bg-[#d5dfe9] text-[color:var(--blue)] hover:bg-[#c2d1e0]",
+    white: "bg-white text-[color:var(--blue)] hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)]",
     glass: "bg-white/25 text-white hover:bg-white/35",
   } as const;
   return (
@@ -154,7 +154,7 @@ function MosaicTile({ tile }: { tile: Tile }) {
 
   return (
     <li
-      className={`group relative aspect-square overflow-hidden bg-ink min-[860px]:aspect-auto ${
+      className={`group relative aspect-square overflow-hidden bg-[color:var(--ink)] min-[860px]:aspect-auto ${
         isFiller ? "max-[859px]:hidden" : ""
       } ${tile.place}`}
     >
@@ -167,7 +167,7 @@ function MosaicTile({ tile }: { tile: Tile }) {
       />
       <span
         aria-hidden="true"
-        className="absolute inset-0 bg-blue/35 transition-opacity duration-500 group-hover:opacity-60"
+        className="absolute inset-0 bg-[color:var(--blue)]/35 transition-opacity duration-500 group-hover:opacity-60"
       />
 
       {tile.name && tile.icon ? (
@@ -195,9 +195,9 @@ function MosaicTile({ tile }: { tile: Tile }) {
 const WRAP = "mx-auto w-full max-w-[1400px]";
 const H2 = "m-0 text-[length:var(--fs-h2)] uppercase";
 const BODY =
-  "m-0 text-[length:var(--fs-body)] leading-[1.5] text-ink/80 text-pretty";
+  "m-0 text-[length:var(--fs-body)] leading-[1.5] text-[color:var(--ink)]/80 text-pretty";
 const LABEL =
-  "m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-blue/70";
+  "m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-[color:var(--blue)]/70";
 
 /* Matches the five cards on /solutions (#capability-01 ... 05). */
 const CAPS = ["Logistics", "Tower Stringing", "Inspection", "NDT", "Sensing"];
@@ -284,10 +284,10 @@ type Detail = (typeof DETAIL)[number];
 
 function DetailCard({ item, index }: { item: Detail; index: number }) {
   return (
-    <article className="group flex flex-col border border-blue/10 bg-white shadow-[0_18px_40px_-24px_rgba(10,25,45,0.28)] transition-shadow duration-300 hover:shadow-[0_24px_48px_-20px_rgba(10,25,45,0.38)]">
+    <article className="group flex flex-col border border-[color:var(--blue)]/10 bg-white shadow-[0_18px_40px_-24px_rgba(10,25,45,0.28)] transition-shadow duration-300 hover:shadow-[0_24px_48px_-20px_rgba(10,25,45,0.38)]">
       <span
         aria-hidden="true"
-        className="block h-[3px] w-full bg-blue transition-colors duration-300 group-hover:bg-cyan"
+        className="block h-[3px] w-full bg-[color:var(--blue)] transition-colors duration-300 group-hover:bg-[color:var(--cyan)]"
       />
 
       <div className="flex flex-1 flex-col p-[clamp(18px,1.8vw,26px)]">
@@ -301,7 +301,7 @@ function DetailCard({ item, index }: { item: Detail; index: number }) {
         <p className={`${LABEL} mt-[length:var(--gap)]`}>Scope</p>
         <p className={`${BODY} mt-[0.3em]`}>{item.work}</p>
 
-        <div className="mt-[length:var(--gap)] border-t border-blue/10 pt-[length:var(--gap)]">
+        <div className="mt-[length:var(--gap)] border-t border-[color:var(--blue)]/10 pt-[length:var(--gap)]">
           <p className={LABEL}>Hazard removed</p>
           <p className={`${BODY} mt-[0.3em]`}>{item.hazard}</p>
         </div>
@@ -311,7 +311,7 @@ function DetailCard({ item, index }: { item: Detail; index: number }) {
             <a
               key={n}
               href={`/solutions#capability-${n}`}
-              className="rounded-full bg-[#f0f2f5] px-[1em] py-[0.4em] text-[length:var(--fs-small)] text-blue no-underline transition-colors duration-300 hover:bg-blue hover:text-white"
+              className="rounded-full bg-[#f0f2f5] px-[1em] py-[0.4em] text-[length:var(--fs-small)] text-[color:var(--blue)] no-underline transition-colors duration-300 hover:bg-[color:var(--blue)] hover:text-white"
             >
               {CAPS[Number(n) - 1]}
             </a>
@@ -388,20 +388,20 @@ export default function IndustriesPage() {
               <div className="flex flex-col gap-[length:var(--gap)]">
                 <span
                   aria-hidden="true"
-                  className="block h-[2px] w-[clamp(80px,10vw,140px)] bg-blue"
+                  className="block h-[2px] w-[clamp(80px,10vw,140px)] bg-[color:var(--blue)]"
                 />
                 <h1 className="m-0 text-[length:var(--fs-h2)] uppercase">
                   Industries We Serve
                 </h1>
-                <p className="m-0 max-w-[34ch] text-[length:var(--fs-lead)] leading-[1.38] text-ink/88 text-pretty">
+                <p className="m-0 max-w-[34ch] text-[length:var(--fs-lead)] leading-[1.38] text-[color:var(--ink)]/88 text-pretty">
                   These are the areas that we cover.
                 </p>
-                <p className="m-0 max-w-[44ch] text-[length:var(--fs-body)] leading-[1.5] text-ink/80 text-pretty">
+                <p className="m-0 max-w-[44ch] text-[length:var(--fs-body)] leading-[1.5] text-[color:var(--ink)]/80 text-pretty">
                   Specialized aerial robotics for the places where work is
                   hardest and riskiest, minimizing human exposure to hazards
                   while maximizing efficiency and data accuracy.
                 </p>
-                <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-blue">
+                <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-[color:var(--blue)]">
                   {CONDITIONS.join(" Â· ")}
                 </p>
               </div>
@@ -442,10 +442,10 @@ export default function IndustriesPage() {
               <div className="flex flex-col gap-[length:var(--gap)]">
                 <span
                   aria-hidden="true"
-                  className="block h-[2px] w-[clamp(80px,10vw,140px)] bg-blue"
+                  className="block h-[2px] w-[clamp(80px,10vw,140px)] bg-[color:var(--blue)]"
                 />
                 <h2 className={H2}>What We Do In Each Industry</h2>
-                <p className="m-0 max-w-[30ch] text-[length:var(--fs-lead)] leading-[1.38] text-ink/88 text-pretty">
+                <p className="m-0 max-w-[30ch] text-[length:var(--fs-lead)] leading-[1.38] text-[color:var(--ink)]/88 text-pretty">
                   Nine industries, one aim: keep people out of harm&rsquo;s way.
                 </p>
                 <p className={`${BODY} max-w-[44ch]`}>
@@ -477,7 +477,7 @@ export default function IndustriesPage() {
 
             <ol className="m-0 mt-[length:var(--gap-block)] grid list-none gap-[length:var(--gap-block)] p-0 min-[640px]:grid-cols-2 min-[960px]:grid-cols-4">
               {STEPS.map((step, i) => (
-                <li key={step.title} className="border-t-2 border-blue pt-[length:var(--gap)]">
+                <li key={step.title} className="border-t-2 border-[color:var(--blue)] pt-[length:var(--gap)]">
                   <p className={LABEL}>Step 0{i + 1}</p>
                   <h3 className="m-0 mt-[0.4em] text-[length:var(--fs-h3)]">
                     {step.title}
@@ -491,7 +491,7 @@ export default function IndustriesPage() {
       </section>
 
       {/* ---- Closing call to action --------------------------------------- */}
-      <section className="overflow-x-clip bg-blue py-[calc(var(--section-pad)*0.8)] text-white">
+      <section className="overflow-x-clip bg-[color:var(--blue)] py-[calc(var(--section-pad)*0.8)] text-white">
         <div className={INNER}>
           <div className={`${WRAP} flex flex-col gap-[length:var(--gap-block)] min-[860px]:flex-row min-[860px]:items-end min-[860px]:justify-between`}>
             <div className="flex max-w-[40ch] flex-col gap-[length:var(--gap)]">

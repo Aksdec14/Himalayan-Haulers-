@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 const ENQUIRY_ACTION = "/api/enquiry";
 
 const CONTACT = {
-  phone: "+91 78998 01210",
-  email: "arjun@himalayanhaulers.com",
-  location: "HQ: Bangalore \u00b7 Manufacturing: Tirupati",
+  phone: "+91 91487 67910",
+  email: "sales@himalayanhaulers.com",
+  location: "Bangalore, Tirupati, Leh, Noida",
 };
 
 /* The photo that sits between the copy and the form: a drone above power
@@ -48,33 +48,37 @@ const INDUSTRY_OPTIONS = ["Power", "Energy", "Defence", "Construction", "Other"]
    --fs-* names, because a custom property that reads itself is a cycle and the
    browser discards it. */
 const PAGE =
-  "bg-white text-ink [--c-small:calc(var(--fs-small)*1.1)] [--c-body:calc(var(--fs-body)*1.08)] [--c-lead:calc(var(--fs-lead)*1.0)] [--c-h3:calc(var(--fs-h3)*1.1)]";
+  "bg-white text-[color:var(--ink)] [--c-small:calc(var(--fs-small)*1.1)] [--c-body:calc(var(--fs-body)*1.08)] [--c-lead:calc(var(--fs-lead)*1.0)] [--c-h3:calc(var(--fs-h3)*1.1)]";
 
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))] max-[640px]:pl-5 max-[640px]:pr-5";
 
 /* ---- Hero --------------------------------------------------------------------
    Three zones on desktop: copy (left), photo (middle, behind everything),
-   glass form (right). The top padding clears the fixed navbar. */
+   glass form (right). The top padding clears the fixed navbar; the vertical
+   padding is generous so the block fills the viewport rather than sitting in a
+   shallow band at the top of it. */
 const HERO =
-  "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 pt-[calc(var(--nav-h)+clamp(8px,1.2vw,18px))] pb-[clamp(16px,2vw,28px)]";
+  "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 pt-[calc(var(--nav-h)+clamp(28px,4vw,64px))] pb-[clamp(48px,7vw,112px)]";
 
 const EYEBROW =
-  "m-0 flex items-center gap-4 text-[length:var(--c-small)] font-medium uppercase tracking-[0.3em] text-ink/50";
+  "m-0 flex items-center gap-4 text-[length:var(--c-small)] font-medium uppercase tracking-[0.3em] text-[color:var(--ink)]/50";
 
 const HERO_TITLE =
-  "m-0 text-balance text-[length:calc(var(--fs-h1)*0.78)] font-extrabold uppercase leading-[1] tracking-tight text-ink";
+  "m-0 text-balance text-[length:calc(var(--fs-h1)*0.78)] font-extrabold uppercase leading-[1] tracking-tight text-[color:var(--ink)]";
 
 const HERO_LEAD =
-  "m-0 max-w-[40ch] text-[length:var(--c-lead)] leading-[1.4] text-ink/80 text-pretty";
+  "m-0 max-w-[40ch] text-[length:var(--c-lead)] leading-[1.4] text-[color:var(--ink)]/80 text-pretty";
 
-/* Glass recipe: a translucent white gradient, a bright 1px edge, a top-edge
-   highlight and a blur of whatever sits behind it. */
+/* Opaque white card, not glass: the form has to read as solid white behind
+   every label and field, so there is no translucency and no backdrop blur for
+   the photo to bleed through. The hairline border is what separates the card
+   from the page's own near-white backdrop — a white border would vanish. */
 const GLASS =
-  "border border-white/80 bg-gradient-to-br from-white/85 via-white/65 to-white/45 backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(120,170,230,0.25),0_30px_60px_-28px_rgba(20,70,140,0.35)]";
+  "border border-[color:var(--blue)]/10 bg-white shadow-[0_30px_60px_-28px_rgba(20,70,140,0.35)]";
 
 const FORM_TITLE =
-  "m-0 text-[length:calc(var(--c-h3)*1.15)] font-extrabold leading-tight text-ink";
+  "m-0 text-[length:calc(var(--c-h3)*1.15)] font-extrabold leading-tight text-[color:var(--ink)]";
 
 const FORM =
   "mt-[clamp(8px,1vw,14px)] grid grid-cols-2 gap-x-[clamp(12px,1.4vw,20px)] gap-y-[clamp(8px,0.9vw,12px)] max-[560px]:grid-cols-1";
@@ -83,30 +87,35 @@ const FIELD = "flex min-w-0 flex-col gap-[0.3em]";
 const FULL = "col-span-2 max-[560px]:col-span-1";
 
 const LABEL =
-  "text-[length:var(--c-small)] font-semibold normal-case tracking-normal text-ink";
+  "text-[length:var(--c-small)] font-semibold normal-case tracking-normal text-[color:var(--ink)]";
 
-/* Boxed glass fields. 16px at phone width stops iOS zooming on focus. */
+/* Boxed fields on solid white — the card behind them is already white, so a
+   translucent fill would only tint the labels sitting on top of it.
+   16px at phone width stops iOS zooming on focus. */
 const CONTROL =
-  "w-full min-w-0 rounded-lg border border-blue/15 bg-white/60 px-3.5 py-[0.45em] text-[length:var(--c-small)] text-ink outline-none transition-colors placeholder:text-ink/40 focus:border-cyan focus-visible:border-cyan focus-visible:shadow-[0_0_0_1px_var(--color-cyan)] max-[560px]:text-[16px]";
+  "w-full min-w-0 rounded-lg border border-[color:var(--blue)]/15 bg-white px-3.5 py-[0.45em] text-[length:var(--c-small)] text-[color:var(--ink)] outline-none transition-colors placeholder:text-[color:var(--ink)]/40 focus:border-[color:var(--cyan)] focus-visible:border-[color:var(--cyan)] focus-visible:shadow-[0_0_0_1px_var(--cyan)] max-[560px]:text-[16px]";
 
 const SELECT = `${CONTROL} appearance-none cursor-pointer pr-10 bg-[length:0.7em] bg-[position:right_1em_center] bg-no-repeat bg-[url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%206'%3E%3Cpath%20d='M1%201l4%204%204-4'%20fill='none'%20stroke='%2313294b'%20stroke-width='1.5'/%3E%3C/svg%3E")]`;
 
 const TEXTAREA = `${CONTROL} min-h-[3.4em] resize-y leading-[1.35]`;
 
+/* White label on the cyan->blue gradient: the dark end of the ramp swallowed
+   the ink-coloured text, so contrast dropped exactly where the button was
+   deepest. */
 const SUBMIT =
-  "inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-cyan to-blue px-7 py-[0.6em] text-[length:var(--c-small)] font-bold uppercase tracking-[0.06em] text-ink shadow-[0_10px_24px_-10px_rgba(20,100,200,0.6)] cursor-pointer transition-[filter,transform] duration-200 hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue max-[560px]:w-full";
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-[color:var(--cyan)] to-[color:var(--blue)] px-7 py-[0.6em] text-[length:var(--c-small)] font-bold uppercase tracking-[0.06em] text-white shadow-[0_10px_24px_-10px_rgba(20,100,200,0.6)] cursor-pointer transition-[filter,transform] duration-200 hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--blue)] max-[560px]:w-full";
 
-const SMALL_PRINT = "m-0 text-[length:calc(var(--c-small)*0.9)] text-ink/60";
+const SMALL_PRINT = "m-0 text-[length:calc(var(--c-small)*0.9)] text-[color:var(--ink)]/60";
 
 const ROW_ICON =
-  "grid size-[clamp(38px,2.8vw,44px)] shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-blue/10 text-blue shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)]";
+  "grid size-[clamp(38px,2.8vw,44px)] shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-[color:var(--blue)]/10 text-[color:var(--blue)] shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)]";
 
 /* The text side of a contact row. Rows 1 and 2 carry the divider under them. */
 const ROW_BODY = "flex min-w-0 flex-1 items-center py-1.5";
-const ROW_DIVIDER = "border-b border-ink/15";
+const ROW_DIVIDER = "border-b border-[color:var(--ink)]/15";
 
 const ROW_TEXT =
-  "text-[length:var(--c-lead)] text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-cyan focus-visible:decoration-cyan break-words";
+  "text-[length:var(--c-lead)] text-[color:var(--ink)] underline decoration-[color:var(--ink)]/20 underline-offset-4 transition-colors hover:decoration-[color:var(--cyan)] focus-visible:decoration-[color:var(--cyan)] break-words";
 
 /**
  * Contact page: a hero with copy and contact details left, a faded photo in the
@@ -139,13 +148,13 @@ export default function ContactPage() {
           className={`${INNER} grid items-center gap-[clamp(20px,3vw,36px)] min-[1100px]:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] min-[1100px]:gap-[clamp(32px,5vw,96px)]`}
         >
           {/* Left: copy + contact rows */}
-          <div className="flex animate-hh-fade flex-col gap-[clamp(8px,1vw,14px)]">
+          <div className="flex [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] flex-col gap-[clamp(8px,1vw,14px)]">
             <p className={EYEBROW}>
               <span
                 aria-hidden="true"
-                className="block h-[2px] w-14 shrink-0 bg-cyan"
+                className="block h-[2px] w-14 shrink-0 bg-[color:var(--cyan)]"
               />
-              Let&rsquo;s Connect
+              Contact Us
             </p>
 
             <h1 id="contact-title" className={HERO_TITLE}>
@@ -153,7 +162,7 @@ export default function ContactPage() {
               <br />
               Something
               <br />
-              <span className="text-cyan">Impossible</span>
+              <span className="text-[color:var(--cyan)]">Impossible</span>
             </h1>
 
             <p className={HERO_LEAD}>
@@ -193,7 +202,7 @@ export default function ContactPage() {
                   <MapPin size={18} strokeWidth={1.8} aria-hidden="true" />
                 </span>
                 <div className={ROW_BODY}>
-                  <span className="text-[length:var(--c-lead)] text-ink">
+                  <span className="text-[length:var(--c-lead)] text-[color:var(--ink)]">
                     {CONTACT.location}
                   </span>
                 </div>
@@ -201,19 +210,20 @@ export default function ContactPage() {
             </address>
           </div>
 
-          {/* Right: glass enquiry card with two stacked plates peeking out
-              behind it at the top and left */}
+          {/* Right: white enquiry card, with two translucent glass plates peeking
+              out behind it at the top and left. Only the front card is opaque —
+              the plates stay translucent so the photo reads through them. */}
           <div
             id="enquiry"
-            className="relative isolate animate-hh-fade [animation-delay:150ms]"
+            className="relative isolate [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:150ms]"
           >
             <span
               aria-hidden="true"
-              className="absolute -z-20 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/60 to-blue/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[3%] -top-[4%] right-[17%] bottom-[8%]"
+              className="absolute -z-20 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/60 to-[color:var(--blue)]/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[3%] -top-[4%] right-[17%] bottom-[8%]"
             />
             <span
               aria-hidden="true"
-              className="absolute -z-10 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/70 to-blue/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[6%] -top-[1.5%] right-[17%] bottom-[5%]"
+              className="absolute -z-10 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/70 to-[color:var(--blue)]/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[6%] -top-[1.5%] right-[17%] bottom-[5%]"
             />
 
             <div
@@ -222,9 +232,9 @@ export default function ContactPage() {
               <h2 className={FORM_TITLE}>Send us your enquiry</h2>
               <span
                 aria-hidden="true"
-                className="mt-1.5 block h-[3px] w-[clamp(32px,2.6vw,44px)] rounded-full bg-cyan"
+                className="mt-1.5 block h-[3px] w-[clamp(32px,2.6vw,44px)] rounded-full bg-[color:var(--cyan)]"
               />
-              <p className="m-0 mt-1.5 max-w-[48ch] text-[length:var(--c-small)] leading-[1.35] text-ink/75 text-pretty">
+              <p className="m-0 mt-1.5 max-w-[48ch] text-[length:var(--c-small)] leading-[1.35] text-[color:var(--ink)]/75 text-pretty">
                 Share your requirements and our team will reach out with the
                 right solution.
               </p>

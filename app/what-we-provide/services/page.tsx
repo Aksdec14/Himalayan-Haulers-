@@ -36,7 +36,7 @@ const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
 const BAND_PAD = "py-[calc(var(--section-pad)*0.7)]";
 
 const GREY = "bg-[#d9d9d9]";
-const MAIN = "bg-white text-ink animate-hh-fade";
+const MAIN = "bg-white text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]";
 
 function Band({
   children,
@@ -64,8 +64,8 @@ const H2 =
   "m-0 text-[length:var(--fs-h2)] font-semibold leading-[1.15] tracking-[-0.01em] text-balance";
 const LABEL = "m-0 text-[length:var(--fs-body)] font-semibold";
 const LEAD =
-  "m-0 mt-[clamp(8px,1vw,14px)] max-w-[56ch] text-[length:var(--fs-lead)] leading-[1.4] text-ink/60 text-pretty";
-const BODY = "m-0 text-[length:var(--fs-small)] leading-[1.55] text-ink/70 text-pretty";
+  "m-0 mt-[clamp(8px,1vw,14px)] max-w-[56ch] text-[length:var(--fs-lead)] leading-[1.4] text-[color:var(--ink)]/60 text-pretty";
+const BODY = "m-0 text-[length:var(--fs-small)] leading-[1.55] text-[color:var(--ink)]/70 text-pretty";
 const NOTE = "m-0 mt-[0.8em] text-[length:var(--fs-small)] opacity-60";
 
 /* ---- Pieces ---------------------------------------------------------------- */
@@ -84,10 +84,10 @@ function PillLink({
   const base =
     "inline-flex items-center justify-center rounded-[2px] px-[1.4em] py-[0.8em] text-[length:var(--fs-small)] font-semibold no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
   const looks: Record<LinkVariant, string> = {
-    solid: "bg-ink text-white hover:bg-ink/80",
-    outline: "border border-ink text-ink hover:bg-ink hover:text-white",
-    white: "bg-white text-ink hover:bg-white/85",
-    outlineWhite: "border border-white text-white hover:bg-white hover:text-ink",
+    solid: "bg-[color:var(--ink)] text-white hover:bg-[color:var(--ink)]/80",
+    outline: "border border-[color:var(--ink)] text-[color:var(--ink)] hover:bg-[color:var(--ink)] hover:text-white",
+    white: "bg-white text-[color:var(--ink)] hover:bg-white/85",
+    outlineWhite: "border border-white text-white hover:bg-white hover:text-[color:var(--ink)]",
   };
   return (
     <a href={href} className={`${base} ${looks[variant]}`}>
@@ -172,7 +172,7 @@ function Bullets({ children }: { children: ReactNode }) {
 
 function Bullet({ children }: { children: ReactNode }) {
   return (
-    <li className="relative pl-[1.1em] text-[length:var(--fs-small)] leading-[1.5] text-ink/70 before:absolute before:left-0 before:top-[0.6em] before:size-[5px] before:rounded-full before:bg-ink before:content-['']">
+    <li className="relative pl-[1.1em] text-[length:var(--fs-small)] leading-[1.5] text-[color:var(--ink)]/70 before:absolute before:left-0 before:top-[0.6em] before:size-[5px] before:rounded-full before:bg-[color:var(--ink)] before:content-['']">
       {children}
     </li>
   );
@@ -185,7 +185,7 @@ function Rows({ items }: { items: { title: string; body: string }[] }) {
       {items.map((item) => (
         <li
           key={item.title}
-          className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-[0.2em] border-t border-ink/15 py-[clamp(10px,1.2vw,14px)]"
+          className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-[0.2em] border-t border-[color:var(--ink)]/15 py-[clamp(10px,1.2vw,14px)]"
         >
           <span className="text-[length:var(--fs-small)] font-semibold">{item.title}</span>
           <span className={`${BODY} max-w-[40ch] min-[560px]:text-right`}>{item.body}</span>
@@ -263,7 +263,7 @@ export default function ServicesPage() {
   return (
     <main className={MAIN}>
       {/* ---- 1. Hero banner: photo, text and buttons over it ---------------- */}
-      <section className="relative isolate overflow-hidden bg-ink text-white">
+      <section className="relative isolate overflow-hidden bg-[color:var(--ink)] text-white">
         <Photo
           src="/media/power.jpg"
           alt="Drone stringing a pilot line between power towers"
@@ -316,14 +316,14 @@ export default function ServicesPage() {
       {/* ---- 3. LDaaS ------------------------------------------------------- */}
       <Split
         id="ldaas"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/Logistics.jpeg",
           alt: "Heavy-lift drone carrying a payload to a remote site",
           position: "center top",
         }}
       >
-        <p className={`${LABEL} text-ink/50`}>Service 01</p>
+        <p className={`${LABEL} text-[color:var(--ink)]/50`}>Service 01</p>
         <h2 className={`${H2} mt-[0.3em]`}>Logistics Drone as a Service (LDaaS)</h2>
         <Sub>Last-mile delivery where there is no road</Sub>
         <p className={`${BODY} mt-[0.6em] max-w-[60ch]`}>
@@ -345,7 +345,7 @@ export default function ServicesPage() {
           {COMMERCIAL_MODELS.map((model) => (
             <li
               key={model}
-              className="border border-ink/30 px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold"
+              className="border border-[color:var(--ink)]/30 px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold"
             >
               {model}
             </li>
@@ -353,7 +353,7 @@ export default function ServicesPage() {
         </ul>
 
         <p className={`${BODY} mt-[clamp(12px,1.4vw,18px)]`}>
-          <strong className="text-ink">Drone options:</strong> HH Freightor
+          <strong className="text-[color:var(--ink)]">Drone options:</strong> HH Freightor
           C100, C200 and C300 (see the LDaaS deck).
         </p>
         <p className={NOTE}>
@@ -369,7 +369,7 @@ export default function ServicesPage() {
             <li key={step} className="flex items-start gap-[0.8em]">
               <span
                 aria-hidden="true"
-                className="grid size-6 shrink-0 place-items-center rounded-full border border-ink/30 text-[length:var(--fs-small)] font-semibold"
+                className="grid size-6 shrink-0 place-items-center rounded-full border border-[color:var(--ink)]/30 text-[length:var(--fs-small)] font-semibold"
               >
                 {index + 1}
               </span>
@@ -386,13 +386,13 @@ export default function ServicesPage() {
       {/* ---- 4. Drone inspections ------------------------------------------- */}
       <Split
         id="inspections"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/Inspection.jpeg",
           alt: "Drone inspecting an industrial structure",
         }}
       >
-        <p className={`${LABEL} text-ink/50`}>Service 02</p>
+        <p className={`${LABEL} text-[color:var(--ink)]/50`}>Service 02</p>
         <h2 className={`${H2} mt-[0.3em]`}>Drone Inspections</h2>
         <Sub>Inspect without sending people in or up</Sub>
         <p className={`${BODY} mt-[0.6em] max-w-[60ch]`}>
@@ -401,22 +401,22 @@ export default function ServicesPage() {
         </p>
         <Bullets>
           <Bullet>
-            <strong className="text-ink">Confined space inspection:</strong>{" "}
+            <strong className="text-[color:var(--ink)]">Confined space inspection:</strong>{" "}
             collision-tolerant drones fly inside tanks, boilers and ducts, so
             nobody has to enter.
           </Bullet>
           <Bullet>
-            <strong className="text-ink">External visual and thermal inspection:</strong>{" "}
+            <strong className="text-[color:var(--ink)]">External visual and thermal inspection:</strong>{" "}
             stacks, flare tips, pipelines, tanks and structures, from the air.
           </Bullet>
           <Bullet>
-            <strong className="text-ink">Ultrasonic thickness and coating measurement:</strong>{" "}
+            <strong className="text-[color:var(--ink)]">Ultrasonic thickness and coating measurement:</strong>{" "}
             contact-based drone measurements (UT, EMAT, high-temperature UT,
             DFT) on structures at height.
           </Bullet>
         </Bullets>
         <p className={`${BODY} mt-[clamp(12px,1.4vw,18px)]`}>
-          <strong className="text-ink">Good for:</strong> refineries, pipelines,
+          <strong className="text-[color:var(--ink)]">Good for:</strong> refineries, pipelines,
           power plants, industrial facilities.
         </p>
         <div className="mt-[clamp(18px,2.2vw,28px)]">
@@ -427,26 +427,26 @@ export default function ServicesPage() {
       {/* ---- 5. Industrial sensor surveys ----------------------------------- */}
       <Split
         id="surveys"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/energy.jpg",
           alt: "Drone inspecting a refinery stack",
         }}
       >
-        <p className={`${LABEL} text-ink/50`}>Service 03</p>
+        <p className={`${LABEL} text-[color:var(--ink)]/50`}>Service 03</p>
         <h2 className={`${H2} mt-[0.3em]`}>Industrial Sensor Surveys</h2>
         <Sub>Data from the air, ready to act on</Sub>
         <Bullets>
           <Bullet>
-            <strong className="text-ink">Bathymetry:</strong> water depth and
+            <strong className="text-[color:var(--ink)]">Bathymetry:</strong> water depth and
             bed profile for dams, reservoirs and rivers.
           </Bullet>
           <Bullet>
-            <strong className="text-ink">Ground-penetrating radar (GPR):</strong>{" "}
+            <strong className="text-[color:var(--ink)]">Ground-penetrating radar (GPR):</strong>{" "}
             detect utilities and subsurface features before you dig or build.
           </Bullet>
           <Bullet>
-            <strong className="text-ink">Methane detection:</strong> screen
+            <strong className="text-[color:var(--ink)]">Methane detection:</strong> screen
             pipelines, gas facilities and landfills for leaks.
           </Bullet>
         </Bullets>
@@ -458,13 +458,13 @@ export default function ServicesPage() {
       {/* ---- 6. Tower stringing --------------------------------------------- */}
       <Split
         id="stringing"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/Tower-stringing.jpeg",
           alt: "Drone laying a pilot line across a transmission tower",
         }}
       >
-        <p className={`${LABEL} text-ink/50`}>Service 04</p>
+        <p className={`${LABEL} text-[color:var(--ink)]/50`}>Service 04</p>
         <h2 className={`${H2} mt-[0.3em]`}>Drone-Based Tower Stringing</h2>
         <Sub>Pilot lines across towers, without the climb</Sub>
         <p className={`${BODY} mt-[0.6em] max-w-[60ch]`}>
@@ -474,16 +474,16 @@ export default function ServicesPage() {
         </p>
         <Bullets>
           <Bullet>
-            <strong className="text-ink">We provide:</strong> drone, batteries
+            <strong className="text-[color:var(--ink)]">We provide:</strong> drone, batteries
             and crew.
           </Bullet>
           <Bullet>
-            <strong className="text-ink">You provide:</strong> lines, winches
+            <strong className="text-[color:var(--ink)]">You provide:</strong> lines, winches
             and installation team.
           </Bullet>
         </Bullets>
         <p className={`${BODY} mt-[clamp(12px,1.4vw,18px)]`}>
-          <strong className="text-ink">Benefits:</strong> faster crossings,
+          <strong className="text-[color:var(--ink)]">Benefits:</strong> faster crossings,
           fewer climbs and ground crossings, safer crews, less disturbance to
           terrain and crops.
         </p>
@@ -494,7 +494,7 @@ export default function ServicesPage() {
 
       {/* ---- 7. Who we serve ------------------------------------------------ */}
       <Split
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/construction.jpg",
           alt: "Drone surveying a construction site",
@@ -509,12 +509,12 @@ export default function ServicesPage() {
       </Split>
 
       {/* ---- 8. FAQs: heading left, questions right ------------------------- */}
-      <Band className="border-t border-ink/15">
+      <Band className="border-t border-[color:var(--ink)]/15">
         <div className="grid gap-[clamp(16px,3vw,48px)] min-[860px]:grid-cols-2">
           <h2 className={H2}>FAQs</h2>
           <div>
             {FAQS.map((faq) => (
-              <details key={faq.q} className="group border-b border-ink/25 first:border-t">
+              <details key={faq.q} className="group border-b border-[color:var(--ink)]/25 first:border-t">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-[clamp(12px,1.4vw,18px)] text-[length:var(--fs-small)] font-semibold [&::-webkit-details-marker]:hidden">
                   {faq.q}
                   <Plus
@@ -540,7 +540,7 @@ export default function ServicesPage() {
       </Band>
 
       {/* ---- 9. Closing banner: photo background, text and button over it --- */}
-      <section className="relative isolate overflow-hidden bg-ink text-white">
+      <section className="relative isolate overflow-hidden bg-[color:var(--ink)] text-white">
         <Photo
           src="/media/defence.jpg"
           alt="Heavy-lift drone delivering supplies at altitude"

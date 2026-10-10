@@ -36,19 +36,19 @@ const HERO_IMAGE = {
 /* Sizes are declared as separate -xl properties so no custom property reads
    itself (a self-referencing property is a cycle and silently falls back). */
 const SECTION =
-  "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 text-ink animate-hh-fade [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
+  "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
 
 const EYEBROW =
-  "m-0 flex items-center gap-4 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.2em] text-ink";
+  "m-0 flex items-center gap-4 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.2em] text-[color:var(--ink)]";
 
 const TITLE =
-  "m-0 text-balance text-[length:calc(var(--fs-h1)*0.85)] font-extrabold uppercase leading-[1] tracking-tight text-ink";
+  "m-0 text-balance text-[length:calc(var(--fs-h1)*0.85)] font-extrabold uppercase leading-[1] tracking-tight text-[color:var(--ink)]";
 
 const LEAD =
-  "m-0 max-w-[46ch] text-[length:var(--fs-small-xl)] leading-[1.55] text-ink/70 text-pretty";
+  "m-0 max-w-[46ch] text-[length:var(--fs-small-xl)] leading-[1.55] text-[color:var(--ink)]/70 text-pretty";
 
 const LINK =
-  "inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-cyan pb-2 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.12em] text-cyan no-underline transition-colors duration-300 hover:text-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan";
+  "inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-[color:var(--cyan)] pb-2 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.12em] text-[color:var(--cyan)] no-underline transition-colors duration-300 hover:text-[color:var(--blue)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
 
 /**
  * "What We Provide": copy, two links and three features on the left, one
@@ -93,7 +93,7 @@ export default function WhatWeProvide() {
         </svg>
         <span
           aria-hidden="true"
-          className="absolute left-[2%] top-[14%] hidden h-[4px] w-14 bg-cyan min-[1100px]:block"
+          className="absolute left-[2%] top-[14%] hidden h-[4px] w-14 bg-[color:var(--cyan)] min-[1100px]:block"
         />
       </div>
 
@@ -103,14 +103,14 @@ export default function WhatWeProvide() {
           Drones · DAAS · Solutions
           <span
             aria-hidden="true"
-            className="block h-px w-20 shrink-0 bg-ink/30"
+            className="block h-px w-20 shrink-0 bg-[color:var(--ink)]/30"
           />
         </p>
 
         <h2 id="provide-title" className={TITLE}>
           What We
           {" "}
-          <span className="text-cyan">Deliver</span>
+          <span className="text-[color:var(--cyan)]">Deliver</span>
         </h2>
 
         <p className={LEAD}>
@@ -135,7 +135,7 @@ export default function WhatWeProvide() {
                 key={f.title}
                 className={`flex gap-4 ${
                   i > 0
-                    ? "min-[640px]:border-l min-[640px]:border-ink/15 min-[640px]:pl-[clamp(16px,2vw,32px)]"
+                    ? "min-[640px]:border-l min-[640px]:border-[color:var(--ink)]/15 min-[640px]:pl-[clamp(16px,2vw,32px)]"
                     : ""
                 } ${i < FEATURES.length - 1 ? "min-[640px]:pr-[clamp(16px,2vw,32px)]" : ""}`}
               >
@@ -143,13 +143,13 @@ export default function WhatWeProvide() {
                   size={40}
                   strokeWidth={1.4}
                   aria-hidden="true"
-                  className="mt-1 shrink-0 text-cyan"
+                  className="mt-1 shrink-0 text-[color:var(--cyan)]"
                 />
                 <span className="flex flex-col gap-1">
-                  <span className="text-[length:var(--fs-small)] font-bold uppercase leading-tight tracking-[0.06em] text-ink">
+                  <span className="text-[length:var(--fs-small)] font-bold uppercase leading-tight tracking-[0.06em] text-[color:var(--ink)]">
                     {f.title}
                   </span>
-                  <span className="max-w-[18ch] text-[length:var(--fs-small)] leading-snug text-ink/60">
+                  <span className="max-w-[18ch] text-[length:var(--fs-small)] leading-snug text-[color:var(--ink)]/60">
                     {f.description}
                   </span>
                 </span>

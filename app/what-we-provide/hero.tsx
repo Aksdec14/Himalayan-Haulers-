@@ -22,16 +22,16 @@ type HeroProps = {
 };
 
 const EYEBROW =
-  "m-0 flex items-center gap-4 text-[length:var(--fs-small-xl)] font-medium uppercase tracking-[0.2em] text-ink";
+  "m-0 flex items-center gap-4 text-[length:var(--fs-small-xl)] font-medium uppercase tracking-[0.2em] text-[color:var(--ink)]";
 
 const TITLE =
-  "m-0 text-balance text-[length:var(--fs-h1)] font-extrabold uppercase leading-[1.02] tracking-tight text-ink";
+  "m-0 text-balance text-[length:var(--fs-h1)] font-extrabold uppercase leading-[1.02] tracking-tight text-[color:var(--ink)]";
 
 const LEAD =
-  "m-0 max-w-[46ch] text-[length:var(--fs-body-xl)] leading-[1.6] text-ink/70 text-pretty";
+  "m-0 max-w-[46ch] text-[length:var(--fs-body-xl)] leading-[1.6] text-[color:var(--ink)]/70 text-pretty";
 
 const LINK =
-  "inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-cyan pb-2 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.12em] text-cyan no-underline transition-colors duration-300 hover:text-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan";
+  "inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-[color:var(--cyan)] pb-2 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.12em] text-[color:var(--cyan)] no-underline transition-colors duration-300 hover:text-[color:var(--blue)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
 
 export default function Hero({
   eyebrow = [],
@@ -86,7 +86,7 @@ export default function Hero({
         </svg>
         <span
           aria-hidden="true"
-          className="absolute left-[2%] top-[14%] hidden h-[4px] w-14 bg-cyan min-[1100px]:block"
+          className="absolute left-[2%] top-[14%] hidden h-[4px] w-14 bg-[color:var(--cyan)] min-[1100px]:block"
         />
       </div>
 
@@ -97,7 +97,7 @@ export default function Hero({
             {eyebrow.join(" · ")}
             <span
               aria-hidden="true"
-              className="block h-px w-20 shrink-0 bg-ink/30"
+              className="block h-px w-20 shrink-0 bg-[color:var(--ink)]/30"
             />
           </p>
         )}
@@ -107,7 +107,7 @@ export default function Hero({
           {accent ? (
             <>
               <br />
-              <span className="text-cyan">{accent}</span>
+              <span className="text-[color:var(--cyan)]">{accent}</span>
             </>
           ) : null}
         </h1>
@@ -137,13 +137,13 @@ export default function Hero({
                   size={40}
                   strokeWidth={1.4}
                   aria-hidden="true"
-                  className="mt-1 shrink-0 text-cyan"
+                  className="mt-1 shrink-0 text-[color:var(--cyan)]"
                 />
                 <span className="flex flex-col gap-1">
-                  <span className="text-[length:var(--fs-small)] font-bold uppercase leading-tight tracking-[0.06em] text-ink">
+                  <span className="text-[length:var(--fs-small)] font-bold uppercase leading-tight tracking-[0.06em] text-[color:var(--ink)]">
                     {f.title}
                   </span>
-                  <span className="max-w-[18ch] text-[length:var(--fs-small)] leading-snug text-ink/60">
+                  <span className="max-w-[18ch] text-[length:var(--fs-small)] leading-snug text-[color:var(--ink)]/60">
                     {f.description}
                   </span>
                 </span>
@@ -154,14 +154,14 @@ export default function Hero({
                 key={f.title}
                 className={`flex ${
                   i > 0
-                    ? "min-[640px]:border-l min-[640px]:border-ink/15 min-[640px]:pl-[clamp(16px,2vw,32px)]"
+                    ? "min-[640px]:border-l min-[640px]:border-[color:var(--ink)]/15 min-[640px]:pl-[clamp(16px,2vw,32px)]"
                     : ""
                 } ${i < features.length - 1 ? "min-[640px]:pr-[clamp(16px,2vw,32px)]" : ""}`}
               >
                 {f.href ? (
                   <Link
                     href={f.href}
-                    className="flex gap-4 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan"
+                    className="flex gap-4 no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]"
                   >
                     {body}
                   </Link>

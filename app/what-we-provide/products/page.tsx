@@ -32,7 +32,7 @@ const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
 const BAND_PAD = "py-[calc(var(--section-pad)*0.7)]";
 
 const GREY = "bg-[#d9d9d9]";
-const MAIN = "bg-white text-ink animate-hh-fade";
+const MAIN = "bg-white text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both]";
 
 function Band({
   children,
@@ -60,8 +60,8 @@ const H2 =
   "m-0 text-[length:var(--fs-h2)] font-semibold leading-[1.15] tracking-[-0.01em] text-balance";
 const LABEL = "m-0 text-[length:var(--fs-body)] font-semibold";
 const LEAD =
-  "m-0 mt-[clamp(8px,1vw,14px)] max-w-[56ch] text-[length:var(--fs-lead)] leading-[1.4] text-ink/60 text-pretty";
-const BODY = "m-0 text-[length:var(--fs-small)] leading-[1.55] text-ink/70 text-pretty";
+  "m-0 mt-[clamp(8px,1vw,14px)] max-w-[56ch] text-[length:var(--fs-lead)] leading-[1.4] text-[color:var(--ink)]/60 text-pretty";
+const BODY = "m-0 text-[length:var(--fs-small)] leading-[1.55] text-[color:var(--ink)]/70 text-pretty";
 
 /* ---- Pieces ---------------------------------------------------------------- */
 
@@ -79,10 +79,10 @@ function PillLink({
   const base =
     "inline-flex items-center justify-center rounded-[2px] px-[1.4em] py-[0.8em] text-[length:var(--fs-small)] font-semibold no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
   const looks: Record<LinkVariant, string> = {
-    solid: "bg-ink text-white hover:bg-ink/80",
-    outline: "border border-ink text-ink hover:bg-ink hover:text-white",
-    white: "bg-white text-ink hover:bg-white/85",
-    outlineWhite: "border border-white text-white hover:bg-white hover:text-ink",
+    solid: "bg-[color:var(--ink)] text-white hover:bg-[color:var(--ink)]/80",
+    outline: "border border-[color:var(--ink)] text-[color:var(--ink)] hover:bg-[color:var(--ink)] hover:text-white",
+    white: "bg-white text-[color:var(--ink)] hover:bg-white/85",
+    outlineWhite: "border border-white text-white hover:bg-white hover:text-[color:var(--ink)]",
   };
   return (
     <a href={href} className={`${base} ${looks[variant]}`}>
@@ -204,7 +204,7 @@ export default function ProductsPage() {
   return (
     <main className={MAIN}>
       {/* ---- 1. Hero banner: photo, text and buttons over it ---------------- */}
-      <section className="relative isolate overflow-hidden bg-ink text-white">
+      <section className="relative isolate overflow-hidden bg-[color:var(--ink)] text-white">
         <Photo
           src="/media/Logistics.jpeg"
           alt="Heavy-lift drone carrying a payload over remote terrain"
@@ -258,13 +258,13 @@ export default function ProductsPage() {
           failsafes built in, so one operator can move heavy loads where roads,
           mules and helicopters are impractical.
         </p>
-        <dl className="m-0 mt-[clamp(18px,2.2vw,28px)] grid grid-cols-2 gap-x-[clamp(16px,2vw,28px)] gap-y-[clamp(14px,1.8vw,20px)] border-t border-ink/15 pt-[clamp(16px,2vw,24px)]">
+        <dl className="m-0 mt-[clamp(18px,2.2vw,28px)] grid grid-cols-2 gap-x-[clamp(16px,2vw,28px)] gap-y-[clamp(14px,1.8vw,20px)] border-t border-[color:var(--ink)]/15 pt-[clamp(16px,2vw,24px)]">
           {STATS.map((stat) => (
             <div key={stat.label}>
               <dd className="m-0 text-[length:var(--fs-h3)] font-semibold leading-none">
                 {stat.value}
               </dd>
-              <dt className="mt-[0.4em] text-[length:var(--fs-small)] text-ink/60">
+              <dt className="mt-[0.4em] text-[length:var(--fs-small)] text-[color:var(--ink)]/60">
                 {stat.label}
               </dt>
             </div>
@@ -275,7 +275,7 @@ export default function ProductsPage() {
       {/* ---- 3. Models: photo left, text right ------------------------------ */}
       <Split
         id="models"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/defence.jpg",
           alt: "Heavy-lift drone delivering supplies at altitude",
@@ -288,15 +288,15 @@ export default function ProductsPage() {
         </p>
         <div className="mt-[clamp(16px,2vw,28px)] flex flex-col">
           {MODELS.map((model) => (
-            <article key={model.name} className="border-t border-ink/15 py-[clamp(12px,1.4vw,18px)]">
+            <article key={model.name} className="border-t border-[color:var(--ink)]/15 py-[clamp(12px,1.4vw,18px)]">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                 <h3 className={LABEL}>{model.name}</h3>
-                <p className="m-0 text-[length:var(--fs-small)] font-semibold text-ink/50">
+                <p className="m-0 text-[length:var(--fs-small)] font-semibold text-[color:var(--ink)]/50">
                   {model.payload}
                 </p>
               </div>
               <p className={`${BODY} mt-[0.4em]`}>
-                <strong className="text-ink">Best for:</strong> {model.best}
+                <strong className="text-[color:var(--ink)]">Best for:</strong> {model.best}
               </p>
               <p className={`${BODY} mt-[0.3em]`}>{model.body}</p>
             </article>
@@ -318,7 +318,7 @@ export default function ProductsPage() {
           {CAPABILITIES.map((item) => (
             <li
               key={item.title}
-              className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-[0.2em] border-t border-ink/15 py-[clamp(10px,1.2vw,14px)]"
+              className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-[0.2em] border-t border-[color:var(--ink)]/15 py-[clamp(10px,1.2vw,14px)]"
             >
               <span className="text-[length:var(--fs-small)] font-semibold">{item.title}</span>
               <span className={`${BODY} max-w-[40ch] min-[560px]:text-right`}>{item.body}</span>
@@ -330,7 +330,7 @@ export default function ProductsPage() {
       {/* ---- 5. Custom-built: photo left, text right ------------------------ */}
       <Split
         id="custom"
-        className="border-t border-ink/15"
+        className="border-t border-[color:var(--ink)]/15"
         photo={{
           src: "/media/power.jpg",
           alt: "Drone stringing a pilot line between power towers",
@@ -347,7 +347,7 @@ export default function ProductsPage() {
           {CHIPS.map((chip) => (
             <li
               key={chip}
-              className="border border-ink/30 px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold"
+              className="border border-[color:var(--ink)]/30 px-[0.9em] py-[0.4em] text-[length:var(--fs-small)] font-semibold"
             >
               {chip}
             </li>
@@ -359,7 +359,7 @@ export default function ProductsPage() {
       </Split>
 
       {/* ---- 6. Closing banner: photo background, text and buttons over it -- */}
-      <section className="relative isolate overflow-hidden bg-ink text-white">
+      <section className="relative isolate overflow-hidden bg-[color:var(--ink)] text-white">
         <Photo
           src="/media/energy.jpg"
           alt="Drone inspecting a refinery stack"

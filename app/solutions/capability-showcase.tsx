@@ -40,7 +40,7 @@ const INNER =
 const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
 
 const ROUND_BUTTON =
-  "grid size-[clamp(44px,3.6vw,52px)] place-items-center rounded-full transition-[background-color,color,opacity] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan disabled:cursor-not-allowed disabled:opacity-40";
+  "grid size-[clamp(44px,3.6vw,52px)] place-items-center rounded-full transition-[background-color,color,opacity] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] disabled:cursor-not-allowed disabled:opacity-40";
 
 /** A service's fields as plain text: a heading, then its paragraph.
  *  No cards, borders or dashes â€” only spacing separates the items. */
@@ -49,10 +49,10 @@ function FieldList({ fields }: { fields: Field[] }) {
     <div className="mt-[length:var(--gap)] flex flex-col gap-[length:var(--gap)]">
       {fields.map((field) => (
         <div key={field.label}>
-          <h4 className="m-0 text-[length:var(--fs-body)] font-semibold text-ink">
+          <h4 className="m-0 text-[length:var(--fs-body)] font-semibold text-[color:var(--ink)]">
             {field.label}
           </h4>
-          <p className="m-0 mt-[0.4em] text-[length:var(--fs-body)] leading-[1.6] text-ink/80 text-pretty">
+          <p className="m-0 mt-[0.4em] text-[length:var(--fs-body)] leading-[1.6] text-[color:var(--ink)]/80 text-pretty">
             {field.body}
           </p>
         </div>
@@ -231,7 +231,7 @@ export default function CapabilityShowcase({
             <div className={CONTENT_MAX}>
               <span
                 aria-hidden="true"
-                className="mb-[length:var(--gap-block)] block h-[2px] w-[clamp(140px,18vw,260px)] bg-blue"
+                className="mb-[length:var(--gap-block)] block h-[2px] w-[clamp(140px,18vw,260px)] bg-[color:var(--blue)]"
               />
 
               <div className="grid gap-[length:var(--gap-block)] min-[860px]:grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)]">
@@ -246,7 +246,7 @@ export default function CapabilityShowcase({
                       aria-label="Previous capabilities"
                       disabled={edges.start}
                       onClick={() => slide(-1)}
-                      className={`${ROUND_BUTTON} bg-white text-blue hover:bg-blue hover:text-white`}
+                      className={`${ROUND_BUTTON} bg-white text-[color:var(--blue)] hover:bg-[color:var(--blue)] hover:text-white`}
                     >
                       <ChevronLeft size={20} strokeWidth={1.6} aria-hidden="true" />
                     </button>
@@ -255,14 +255,14 @@ export default function CapabilityShowcase({
                       aria-label="Next capabilities"
                       disabled={edges.end}
                       onClick={() => slide(1)}
-                      className={`${ROUND_BUTTON} bg-blue text-white hover:bg-cyan hover:text-ink`}
+                      className={`${ROUND_BUTTON} bg-[color:var(--blue)] text-white hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)]`}
                     >
                       <ChevronRight size={20} strokeWidth={1.6} aria-hidden="true" />
                     </button>
                   </div>
                 </div>
 
-                <p className="m-0 max-w-[88ch] text-[length:var(--fs-h3)] leading-[1.45] text-ink/80 text-pretty min-[860px]:pt-[0.4em]">
+                <p className="m-0 max-w-[88ch] text-[length:var(--fs-h3)] leading-[1.45] text-[color:var(--ink)]/80 text-pretty min-[860px]:pt-[0.4em]">
                   Select a capability to see its scope, the technical value it
                   delivers and the systems behind it.
                 </p>
@@ -291,9 +291,9 @@ export default function CapabilityShowcase({
                   type="button"
                   aria-haspopup="dialog"
                   onClick={() => openAt(index)}
-                  className="group block w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan"
+                  className="group block w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]"
                 >
-                  <span className="relative block aspect-[3/2] overflow-hidden bg-ink">
+                  <span className="relative block aspect-[3/2] overflow-hidden bg-[color:var(--ink)]">
                     <Image
                       src={item.image.src}
                       alt=""
@@ -304,21 +304,21 @@ export default function CapabilityShowcase({
                     />
                   </span>
 
-                  <span className="relative flex h-[var(--cap-h)] flex-col justify-center gap-[0.4em] border border-t-0 border-blue/10 bg-white px-[clamp(18px,2vw,28px)] shadow-[0_18px_40px_-20px_rgba(10,25,45,0.28)]">
+                  <span className="relative flex h-[var(--cap-h)] flex-col justify-center gap-[0.4em] border border-t-0 border-[color:var(--blue)]/10 bg-white px-[clamp(18px,2vw,28px)] shadow-[0_18px_40px_-20px_rgba(10,25,45,0.28)]">
                     <span
                       aria-hidden="true"
-                      className="mb-[0.5em] block size-[10px] border border-ink/70"
+                      className="mb-[0.5em] block size-[10px] border border-[color:var(--ink)]/70"
                     />
-                    <span className="block text-[length:var(--fs-h3)] leading-[1.15] text-ink">
+                    <span className="block text-[length:var(--fs-h3)] leading-[1.15] text-[color:var(--ink)]">
                       {item.category}
                     </span>
-                    <span className="line-clamp-2 block text-[length:var(--fs-small)] leading-[1.4] text-ink/60">
+                    <span className="line-clamp-2 block text-[length:var(--fs-small)] leading-[1.4] text-[color:var(--ink)]/60">
                       {item.services.map((service) => service.title).join(" Â· ")}
                     </span>
 
                     <span
                       aria-hidden="true"
-                      className="absolute right-[clamp(14px,1.6vw,22px)] top-0 grid size-[clamp(40px,3.2vw,48px)] -translate-y-1/2 place-items-center rounded-full bg-blue text-white transition-colors duration-300 group-hover:bg-cyan group-hover:text-ink"
+                      className="absolute right-[clamp(14px,1.6vw,22px)] top-0 grid size-[clamp(40px,3.2vw,48px)] -translate-y-1/2 place-items-center rounded-full bg-[color:var(--blue)] text-white transition-colors duration-300 group-hover:bg-[color:var(--cyan)] group-hover:text-[color:var(--ink)]"
                     >
                       <ArrowRight size={18} strokeWidth={1.7} />
                     </span>
@@ -349,7 +349,7 @@ export default function CapabilityShowcase({
       >
         <div
           onClick={close}
-          className={`absolute inset-0 bg-ink/55 transition-opacity duration-500 motion-reduce:transition-none ${
+          className={`absolute inset-0 bg-[color:var(--ink)]/55 transition-opacity duration-500 motion-reduce:transition-none ${
             open ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -360,19 +360,19 @@ export default function CapabilityShowcase({
           aria-modal="true"
           aria-labelledby="capability-panel-title"
           inert={!open}
-          className={`absolute inset-y-0 right-0 flex w-[min(1000px,100vw)] flex-col bg-white text-ink shadow-[-24px_0_60px_-20px_rgba(10,25,45,0.4)] transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] motion-reduce:transition-none min-[860px]:flex-row ${
+          className={`absolute inset-y-0 right-0 flex w-[min(1000px,100vw)] flex-col bg-white text-[color:var(--ink)] shadow-[-24px_0_60px_-20px_rgba(10,25,45,0.4)] transition-transform duration-500 ease-[cubic-bezier(.7,0,.2,1)] motion-reduce:transition-none min-[860px]:flex-row ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
         >
           {/* Photograph */}
-          <div className="relative h-[clamp(160px,28vh,260px)] shrink-0 overflow-hidden bg-ink min-[860px]:h-auto min-[860px]:w-[40%]">
+          <div className="relative h-[clamp(160px,28vh,260px)] shrink-0 overflow-hidden bg-[color:var(--ink)] min-[860px]:h-auto min-[860px]:w-[40%]">
             <Image
               key={cap.n}
               src={cap.image.src}
               alt={cap.image.alt}
               fill
               sizes="(max-width: 860px) 100vw, 400px"
-              className="animate-hh-fade object-cover"
+              className="[animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] object-cover"
               style={{ objectPosition: cap.image.position ?? "center" }}
             />
             <span
@@ -389,8 +389,8 @@ export default function CapabilityShowcase({
 
           {/* Content */}
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-            <div className="flex items-center justify-between gap-[length:var(--gap)] border-b border-blue/10 px-[clamp(20px,3vw,40px)] py-[clamp(12px,1.4vw,18px)]">
-              <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-blue/70">
+            <div className="flex items-center justify-between gap-[length:var(--gap)] border-b border-[color:var(--blue)]/10 px-[clamp(20px,3vw,40px)] py-[clamp(12px,1.4vw,18px)]">
+              <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-[color:var(--blue)]/70">
                 {cap.n} / {String(count).padStart(2, "0")}
               </p>
 
@@ -399,7 +399,7 @@ export default function CapabilityShowcase({
                   type="button"
                   aria-label="Previous capability"
                   onClick={() => step(-1)}
-                  className="grid size-10 place-items-center rounded-full bg-[#f0f2f5] text-blue transition-colors duration-300 hover:bg-blue hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
+                  className="grid size-10 place-items-center rounded-full bg-[#f0f2f5] text-[color:var(--blue)] transition-colors duration-300 hover:bg-[color:var(--blue)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
                 >
                   <ChevronLeft size={18} strokeWidth={1.6} aria-hidden="true" />
                 </button>
@@ -407,7 +407,7 @@ export default function CapabilityShowcase({
                   type="button"
                   aria-label="Next capability"
                   onClick={() => step(1)}
-                  className="grid size-10 place-items-center rounded-full bg-[#f0f2f5] text-blue transition-colors duration-300 hover:bg-blue hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
+                  className="grid size-10 place-items-center rounded-full bg-[#f0f2f5] text-[color:var(--blue)] transition-colors duration-300 hover:bg-[color:var(--blue)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
                 >
                   <ChevronRight size={18} strokeWidth={1.6} aria-hidden="true" />
                 </button>
@@ -416,7 +416,7 @@ export default function CapabilityShowcase({
                   type="button"
                   aria-label="Close"
                   onClick={close}
-                  className="ml-[0.5em] grid size-10 place-items-center rounded-full bg-blue text-white transition-colors duration-300 hover:bg-cyan hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
+                  className="ml-[0.5em] grid size-10 place-items-center rounded-full bg-[color:var(--blue)] text-white transition-colors duration-300 hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
                 >
                   <X size={18} strokeWidth={1.7} aria-hidden="true" />
                 </button>
@@ -437,7 +437,7 @@ export default function CapabilityShowcase({
               <div className="mt-[length:var(--gap-block)] flex flex-col gap-[length:var(--gap-block)]">
                 {cap.services.map((service) => (
                   <section key={service.title}>
-                    <h3 className="m-0 text-[length:var(--fs-lead)] font-bold text-blue">
+                    <h3 className="m-0 text-[length:var(--fs-lead)] font-bold text-[color:var(--blue)]">
                       {service.title}
                     </h3>
                     <FieldList fields={service.fields} />
@@ -447,7 +447,7 @@ export default function CapabilityShowcase({
 
               <Link
                 href="/contact"
-                className="mt-[length:var(--gap-block)] inline-flex w-fit items-center gap-[0.9em] rounded-full bg-blue px-[1.5em] py-[0.8em] text-[length:var(--fs-nav,16px)] text-white no-underline transition-colors duration-300 hover:bg-cyan hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan"
+                className="mt-[length:var(--gap-block)] inline-flex w-fit items-center gap-[0.9em] rounded-full bg-[color:var(--blue)] px-[1.5em] py-[0.8em] text-[length:var(--fs-nav,16px)] text-white no-underline transition-colors duration-300 hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
               >
                 Let&rsquo;s Connect
                 <ArrowRight size={14} strokeWidth={1.7} aria-hidden="true" />

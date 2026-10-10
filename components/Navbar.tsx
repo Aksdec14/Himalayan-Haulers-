@@ -26,7 +26,7 @@ const LOGO = "/media/HH-Logo-Ink.png";
 /* No bar padding — the breathing room comes from the items themselves so they hug
    the edges. --logo-h is a share of --nav-h, so the two can never disagree. */
 const TOPBAR =
-  "fixed inset-x-0 top-0 z-30 flex items-center justify-between bg-white text-blue shadow-[0_6px_24px_rgba(10,25,45,0.18)] animate-hh-fade h-[length:var(--nav-h)] gap-[clamp(8px,1.5vw,24px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]";
+  "fixed inset-x-0 top-0 z-30 flex items-center justify-between bg-white text-[color:var(--blue)] shadow-[0_6px_24px_rgba(10,25,45,0.18)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] h-[length:var(--nav-h)] gap-[clamp(8px,1.5vw,24px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]";
 
 const LOGO_CLASSES =
   "block flex-none no-underline h-[length:var(--logo-h)] max-w-[44vw] ml-[length:var(--hero-left)] max-[700px]:max-w-[62vw]";
@@ -36,11 +36,11 @@ const LOGO_CLASSES =
    source, and overriding it per tier is what used to let the bar drift out of
    step with the frame. */
 const LINK_BASE =
-  "no-underline whitespace-nowrap transition-colors duration-300 text-[length:var(--fs-nav)] font-normal tracking-[0.01em] text-blue/75 hover:text-cyan";
+  "no-underline whitespace-nowrap transition-colors duration-300 text-[length:var(--fs-nav)] font-normal tracking-[0.01em] text-[color:var(--blue)]/75 hover:text-[color:var(--cyan)]";
 
 /* Panel links step up one rung of the same type scale. */
 const LINK_PANEL =
-  "max-[1000px]:text-[length:var(--fs-lead)] max-[1000px]:px-[clamp(16px,5vw,32px)] max-[1000px]:py-[clamp(12px,3.2vw,16px)] max-[1000px]:border-t max-[1000px]:border-blue/8";
+  "max-[1000px]:text-[length:var(--fs-lead)] max-[1000px]:px-[clamp(16px,5vw,32px)] max-[1000px]:py-[clamp(12px,3.2vw,16px)] max-[1000px]:border-t max-[1000px]:border-[color:var(--blue)]/8";
 
 /* `data-open` drives the panel and the hamburger morph. The bar is `group` so
    both can key off a single attribute rather than duplicating state. */
@@ -107,9 +107,9 @@ export default function Navbar({ links = NAV_LINKS }: { links?: NavLink[] }) {
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="block h-0.5 w-[22px] bg-blue transition-transform duration-300 group-data-[open=true]:translate-y-[7px] group-data-[open=true]:rotate-45" />
-        <span className="block h-0.5 w-[22px] bg-blue opacity-100 transition-opacity duration-200 group-data-[open=true]:opacity-0" />
-        <span className="block h-0.5 w-[22px] bg-blue transition-transform duration-300 group-data-[open=true]:-translate-y-[7px] group-data-[open=true]:-rotate-45" />
+        <span className="block h-0.5 w-[22px] bg-[color:var(--blue)] transition-transform duration-300 group-data-[open=true]:translate-y-[7px] group-data-[open=true]:rotate-45" />
+        <span className="block h-0.5 w-[22px] bg-[color:var(--blue)] opacity-100 transition-opacity duration-200 group-data-[open=true]:opacity-0" />
+        <span className="block h-0.5 w-[22px] bg-[color:var(--blue)] transition-transform duration-300 group-data-[open=true]:-translate-y-[7px] group-data-[open=true]:-rotate-45" />
       </button>
 
       <nav id="primary-nav" className={LINKS} aria-label="Primary">
@@ -117,7 +117,7 @@ export default function Navbar({ links = NAV_LINKS }: { links?: NavLink[] }) {
           <Link
             key={link.href}
             href={link.href}
-            className={`${LINK_BASE} ${LINK_PANEL} ${link.active ? "text-blue font-bold" : ""}`}
+            className={`${LINK_BASE} ${LINK_PANEL} ${link.active ? "text-[color:var(--blue)] font-bold" : ""}`}
             aria-current={link.active ? "page" : undefined}
             onClick={() => setOpen(false)}
           >

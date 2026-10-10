@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 /* ---- Page shell ---------------------------------------------------------- */
 
 const PAGE =
-  "text-ink [--gap:clamp(14px,1.6vw,24px)] [--gap-peer:calc(var(--gap)*1.5)] [--gap-block:calc(var(--gap)*3)]";
+  "text-[color:var(--ink)] [--gap:clamp(14px,1.6vw,24px)] [--gap-peer:calc(var(--gap)*1.5)] [--gap-block:calc(var(--gap)*3)]";
 
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
@@ -90,10 +90,10 @@ const H2 = "m-0 text-[length:var(--fs-h2)] uppercase";
 const SUBHEAD = "m-0 text-[length:var(--fs-h3)]";
 
 const INTRO =
-  "m-0 max-w-[68ch] text-[length:var(--fs-lead)] leading-[1.38] text-ink/88 text-pretty";
+  "m-0 max-w-[68ch] text-[length:var(--fs-lead)] leading-[1.38] text-[color:var(--ink)]/88 text-pretty";
 
 const BODY =
-  "m-0 text-[length:var(--fs-body)] leading-[1.45] text-ink/80 text-pretty";
+  "m-0 text-[length:var(--fs-body)] leading-[1.45] text-[color:var(--ink)]/80 text-pretty";
 
 /* Three equal columns: the grid every text block on the page sits on. */
 const COLS = "grid gap-[length:var(--card-gap)] min-[860px]:grid-cols-3";
@@ -105,7 +105,7 @@ const PHOTO =
 
 const PILL_TONES = {
   /* Pale blue on white pages. */
-  light: "bg-[#d5dfe9] text-blue hover:bg-[#c2d1e0]",
+  light: "bg-[#d5dfe9] text-[color:var(--blue)] hover:bg-[#c2d1e0]",
   /* Frosted over a photo, white type. */
   glass: "bg-white/25 text-white backdrop-blur-md hover:bg-white/35",
 } as const;
@@ -341,7 +341,7 @@ export default function SolutionsPage() {
   return (
     <main id="top" className={PAGE}>
       {/* ---- 1. Hero: photo, navy wash, text on the right half ------------- */}
-      <section className="relative isolate overflow-hidden bg-blue">
+      <section className="relative isolate overflow-hidden bg-[color:var(--blue)]">
         <Image
           src={PHOTOS.hero.src}
           alt={PHOTOS.hero.alt}
@@ -352,23 +352,23 @@ export default function SolutionsPage() {
         />
         <span
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-blue/30 bg-[linear-gradient(90deg,rgba(14,38,66,0)_0%,rgba(14,38,66,0.45)_55%,rgba(14,38,66,0.6)_100%)]"
+          className="absolute inset-0 -z-10 bg-[color:var(--blue)]/30 bg-[linear-gradient(90deg,rgba(14,38,66,0)_0%,rgba(14,38,66,0.45)_55%,rgba(14,38,66,0.6)_100%)]"
         />
 
         <div
           className={`${INNER} flex min-h-[clamp(580px,80vh,880px)] items-center py-[length:var(--section-pad)]`}
         >
           <div className="flex w-full flex-col gap-[length:var(--gap)] text-white min-[860px]:ml-[48%] min-[860px]:w-[46%] min-[860px]:max-w-[560px]">
-            <h1 className="m-0 text-balance text-[length:var(--fs-h1)] animate-hh-rise [animation-delay:100ms]">
+            <h1 className="m-0 text-balance text-[length:var(--fs-h1)] [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:100ms]">
               Operational Capabilities &amp; Technical Services
             </h1>
 
-            <p className="m-0 max-w-[38ch] text-[length:var(--fs-lead)] leading-[1.38] text-white/90 animate-hh-rise [animation-delay:200ms]">
+            <p className="m-0 max-w-[38ch] text-[length:var(--fs-lead)] leading-[1.38] text-white/90 [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:200ms]">
               The right drone, sensor and crew for work at height, at distance or
               in confined spaces.
             </p>
 
-            <div className="mt-[length:var(--gap)] flex flex-wrap gap-[length:var(--gap)] animate-hh-rise [animation-delay:300ms]">
+            <div className="mt-[length:var(--gap)] flex flex-wrap gap-[length:var(--gap)] [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:300ms]">
               <Pill href="#capabilities" tone="glass">
                 View Capabilities
               </Pill>
@@ -403,7 +403,7 @@ export default function SolutionsPage() {
           {/* Media row: small photo + pill | index rows | large photo. */}
           <div className={`${COLS} mt-[length:var(--gap-block)] items-stretch`}>
             <div className="flex flex-col justify-between gap-[length:var(--gap-peer)]">
-              <div className="relative aspect-[10/9] w-[46%] min-w-[96px] overflow-hidden rounded-2xl bg-ink">
+              <div className="relative aspect-[10/9] w-[46%] min-w-[96px] overflow-hidden rounded-2xl bg-[color:var(--ink)]">
                 <Image
                   src={PHOTOS.small.src}
                   alt={PHOTOS.small.alt}
@@ -422,16 +422,16 @@ export default function SolutionsPage() {
               {CAPABILITIES.map((cap) => (
                 <li
                   key={cap.n}
-                  className="border-b border-blue/15 last:border-b-0"
+                  className="border-b border-[color:var(--blue)]/15 last:border-b-0"
                 >
                   <a
                     href={`#capability-${cap.n}`}
                     className="group grid grid-cols-2 gap-[length:var(--gap)] py-[length:var(--gap)] text-inherit no-underline"
                   >
-                    <span className="text-[length:var(--fs-body)] leading-[1.3] text-blue underline-offset-[6px] decoration-cyan decoration-2 group-hover:underline">
+                    <span className="text-[length:var(--fs-body)] leading-[1.3] text-[color:var(--blue)] underline-offset-[6px] decoration-[color:var(--cyan)] decoration-2 group-hover:underline">
                       {cap.category}
                     </span>
-                    <span className="text-[length:var(--fs-small)] leading-[1.4] text-ink/60">
+                    <span className="text-[length:var(--fs-small)] leading-[1.4] text-[color:var(--ink)]/60">
                       {cap.services.map((service) => service.title).join(" Â· ")}
                     </span>
                   </a>
@@ -439,7 +439,7 @@ export default function SolutionsPage() {
               ))}
             </ul>
 
-            <div className="relative aspect-[150/127] w-full overflow-hidden rounded-2xl bg-ink">
+            <div className="relative aspect-[150/127] w-full overflow-hidden rounded-2xl bg-[color:var(--ink)]">
               <Image
                 src={PHOTOS.large.src}
                 alt={PHOTOS.large.alt}
@@ -476,7 +476,7 @@ export default function SolutionsPage() {
                       edge at the photo's full width. The bar is a flex item,
                       not absolutely positioned, so its ::after can stretch
                       to the photo box and make the whole photo the link. */}
-                  <div className="relative flex aspect-square flex-col justify-end overflow-hidden rounded-2xl bg-ink">
+                  <div className="relative flex aspect-square flex-col justify-end overflow-hidden rounded-2xl bg-[color:var(--ink)]">
                     <Image
                       src={cap.image.src}
                       alt={cap.image.alt}
@@ -498,9 +498,9 @@ export default function SolutionsPage() {
                         hover, and simply get the bar. */}
                     <div
                       aria-hidden="true"
-                      className="absolute inset-0 flex flex-col justify-end gap-[0.5em] bg-blue/85 p-[clamp(18px,2vw,28px)] pb-[clamp(64px,5.5vw,84px)] text-white opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
+                      className="absolute inset-0 flex flex-col justify-end gap-[0.5em] bg-[color:var(--blue)]/85 p-[clamp(18px,2vw,28px)] pb-[clamp(64px,5.5vw,84px)] text-white opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-hover:opacity-100 motion-reduce:transition-none"
                     >
-                      <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-cyan">
+                      <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.12em] text-[color:var(--cyan)]">
                         {preview.label}
                       </p>
                       <p className="m-0 text-[length:var(--fs-body)] leading-[1.45] text-white/90 text-pretty">
@@ -510,7 +510,7 @@ export default function SolutionsPage() {
 
                     <a
                       href={`#capability-${cap.n}`}
-                      className="z-10 flex items-center justify-between gap-[length:var(--gap)] bg-white/90 px-[clamp(16px,1.8vw,24px)] py-[clamp(12px,1.2vw,16px)] text-[length:var(--fs-nav,16px)] text-blue no-underline backdrop-blur-sm transition-colors duration-300 after:absolute after:inset-0 after:z-10 after:content-[''] hover:bg-cyan hover:text-ink focus-visible:bg-cyan focus-visible:text-ink"
+                      className="z-10 flex items-center justify-between gap-[length:var(--gap)] bg-white/90 px-[clamp(16px,1.8vw,24px)] py-[clamp(12px,1.2vw,16px)] text-[length:var(--fs-nav,16px)] text-[color:var(--blue)] no-underline backdrop-blur-sm transition-colors duration-300 after:absolute after:inset-0 after:z-10 after:content-[''] hover:bg-[color:var(--cyan)] hover:text-[color:var(--ink)] focus-visible:bg-[color:var(--cyan)] focus-visible:text-[color:var(--ink)]"
                     >
                       View details
                       <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />
@@ -522,7 +522,7 @@ export default function SolutionsPage() {
                     {cap.services.map((service) => (
                       <p
                         key={service.title}
-                        className="m-0 mt-[0.3em] text-[length:var(--fs-small)] leading-[1.4] text-ink/60"
+                        className="m-0 mt-[0.3em] text-[length:var(--fs-small)] leading-[1.4] text-[color:var(--ink)]/60"
                       >
                         {service.title}
                       </p>
@@ -533,7 +533,7 @@ export default function SolutionsPage() {
             })}
 
             {/* Sixth cell: the call to action. */}
-            <div className="flex flex-col justify-between gap-[length:var(--gap-block)] rounded-2xl bg-blue p-[clamp(24px,3vw,40px)] text-white max-[959px]:min-h-[260px]">
+            <div className="flex flex-col justify-between gap-[length:var(--gap-block)] rounded-2xl bg-[color:var(--blue)] p-[clamp(24px,3vw,40px)] text-white max-[959px]:min-h-[260px]">
               <div className="flex flex-col gap-[length:var(--gap)]">
                 <h3 className="m-0 text-balance text-[length:var(--fs-h3)] uppercase">
                   Put the Capability to Work

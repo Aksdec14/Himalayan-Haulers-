@@ -56,7 +56,7 @@ const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
 /** Applied to <main>. Same step-ups Products and Services use, renamed so no
  *  property reads itself. */
 const PAGE =
-  "bg-white text-ink animate-hh-fade py-[length:var(--section-pad)] [--fs-h2-xl:calc(var(--fs-h2)*1.6)] [--fs-lead-xl:calc(var(--fs-lead)*1.45)] [--fs-h3-xl:calc(var(--fs-h3)*1.35)] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
+  "bg-white text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] py-[length:var(--section-pad)] [--fs-h2-xl:calc(var(--fs-h2)*1.6)] [--fs-lead-xl:calc(var(--fs-lead)*1.45)] [--fs-h3-xl:calc(var(--fs-h3)*1.35)] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
 
 /** One vertical rhythm for every stacked block below the hero. */
 const BLOCK = "mt-[clamp(56px,7vw,112px)]";
@@ -67,10 +67,10 @@ const TITLE =
 
 /** Cyan on white is 2.7:1, so labels on white take the muted navy. */
 const EYEBROW =
-  "m-0 text-[length:var(--fs-small-xl)] font-bold uppercase tracking-[0.16em] text-blue/70";
+  "m-0 text-[length:var(--fs-small-xl)] font-bold uppercase tracking-[0.16em] text-[color:var(--blue)]/70";
 
 const BODY =
-  "m-0 text-[length:var(--fs-body-xl)] leading-[1.5] text-ink/75 text-pretty";
+  "m-0 text-[length:var(--fs-body-xl)] leading-[1.5] text-[color:var(--ink)]/75 text-pretty";
 
 /** Gap between a section's centred heading and its content row. */
 const ROW_TOP = "mt-[clamp(32px,4.4vw,72px)]";
@@ -100,10 +100,10 @@ function Wrap({ children }: { children: ReactNode }) {
  *  list item's real content. */
 function Bullet({ children }: { children: ReactNode }) {
   return (
-    <li className="flex items-start gap-[0.85em] text-[length:var(--fs-body-xl)] leading-[1.45] text-ink/75">
+    <li className="flex items-start gap-[0.85em] text-[length:var(--fs-body-xl)] leading-[1.45] text-[color:var(--ink)]/75">
       <span
         aria-hidden="true"
-        className="mt-[0.6em] size-[6px] shrink-0 rounded-full bg-cyan"
+        className="mt-[0.6em] size-[6px] shrink-0 rounded-full bg-[color:var(--cyan)]"
       />
       <span className="text-pretty">{children}</span>
     </li>
@@ -123,14 +123,14 @@ function LineLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="group inline-flex flex-col gap-[0.8em] self-start text-blue no-underline"
+      className="group inline-flex flex-col gap-[0.8em] self-start text-[color:var(--blue)] no-underline"
     >
       <span className="text-[length:var(--fs-small-xl)] font-bold uppercase tracking-[0.12em]">
         {children}
       </span>
       <span
         aria-hidden="true"
-        className="relative block h-px w-[clamp(110px,10vw,170px)] bg-cyan transition-[width] duration-300 after:absolute after:right-0 after:top-1/2 after:size-[7px] after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-cyan after:content-[''] group-hover:w-[clamp(140px,12vw,210px)] motion-reduce:transition-none"
+        className="relative block h-px w-[clamp(110px,10vw,170px)] bg-[color:var(--cyan)] transition-[width] duration-300 after:absolute after:right-0 after:top-1/2 after:size-[7px] after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-[color:var(--cyan)] after:content-[''] group-hover:w-[clamp(140px,12vw,210px)] motion-reduce:transition-none"
       />
     </Link>
   );
@@ -149,7 +149,7 @@ function Photo({
   position?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden bg-ink ${ratio}`}>
+    <div className={`relative overflow-hidden bg-[color:var(--ink)] ${ratio}`}>
       <Image
         src={src}
         alt={alt}
@@ -175,7 +175,7 @@ function ClosingCTA({
   return (
     <div className={`${INNER} ${BLOCK}`}>
       <div className={CONTENT_MAX}>
-        <div className="rounded-lg bg-blue px-[clamp(24px,3.5vw,56px)] py-[clamp(36px,4.5vw,64px)] text-center text-white">
+        <div className="rounded-lg bg-[color:var(--blue)] px-[clamp(24px,3.5vw,56px)] py-[clamp(36px,4.5vw,64px)] text-center text-white">
           <h2 className="m-0 text-[length:var(--fs-h2-xl)] uppercase">
             {title}
           </h2>
@@ -335,11 +335,11 @@ export default function WhatWeProvidePage() {
                 /* Colour is set here and inherited by the <h3>. */
                 <li
                   key={capability.title}
-                  className="flex min-h-[clamp(240px,22vw,340px)] flex-col justify-between gap-[clamp(20px,2.4vw,40px)] bg-blue p-[clamp(14px,1.6vw,24px)] text-white"
+                  className="flex min-h-[clamp(240px,22vw,340px)] flex-col justify-between gap-[clamp(20px,2.4vw,40px)] bg-[color:var(--blue)] p-[clamp(14px,1.6vw,24px)] text-white"
                 >
                   <span
                     aria-hidden="true"
-                    className="grid size-[clamp(34px,2.6vw,42px)] place-items-center bg-cyan/15 text-cyan"
+                    className="grid size-[clamp(34px,2.6vw,42px)] place-items-center bg-[color:var(--cyan)]/15 text-[color:var(--cyan)]"
                   >
                     <Icon size={18} strokeWidth={1.8} />
                   </span>

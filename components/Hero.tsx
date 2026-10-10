@@ -32,8 +32,16 @@ const VIDEO_SOURCES = [
 const FRAME =
   "absolute top-[length:var(--frame-top)] bottom-[length:var(--frame-bottom)] left-[length:var(--frame-left)] right-[length:var(--frame-right)] z-[2] [container-type:size] overflow-hidden flex flex-col px-[4.9cqw] bg-[radial-gradient(circle_at_22%_18%,rgba(160,200,235,0.28),transparent_38%),linear-gradient(to_bottom,rgba(10,25,45,0.46),rgba(10,25,45,0)_40%,rgba(10,20,30,0.7))] [--hero-gap:clamp(12px,2.6cqh,28px)] max-h-[620px]:[--hero-gap:clamp(8px,2cqh,16px)]";
 
+/* The blur layer must blur everything EXCEPT the frame. That is done with a
+   clip-path polygon that traces the outer rectangle and then the frame's own
+   rectangle in the opposite winding, which is what punches the hole.
+
+   It used to be a named `@utility` in globals.css. Since that file is now a
+   single `@import "tailwindcss"`, it lives here — reading the same --frame-*
+   insets the frame below uses, so the two cannot drift apart. */
 const BLUR =
-  "absolute inset-0 z-[1] bg-[rgba(20,35,55,0.5)] backdrop-blur-[14px] hero-frame-cutout";
+  "absolute inset-0 z-[1] bg-[rgba(20,35,55,0.5)] backdrop-blur-[14px] " +
+  "[clip-path:polygon(0_0,100%_0,100%_100%,0_100%,0_0,var(--frame-left)_var(--frame-top),var(--frame-left)_calc(100%-var(--frame-bottom)),calc(100%-var(--frame-right))_calc(100%-var(--frame-bottom)),calc(100%-var(--frame-right))_var(--frame-top),var(--frame-left)_var(--frame-top))]";
 
 /* One gap token (--hero-gap) separates headline, lede and button, so all three
    gaps are identical. Margins on the children are zeroed so a global heading or
@@ -49,21 +57,21 @@ const HERO_COPY =
    The stagger uses `[animation-delay:...]`, not Tailwind's `delay-[...]`: that
    utility sets transition-delay, which does nothing to an animation. */
 const TITLE =
-  "m-0 text-[length:calc(var(--fs-h2)*1.09)] uppercase animate-hh-rise [animation-delay:200ms]";
+  "m-0 text-[length:calc(var(--fs-h2)*1.09)] uppercase [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:200ms]";
 
 const LEDE =
-  "m-0 w-[36cqw] max-[1240px]:w-[40cqw] max-[700px]:w-full max-w-full text-[length:var(--fs-lead)] leading-[1.38] text-white/88 text-pretty animate-hh-rise [animation-delay:300ms]";
+  "m-0 w-[36cqw] max-[1240px]:w-[40cqw] max-[700px]:w-full max-w-full text-[length:var(--fs-lead)] leading-[1.38] text-white/88 text-pretty [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:300ms]";
 
 /* Glass panel over the shared Button: the tint, not the blur, carries contrast
    over moving footage. `m-0` keeps the flex gap as the only spacing. */
 const CTA =
-  "mt-5 px-6 rounded-[4px] border border-white/30 bg-[rgba(20,35,55,0.28)] backdrop-blur-[10px] backdrop-saturate-[140%] text-white animate-hh-rise [animation-delay:400ms] hover:bg-[rgba(20,35,55,0.46)] hover:border-white/60";
+  "mt-5 px-6 rounded-[4px] border border-white/30 bg-[rgba(20,35,55,0.28)] backdrop-blur-[10px] backdrop-saturate-[140%] text-white [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:400ms] hover:bg-[rgba(20,35,55,0.46)] hover:border-white/60";
 
 /* Bottom feature strip: a grid in normal flow. Two equal columns with one gap;
    the second drops out below 1000px. Bottom padding is the same token the rest
    of the hero spaces with, scaled up, so it sits off the frame edge evenly. */
 const SLIDER =
-  "shrink-0 grid grid-cols-2 max-[1000px]:grid-cols-1 gap-x-[calc(var(--hero-gap)*2)] pt-[length:var(--hero-gap)] pb-[clamp(16px,6cqh,48px)] animate-hh-fade [animation-delay:550ms]";
+  "shrink-0 grid grid-cols-2 max-[1000px]:grid-cols-1 gap-x-[calc(var(--hero-gap)*2)] pt-[length:var(--hero-gap)] pb-[clamp(16px,6cqh,48px)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:550ms]";
 
 const ITEM = "min-w-0 flex flex-col gap-[0.4em]";
 
