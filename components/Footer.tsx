@@ -11,33 +11,48 @@ type FooterLink = { label: string; href: string };
    the home page. `#products` / `#services` live on /what-we-provide, not on /,
    which is why they carry that path. */
 const navLinks: FooterLink[] = [
-  { label: "What We Provide", href: "/#provide" },
-  { label: "Solutions", href: "/solutions" },
-  { label: "Industries", href: "/industries" },
-  { label: "Contact", href: "/contact" },
+  { label: "Browse Drones & Services", href: "/what-we-provide" },
+  { label: "See Our Solutions", href: "/solutions" },
+  { label: "Find Your Industry", href: "/industries" },
+  { label: "Get a Quote", href: "/contact" },
 ];
 
 const droneProducts: FooterLink[] = [
-  { label: "Freightor D-Series logistics drones", href: "/what-we-provide#products" },
-  { label: "Surveillance drones", href: "/what-we-provide#products" },
-  { label: "Custom-built drones", href: "/what-we-provide#products" },
+  {
+    label: "Buy a Freightor Drone",
+    href: "/what-we-provide#products",
+  },
+  {
+    label: "Get Surveillance Drone Pricing",
+    href: "/contact?interest=defence",
+  },
+  {
+    label: "Request a Custom Build",
+    href: "/contact?interest=other",
+  },
 ];
 
 const droneServices: FooterLink[] = [
   {
-    label: "Logistics Drone as a Service (LDaaS)",
-    href: "/what-we-provide#services",
+    label: "Hire Delivery Drones",
+    href: "/contact?interest=ldaas",
   },
-  { label: "Drone inspections", href: "/what-we-provide#services" },
-  { label: "Industrial sensor surveys", href: "/what-we-provide#services" },
-  { label: "Drone-based tower stringing", href: "/what-we-provide#services" },
+  { label: "Book an Inspection", href: "/contact?interest=inspection" },
+  { label: "Order a Sensor Survey", href: "/contact?interest=survey" },
+  {
+    label: "Get a Stringing Quote",
+    href: "/contact?interest=tower-stringing",
+  },
 ];
 
 const industries: FooterLink[] = [
-  { label: "Power", href: "/industries" },
-  { label: "Energy", href: "/industries" },
-  { label: "Defence", href: "/industries" },
-  { label: "Construction", href: "/industries" },
+  { label: "Power Sector Solutions", href: "/industries#power" },
+  { label: "Energy Sector Solutions", href: "/industries#energy" },
+  { label: "Defence Solutions", href: "/industries#defence" },
+  {
+    label: "Construction Solutions",
+    href: "/industries#construction",
+  },
 ];
 
 const COLUMNS: { title: string; links: FooterLink[] }[] = [
@@ -78,6 +93,24 @@ const CONTACT_TEXT =
   "text-[length:calc(var(--fs-small)*1.15)] leading-[1.35] text-[color:var(--blue)]/70 break-words";
 const CONTACT_LINK = `${CONTACT_TEXT} transition-colors hover:text-[color:var(--blue)]`;
 
+/* ---- Closing CTA -------------------------------------------------------------
+   A full-width band above the link columns: the section's one action-oriented
+   line, so the footer's purpose is stated before the reader starts scanning
+   columns. Italic, because the global heading rule colours and sizes every
+   h1-h3 for the dark sections and this sits on white — same reason the column
+   titles above are <p>. */
+const CTA_BAND =
+  "mb-[clamp(32px,4vw,56px)] max-w-[length:var(--content-max,1200px)]";
+
+const CTA_TITLE =
+  "m-0 text-[length:var(--fs-h2)] font-light uppercase italic leading-[1.1] tracking-[0.01em] text-[color:var(--blue)]";
+
+/* A link, not the shared Button: the footer is a server component and the
+   button's `size="lg"` resolves to a fixed --btn-w width that has no meaning
+   here. The arrow nudges on hover, matching the site's other CTA links. */
+const CTA_LINK =
+  "group mt-[clamp(10px,1.4vw,16px)] inline-flex items-center gap-2 text-[length:calc(var(--fs-small)*1.15)] font-bold uppercase tracking-[0.12em] text-[color:var(--blue)] no-underline transition-colors hover:text-[color:var(--cyan)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
+
 /**
  * Site footer: brand and contact details, four link columns, then a navy bar
  * carrying the copyright line.
@@ -90,6 +123,19 @@ export default function Footer() {
       <div
         className={`${INNER} pt-[clamp(40px,5vw,80px)] pb-[clamp(32px,4vw,56px)]`}
       >
+        <div className={CTA_BAND}>
+          <p className={CTA_TITLE}>Let&rsquo;s Move Something Impossible</p>
+          <Link href="/contact" className={CTA_LINK}>
+            Get a Quote
+            <span
+              aria-hidden="true"
+              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+            >
+              &rarr;
+            </span>
+          </Link>
+        </div>
+
         <div className={`${GRID} max-w-[1400px]`}>
           {/* Brand */}
           <div>
@@ -120,14 +166,14 @@ export default function Footer() {
                   href="mailto:arjun@himalayanhaulers.com"
                   className={CONTACT_LINK}
                 >
-                  arjun@himalayanhaulers.com
+                  Email Our Team
                 </a>
               </div>
 
               <div className={CONTACT_ROW}>
                 <Phone size={16} className={ICON} aria-hidden="true" />
                 <a href="tel:+917899801210" className={CONTACT_LINK}>
-                  +91 78998 01210
+                  Call +91 78998 01210
                 </a>
               </div>
 
