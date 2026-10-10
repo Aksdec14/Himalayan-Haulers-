@@ -56,10 +56,10 @@ const CONTENT_MAX = "max-w-[length:var(--content-max,1200px)]";
 /** Applied to <main>. Same step-ups Products and Services use, renamed so no
  *  property reads itself. */
 const PAGE =
-  "bg-white text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] py-[length:var(--section-pad)] [--fs-h2-xl:calc(var(--fs-h2)*1.6)] [--fs-lead-xl:calc(var(--fs-lead)*1.45)] [--fs-h3-xl:calc(var(--fs-h3)*1.35)] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
+  "bg-white text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] py-[length:calc(var(--section-pad)*0.6)] [--fs-h2-xl:calc(var(--fs-h2)*1.6)] [--fs-lead-xl:calc(var(--fs-lead)*1.45)] [--fs-h3-xl:calc(var(--fs-h3)*1.35)] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
 
 /** One vertical rhythm for every stacked block below the hero. */
-const BLOCK = "mt-[clamp(56px,7vw,112px)]";
+const BLOCK = "mt-[clamp(40px,5vw,80px)]";
 
 /** Section headings: centred, large, light, all caps. */
 const TITLE =
@@ -73,7 +73,7 @@ const BODY =
   "m-0 text-[length:var(--fs-body-xl)] leading-[1.5] text-[color:var(--ink)]/75 text-pretty";
 
 /** Gap between a section's centred heading and its content row. */
-const ROW_TOP = "mt-[clamp(32px,4.4vw,72px)]";
+const ROW_TOP = "mt-[clamp(24px,3.2vw,48px)]";
 
 const ROW_GAP = "gap-[clamp(28px,5vw,88px)]";
 
@@ -82,9 +82,9 @@ const ROW_GAP = "gap-[clamp(28px,5vw,88px)]";
    with a floor so a short block of copy never leaves a sliver. Below 860px they
    stack and the ratio takes over again. */
 const ROW_PHOTO =
-  "aspect-[5/4] min-[860px]:aspect-auto min-[860px]:min-h-[clamp(300px,30vw,460px)]";
+  "aspect-[5/4] min-[860px]:aspect-auto min-[860px]:min-h-[clamp(220px,22vw,340px)]";
 const ROW_PHOTO_TALL =
-  "aspect-[7/8] min-[860px]:aspect-auto min-[860px]:min-h-[clamp(340px,34vw,520px)]";
+  "aspect-[7/8] min-[860px]:aspect-auto min-[860px]:min-h-[clamp(260px,26vw,400px)]";
 
 /* ---- Small building blocks ------------------------------------------------- */
 
@@ -265,7 +265,7 @@ export default function WhatWeProvidePage() {
       {/* ---- 1. Hero: copy + features left, full-bleed photo right -----------
           -mt cancels <main>'s top padding; the pt then clears the fixed
           navbar, so the hero sits on white directly beneath it. */}
-      <section className="-mt-[length:var(--section-pad)] bg-white pt-[length:var(--nav-h)]">
+      <section className="-mt-[length:calc(var(--section-pad)*0.6)] bg-white pt-[length:var(--nav-h)]">
         <Hero
           eyebrow={["Himalayan Haulers"]}
           title="What we"
@@ -335,7 +335,7 @@ export default function WhatWeProvidePage() {
                 /* Colour is set here and inherited by the <h3>. */
                 <li
                   key={capability.title}
-                  className="flex min-h-[clamp(240px,22vw,340px)] flex-col justify-between gap-[clamp(20px,2.4vw,40px)] bg-[color:var(--blue)] p-[clamp(14px,1.6vw,24px)] text-white"
+                  className="flex min-h-[clamp(180px,17vw,260px)] flex-col justify-between gap-[clamp(20px,2.4vw,40px)] bg-[color:var(--blue)] p-[clamp(14px,1.6vw,24px)] text-white"
                 >
                   <span
                     aria-hidden="true"

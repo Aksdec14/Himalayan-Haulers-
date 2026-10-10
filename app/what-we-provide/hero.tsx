@@ -91,7 +91,7 @@ export default function Hero({
       </div>
 
       {/* Left: copy */}
-      <div className="flex flex-col gap-[clamp(18px,2vw,28px)] py-[clamp(40px,6vw,96px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[56%]">
+      <div className="flex flex-col gap-[clamp(18px,2vw,28px)] py-[clamp(32px,4.6vw,72px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[56%]">
         {eyebrow.length > 0 && (
           <p className={EYEBROW}>
             {eyebrow.join(" · ")}
@@ -128,7 +128,7 @@ export default function Hero({
         </div>
 
         {/* Feature row */}
-        <ul className="m-0 mt-[clamp(16px,3vw,48px)] grid list-none grid-cols-1 gap-6 p-0 min-[640px]:grid-cols-3 min-[640px]:gap-0">
+        <ul className="m-0 mt-[clamp(12px,1.6vw,24px)] grid list-none grid-cols-1 gap-6 p-0 min-[640px]:grid-cols-3 min-[640px]:gap-0">
           {features.map((f, i) => {
             const Icon = f.icon;
             const body = (

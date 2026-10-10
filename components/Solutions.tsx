@@ -91,8 +91,13 @@ const PAGE_COUNT = Math.ceil(SOLUTIONS.length / PER_PAGE);
 
    Same type multipliers as WhatWeProvide, so the two sections set identical type
    at identical levels. */
+/* Top and bottom padding differ deliberately. BannerPower follows this section
+   directly and carries no padding of its own, so the full section pad below left
+   a large white band above the banner. The bottom is halved to close that gap
+   while keeping the full pad above, where it separates the section from
+   WhatWeProvide. */
 const SECTION =
-  "bg-white text-[color:var(--blue)] py-[length:var(--section-pad)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
+  "bg-white text-[color:var(--blue)] pt-[length:var(--section-pad)] pb-[length:calc(var(--section-pad)*0.45)] [--fs-h2:calc(var(--fs-h2)*1.6)] [--fs-lead:calc(var(--fs-lead)*1.45)] [--fs-h3:calc(var(--fs-h3)*1.35)] [--fs-body:calc(var(--fs-body)*1.18)] [--fs-small:calc(var(--fs-small)*1.2)]";
 
 /* Left-anchored: --content-pad is --hero-left, so the heading shares the vertical
    line of the navbar logo and the hero headline. */
@@ -100,7 +105,7 @@ const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))]";
 
 const HEADLINE =
-  "m-0 pt-10 text-[length:var(--fs-h1)] uppercase text-[color:var(--blue)] min-[1100px]:whitespace-nowrap";
+  "m-0 text-[length:var(--fs-h1)] uppercase text-[color:var(--blue)] min-[1100px]:whitespace-nowrap";
 
 const SUBHEAD =
   "mt-[length:var(--ry)] mb-0 max-w-[46ch] text-[length:var(--fs-lead)] leading-[1.45] text-[color:var(--blue)]/75 text-pretty";

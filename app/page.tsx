@@ -8,7 +8,12 @@ import BannerPower from "@/components/BannerPower";
    navigation. See the note on RootLayout. */
 export default function HomePage() {
   return (
-    <main>
+    /* The home page stacks five full-height bands, so the shared section padding
+       is the dominant source of vertical whitespace here. It is overridden here
+       rather than in layout.tsx because --section-pad is shared with the
+       Products / Services / Industries routes, which keep the full value. The
+       hero is unaffected: its frame is sized from --vh, not --section-pad. */
+    <main className="[--section-pad:calc(clamp(56px,9vw,120px)*0.68)]">
       <Hero />
       <WhatWeProvide />
       <Solutions />

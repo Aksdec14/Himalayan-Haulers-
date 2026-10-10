@@ -49,7 +49,7 @@ const BLUR =
 
    `--btn-*` are CTA geometry, consumed by the shared Button below. */
 const HERO_COPY =
-  "flex flex-col items-start gap-[length:var(--hero-gap)] flex-1 min-h-0 pt-[clamp(20px,16cqh,160px)] max-[700px]:pt-[clamp(16px,8cqh,80px)] max-h-[620px]:pt-[clamp(12px,8cqh,48px)] w-[46cqw] max-[1240px]:w-[50cqw] max-[700px]:w-full [--btn-w:min(max(13.9cqw,148px),260px)] [--btn-h:min(max(6.4cqh,44px),62px)]";
+  "flex flex-col items-start justify-center gap-[length:var(--hero-gap)] flex-1 min-h-0 pt-[clamp(16px,5cqh,48px)] max-[700px]:pt-[clamp(12px,3cqh,32px)] max-h-[620px]:pt-[clamp(8px,3cqh,24px)] w-[46cqw] max-[1240px]:w-[50cqw] max-[700px]:w-full [--btn-w:min(max(13.9cqw,148px),260px)] [--btn-h:min(max(6.4cqh,44px),62px)]";
 
 /* Weight, leading, tracking and balance come from the global heading rule in
    globals.css. Only the level's size and this section's case live here.
