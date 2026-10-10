@@ -17,7 +17,7 @@ export default function HomePage() {
     <main className="[--section-pad:calc(clamp(56px,9vw,120px)*0.68)]">
       <Hero />
       <WhatWeProvide />
-      <Solutions />
+      {/* <Solutions /> */}
       <Dronepage />
       <BannerPower />
       <Industries />

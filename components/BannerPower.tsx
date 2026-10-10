@@ -54,7 +54,7 @@ export default function BannerPower() {
       aria-label="Explore drone solutions for power transmission infrastructure"
     >
       <Image
-        src="/media/Banner.png"
+        src="/media/Banner.jpeg"
         alt="Drone solutions for the power transmission infrastructure — aerial stringing, pulling and material movement for transmission projects."
         width={1040}
         height={313}

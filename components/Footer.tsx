@@ -123,18 +123,7 @@ export default function Footer() {
       <div
         className={`${INNER} pt-[clamp(40px,5vw,80px)] pb-[clamp(32px,4vw,56px)]`}
       >
-        <div className={CTA_BAND}>
-          <p className={CTA_TITLE}>Let&rsquo;s Move Something Impossible</p>
-          <Link href="/contact" className={CTA_LINK}>
-            Get a Quote
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-            >
-              &rarr;
-            </span>
-          </Link>
-        </div>
+       
 
         <div className={`${GRID} max-w-[1400px]`}>
           {/* Brand */}

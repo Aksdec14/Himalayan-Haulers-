@@ -1,31 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Cctv, Package, Settings } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const CTAS = [
   { label: "Explore Products", href: "/what-we-provide/products" },
   { label: "Explore Services", href: "/what-we-provide/services" },
 ];
 
-const FEATURES = [
-  {
-    icon: Package,
-    title: "Drone Products",
-    description: "Commercial, Surveillance and Defence logistics drones",
-  },
-  {
-    icon: Cctv,
-    title: "Power Transmission",
-    description: "33 kV and 800 kV stringing, pole erection, and tower foundation material movement.",
-  },
-  {
-    icon: Settings,
-    title: "Drone Services (DaaS)",
-    description: "LDaaS, visual and thermal inspection, confined space inspection, and UT measurement",
-  },
-];
-
-/* Change this to swap the photo. Use a wide drone-over-mountains shot with
+/* Change this to swap the photo. Use a wide drone-over-mountains shot with</path>
    the drone on the right. */
 const HERO_IMAGE = {
   src: "/media/image.png",
@@ -39,7 +21,7 @@ const SECTION =
   "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 text-[color:var(--ink)] [animation:hh-fade_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [--fs-body-xl:calc(var(--fs-body)*1.18)] [--fs-small-xl:calc(var(--fs-small)*1.2)]";
 
 const EYEBROW =
-  "m-0 flex items-center gap-4 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.2em] text-[color:var(--ink)]";
+  "mt-6 flex items-center gap-4 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.2em] text-[color:var(--ink)]";
 
 const TITLE =
   "m-0 text-balance text-[length:calc(var(--fs-h1)*0.85)] font-extrabold uppercase leading-[1] tracking-tight text-[color:var(--ink)]";
@@ -98,7 +80,7 @@ export default function WhatWeProvide() {
       </div>
 
       {/* Left: copy */}
-      <div className="flex flex-col gap-[clamp(12px,1.4vw,18px)] py-[clamp(24px,3vw,44px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[55%]">
+      <div className="flex flex-col gap-[clamp(12px,1.4vw,18px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[55%]">
         <p className={EYEBROW}>
           Drones · DAAS · Solutions
           <span
@@ -110,7 +92,7 @@ export default function WhatWeProvide() {
         <h2 id="provide-title" className={TITLE}>
           What We
           {" "}
-          <span className="text-[color:var(--cyan)]">Deliver</span>
+          <span className="text-[color:var(--cyan)]">Do</span>
         </h2>
 
         <p className={LEAD}>
@@ -125,38 +107,6 @@ export default function WhatWeProvide() {
             </Link>
           ))}
         </div>
-
-        {/* Feature row */}
-        <ul className="m-0 mt-[clamp(8px,1.4vw,20px)] grid list-none grid-cols-1 gap-5 p-0 min-[640px]:grid-cols-3 min-[640px]:gap-0">
-          {FEATURES.map((f, i) => {
-            const Icon = f.icon;
-            return (
-              <li
-                key={f.title}
-                className={`flex gap-4 ${
-                  i > 0
-                    ? "min-[640px]:border-l min-[640px]:border-[color:var(--ink)]/15 min-[640px]:pl-[clamp(16px,2vw,32px)]"
-                    : ""
-                } ${i < FEATURES.length - 1 ? "min-[640px]:pr-[clamp(16px,2vw,32px)]" : ""}`}
-              >
-                <Icon
-                  size={40}
-                  strokeWidth={1.4}
-                  aria-hidden="true"
-                  className="mt-1 shrink-0 text-[color:var(--cyan)]"
-                />
-                <span className="flex flex-col gap-1">
-                  <span className="text-[length:var(--fs-small)] font-bold uppercase leading-tight tracking-[0.06em] text-[color:var(--ink)]">
-                    {f.title}
-                  </span>
-                  <span className="max-w-[18ch] text-[length:var(--fs-small)] leading-snug text-[color:var(--ink)]/60">
-                    {f.description}
-                  </span>
-                </span>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </section>
   );

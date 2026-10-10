@@ -145,7 +145,7 @@ type Drone = { id: string; model: string; sub: string; features: Feature[] };
 type Tag = [IconName, string];
 
 type Category = {
-  id: "commercial" | "defence" | "surveillance";
+  id: "commercial" | "defence";
   tab: string;
   title: [string, string];
   lead: string;
@@ -158,19 +158,18 @@ const CATEGORIES: Category[] = [
   {
     id: "commercial",
     tab: "Commercial",
-    title: ["Freightor", "Logistics Drones"],
+    title: ["Freightor for", "Logistics Drones"],
     lead: "Heavy-lift drones from 5 kg to 300 kg, built in India for every kind of terrain.",
     tags: [
       ["box", "Heavy payloads"],
       ["mountain", "All-terrain operations"],
-      ["flag", "Made in India"],
     ],
     cta: { label: "Explore All Drones", href: PRODUCTS_URL },
     drones: [
       {
         id: "c300",
         model: "C300",
-        sub: "300 kg",
+        sub: "Payload 300 kg",
         features: [
           ["box", "Heavy-lift capability"],
           ["route", "Long-range operations"],
@@ -180,7 +179,7 @@ const CATEGORIES: Category[] = [
       {
         id: "c200",
         model: "C200",
-        sub: "200 kg",
+        sub: "Payload 200 kg",
         features: [
           ["layers", "High payload capacity"],
           ["check", "Reliable performance"],
@@ -190,7 +189,7 @@ const CATEGORIES: Category[] = [
       {
         id: "c100",
         model: "C100",
-        sub: "100 kg",
+        sub: "Payload 100 kg",
         features: [
           ["target", "Versatile operations"],
           ["box", "Optimised payload"],
@@ -200,7 +199,7 @@ const CATEGORIES: Category[] = [
       {
         id: "c20",
         model: "C20",
-        sub: "20 kg",
+        sub: "Payload 20 kg",
         features: [
           ["grid", "Flexible deployment"],
           ["bolt", "Efficient operations"],
@@ -210,7 +209,7 @@ const CATEGORIES: Category[] = [
       {
         id: "c5",
         model: "C5",
-        sub: "5 kg",
+        sub: "Payload 5 kg",
         features: [
           ["feather", "Lightweight design"],
           ["clock", "Quick deployment"],
@@ -220,7 +219,7 @@ const CATEGORIES: Category[] = [
       {
         id: "cfwvtol7",
         model: "CFWVTOL7",
-        sub: "7 kg VTOL",
+        sub: "Payload 7 kg VTOL",
         features: [
           ["rotor", "VTOL capability"],
           ["route", "Extended range"],
@@ -232,7 +231,7 @@ const CATEGORIES: Category[] = [
   {
     id: "defence",
     tab: "Defence",
-    title: ["Freightor", "Defence Drones"],
+    title: ["Freightor for", "Defence Drones"],
     lead: "Mission-ready drone platforms for demanding defence operations, day and night.",
     tags: [
       ["box", "High payloads"],
@@ -244,7 +243,7 @@ const CATEGORIES: Category[] = [
       {
         id: "d300",
         model: "D300",
-        sub: "300 kg",
+        sub: "Payload 300 kg",
         features: [
           ["box", "Heavy-payload capability"],
           ["layers", "Logistics support"],
@@ -254,7 +253,7 @@ const CATEGORIES: Category[] = [
       {
         id: "d200",
         model: "D200",
-        sub: "200 kg",
+        sub: "Payload 200 kg",
         features: [
           ["layers", "High payload capacity"],
           ["route", "Tactical logistics"],
@@ -264,7 +263,7 @@ const CATEGORIES: Category[] = [
       {
         id: "d100",
         model: "D100",
-        sub: "100 kg",
+        sub: "Payload 100 kg",
         features: [
           ["target", "Versatile deployment"],
           ["box", "Payload flexibility"],
@@ -274,7 +273,7 @@ const CATEGORIES: Category[] = [
       {
         id: "d20",
         model: "D20",
-        sub: "20 kg",
+        sub: "Payload 20 kg",
         features: [
           ["grid", "Compact logistics"],
           ["bolt", "Flexible deployment"],
@@ -284,7 +283,7 @@ const CATEGORIES: Category[] = [
       {
         id: "d5",
         model: "D5",
-        sub: "5 kg",
+        sub: "Payload 5 kg",
         features: [
           ["feather", "Lightweight platform"],
           ["clock", "Rapid deployment"],
@@ -294,7 +293,7 @@ const CATEGORIES: Category[] = [
       {
         id: "dfwvtol7",
         model: "DFWVTOL7",
-        sub: "7 kg VTOL",
+        sub: "Payload 7 kg VTOL",
         features: [
           ["rotor", "Vertical take-off and landing"],
           ["plane", "Fixed-wing configuration"],
@@ -309,30 +308,6 @@ const CATEGORIES: Category[] = [
           ["eye", "Aerial surveillance"],
           ["radar", "Situational awareness"],
           ["clock", "Persistent monitoring"],
-        ],
-      },
-    ],
-  },
-  {
-    id: "surveillance",
-    tab: "Surveillance",
-    title: ["Surveillance", "Drones"],
-    lead: "Advanced aerial surveillance for enhanced situational awareness around the clock.",
-    tags: [
-      ["eye", "Real-time monitoring"],
-      ["radar", "Aerial intelligence"],
-      ["target", "Mission-ready operations"],
-    ],
-    cta: { label: "Explore Surveillance Solutions", href: PRODUCTS_URL },
-    drones: [
-      {
-        id: "skye-d100",
-        model: "Skye D100",
-        sub: "Surveillance",
-        features: [
-          ["eye", "Aerial monitoring"],
-          ["radar", "Situational awareness"],
-          ["target", "Intelligence gathering"],
         ],
       },
     ],
@@ -386,7 +361,7 @@ function IntroPanel({ category }: { category: Category }) {
   return (
     <div className="flex min-w-0 flex-col justify-between gap-6 py-1 lg:pr-4">
       <div>
-        <h2 className="m-0 text-[clamp(28px,3.2vw,40px)] font-semibold leading-[1.08] tracking-tight text-[color:var(--blue)] text-balance">
+        <h2 className="m-0 text-[clamp(22px,2.4vw,30px)] font-semibold leading-[1.1] tracking-tight text-[color:var(--blue)] text-balance">
           {category.title[0]}{" "}
           <em className="font-serif font-normal italic text-[color:var(--cyan)]">
             {category.title[1]}
@@ -623,54 +598,6 @@ function CountTile({
   );
 }
 
-/* One big card with a full background image, for categories that have a
-   single drone (Surveillance). Desktop-only like the collage. */
-const SINGLE_IMAGE = "/media/Surveillance-drone.jpeg";
-
-function FeatureCard({ drone, showImage }: { drone: Drone; showImage: boolean }) {
-  return (
-    <div className="group relative flex min-h-[300px] min-w-0 flex-col justify-between gap-6 overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(16px,2vw,28px)] text-white lg:h-[420px]">
-      {showImage && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${SINGLE_IMAGE})` }}
-        />
-      )}
-      {/* Keeps the text readable on any photo */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color:var(--blue)]/85 to-[color:var(--blue)]/25"
-      />
-
-      <div className="relative">
-        <span className="mb-3 flex size-9 items-center justify-center rounded-lg bg-white/15 text-white">
-          <Icon name={drone.features[0][0]} className="size-[18px]" />
-        </span>
-        <h3 className="m-0 break-words text-[clamp(28px,3.2vw,44px)] font-bold leading-tight">
-          {drone.model}
-        </h3>
-        <p className="m-0 mt-1 text-[14px] font-medium text-white/70">{drone.sub}</p>
-      </div>
-
-      <div className="relative">
-        <p className="m-0 max-w-[40ch] text-[clamp(13px,1.2vw,15px)] leading-[1.5] text-white/85">
-          {describe(drone.features)}
-        </p>
-        {/* Stretched link: whole card is clickable */}
-        <a
-          href={PRODUCTS_URL}
-          aria-label={`View ${drone.model}`}
-          className="mt-3 inline-flex w-fit items-center gap-1 text-[13px] font-semibold text-inherit no-underline after:absolute after:inset-0 after:rounded-xl after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)]"
-        >
-          View details
-          <Chevron className="size-3 transition-transform group-hover:translate-x-0.5" />
-        </a>
-      </div>
-    </div>
-  );
-}
-
 function Collage({ drones }: { drones: Drone[] }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const slotDrone: (Drone | null)[] = Array(SLOTS.length).fill(null);
@@ -722,7 +649,6 @@ function FreightorDrones() {
   const baseId = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const current = CATEGORIES[active];
-  const useCollage = current.drones.length >= 4;
   const isDesktop = useIsDesktop();
 
   function select(index: number, focus = false) {
@@ -747,11 +673,10 @@ function FreightorDrones() {
       aria-label="Drones"
     >
       <div className={INNER}>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--blue)]/[0.06] px-2.5 py-1 text-[10px] font-semibold text-[color:var(--blue)]/80">
-          <span className="size-1 rounded-full bg-[color:var(--blue)]" aria-hidden="true" />
-          Our drones
-        </span>
+      <div className="flex flex-wrap items-center gap-x-[clamp(16px,2.4vw,32px)] gap-y-4">
+        <h2 className="m-0 text-[clamp(32px,2vw,72px)] font-semibold leading-none tracking-tight text-[color:var(--blue)]">
+          OUR PRODUCTS
+        </h2>
 
         <div
           role="tablist"
@@ -796,23 +721,15 @@ function FreightorDrones() {
       >
         <IntroPanel category={current} />
 
-        {current.drones.length === 1 ? (
-          <FeatureCard drone={current.drones[0]} showImage={isDesktop} />
-        ) : (
-          /* Mobile / tablet (and categories with only a few drones): simple grid */
-          <ul
-            className={`m-0 grid list-none grid-cols-1 content-start gap-[clamp(8px,1vw,12px)] p-0 min-[500px]:grid-cols-2 ${
-              useCollage ? "lg:hidden" : "lg:grid-cols-3"
-            }`}
-          >
-            {current.drones.map((drone) => (
-              <DroneCard key={drone.id} drone={drone} level="lg" tone={0} />
-            ))}
-          </ul>
-        )}
+        {/* Mobile / tablet: simple grid */}
+        <ul className="m-0 grid list-none grid-cols-1 content-start gap-[clamp(8px,1vw,12px)] p-0 min-[500px]:grid-cols-2 lg:hidden">
+          {current.drones.map((drone) => (
+            <DroneCard key={drone.id} drone={drone} level="lg" tone={0} />
+          ))}
+        </ul>
 
         {/* Desktop: collage */}
-        {useCollage && isDesktop && <Collage drones={current.drones} />}
+        {isDesktop && <Collage drones={current.drones} />}
       </div>
       </div>
     </section>
