@@ -104,7 +104,7 @@ const ROW_BODY = "flex min-w-0 flex-1 items-center py-1.5";
 const ROW_DIVIDER = "border-b border-[color:var(--ink)]/15";
 
 const ROW_TEXT =
-  "text-[length:var(--c-lead)] text-[color:var(--ink)] underline decoration-[color:var(--ink)]/20 underline-offset-4 transition-colors hover:decoration-[color:var(--cyan)] focus-visible:decoration-[color:var(--cyan)] break-words";
+  "text-[length:var(--c-lead)] text-[color:var(--ink)] transition-colors break-words";
 
 /**
  * Contact page: a hero with copy and contact details left, a faded photo in the
