@@ -49,7 +49,7 @@ const HERO_COPY =
    The stagger uses `[animation-delay:...]`, not Tailwind's `delay-[...]`: that
    utility sets transition-delay, which does nothing to an animation. */
 const TITLE =
-  "m-0 text-[length:var(--fs-h1)] uppercase animate-hh-rise [animation-delay:200ms]";
+  "m-0 text-[length:calc(var(--fs-h2)*1.09)] uppercase animate-hh-rise [animation-delay:200ms]";
 
 const LEDE =
   "m-0 w-[36cqw] max-[1240px]:w-[40cqw] max-[700px]:w-full max-w-full text-[length:var(--fs-lead)] leading-[1.38] text-white/88 text-pretty animate-hh-rise [animation-delay:300ms]";
@@ -96,14 +96,12 @@ export default function Hero() {
       <div className={FRAME}>
         <div className={HERO_COPY}>
           <h1 className={TITLE}>
-            Where Roads End,
+          Aerial Logistics & 
             <br />
-            We Take Off.
+            Intelligence for Every Altitude
           </h1>
           <p className={LEDE}>
-            Heavy-lift drones that carry 20 to 300 kg to places trucks and mules
-            can&rsquo;t reach. Autonomous, high-altitude ready and built in
-            India. Buy the drone, or hire it as a service.
+          Heavy-payload delivery, stringing, aerial surveys, and inspections for EPCs, power transmission, and industrial enterprises.
           </p>
           <Button href="/#provide" size="lg" className={CTA}>
             Explore Drones

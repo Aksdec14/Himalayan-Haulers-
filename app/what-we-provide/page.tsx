@@ -2,45 +2,45 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Cog, Cpu, Package, ShieldCheck } from "lucide-react";
+import {
+  Cctv,
+  Cog,
+  Cpu,
+  Package,
+  Settings,
+  ShieldCheck,
+} from "lucide-react";
 
 import Button from "@/components/ui/Button";
 
-import HeroSlider, { type Slide } from "./hero-slider";
+import Hero, { type Feature } from "./hero";
 
 export const metadata: Metadata = {
-  title:
-    "Drone Products & Drone as a Service in India | Himalayan Haulers",
+  title: "Drone Products & Drone as a Service in India | Himalayan Haulers",
   description:
     "Two ways to put heavy-lift drones to work: own an HH Freightor D-Series drone, or hire the capability as a service. 20 to 300 kg payloads, built in India.",
 };
 
 /* ==========================================================================
-   WHAT WE PROVIDE â€” the index for the route, laid out after the "Palma House"
-   main-page wireframe (the wireframe's navbar and footer are the site's own
-   and are not part of this page).
+   WHAT WE PROVIDE - the index for the route.
 
-     1. hero          copy + links left, tall photo right with arrows
+     1. hero          copy + links + three features left, full-bleed photo right
      2. intro         centred heading; photo left, copy + link right
      3. four cards    centred heading; four equal cards in one row
      4. products      centred heading; photo left, copy + link right
      5. services      centred heading; copy + link left, tall photo right
      6. closing       the navy ClosingCTA panel
 
-   Copy is the same as before: the two-offer framing comes from the home
-   WhatWeProvide section, and the capability list from the Products page.
-
    Layout constants live HERE rather than in a shared module, as Products and
    Services carry their own copies; design tokens (--fs-*, --content-*) still
    come from globals.css.
 
    SIZES. The type ramp is declared as --fs-*-xl, which are DIFFERENT custom
-   properties from the --fs-* rungs they read. The old wrapper declared
-   `--fs-h2: calc(var(--fs-h2) * 1.6)`: a custom property that references
-   itself is a cycle, the browser discards it, and every size that read it
-   silently fell back to the inherited font size.
+   properties from the --fs-* rungs they read. A custom property that
+   references itself is a cycle, the browser discards it, and every size that
+   read it silently falls back to the inherited font size.
 
-   COLOUR. The global h1â€“h6 rule forces `color: inherit`, so a colour utility
+   COLOUR. The global h1-h6 rule forces `color: inherit`, so a colour utility
    on a heading loses. Colour is set on the wrapper and inherited.
    ========================================================================== */
 
@@ -61,7 +61,7 @@ const PAGE =
 /** One vertical rhythm for every stacked block below the hero. */
 const BLOCK = "mt-[clamp(56px,7vw,112px)]";
 
-/** The wireframe's section headings: centred, large, light, all caps. */
+/** Section headings: centred, large, light, all caps. */
 const TITLE =
   "m-0 text-balance text-center text-[length:var(--fs-h2-xl)] font-light uppercase leading-[1.1] tracking-[0.01em]";
 
@@ -117,8 +117,8 @@ function Bullets({ children }: { children: ReactNode }) {
   );
 }
 
-/** The wireframe's "VIEW COLLECTION â€”â€”>" link: small caps with a thin line and
- *  arrowhead underneath that lengthens on hover. Navy text, cyan line. */
+/** Small caps link with a thin line and arrowhead underneath that lengthens on
+ *  hover. Navy text, cyan line. */
 function LineLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
@@ -136,7 +136,7 @@ function LineLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-/** Photograph in a plain box: no radius, no shadow, as in the wireframe. */
+/** Photograph in a plain box: no radius, no shadow. */
 function Photo({
   src,
   alt,
@@ -176,8 +176,10 @@ function ClosingCTA({
     <div className={`${INNER} ${BLOCK}`}>
       <div className={CONTENT_MAX}>
         <div className="rounded-lg bg-blue px-[clamp(24px,3.5vw,56px)] py-[clamp(36px,4.5vw,64px)] text-center text-white">
-          <h2 className="m-0 text-[length:var(--fs-h2-xl)] uppercase">{title}</h2>
-          <p className="mx-auto m-0 mt-[clamp(12px,1.6vw,20px)] max-w-[60ch] text-[length:var(--fs-lead-xl)] leading-[1.45] text-white/85 text-pretty">
+          <h2 className="m-0 text-[length:var(--fs-h2-xl)] uppercase">
+            {title}
+          </h2>
+          <p className="mx-auto mt-[clamp(12px,1.6vw,20px)] max-w-[60ch] text-[length:var(--fs-lead-xl)] leading-[1.45] text-white/85 text-pretty">
             {text}
           </p>
           <div className="mt-[clamp(24px,3vw,40px)] flex flex-wrap items-center justify-center gap-x-[clamp(20px,2.4vw,32px)] gap-y-3">
@@ -191,40 +193,34 @@ function ClosingCTA({
 
 /* ---- Page content ---------------------------------------------------------- */
 
-/* The hero slides: each photograph travels with the copy that describes it.
-   None of these photographs is used again further down the page. All the copy
-   is lifted from the offers further down. */
-const HERO_SLIDES: Slide[] = [
+/* The single hero photograph: drone carrying a crate over the mountains.
+   Swap the file for a wide drone-over-peaks shot with the subject on the
+   right for the closest match to the mockup. */
+const HERO_IMAGE = {
+  src: "/media/DroneImage.png",
+  alt: "Heavy-lift drone carrying a crate over snow-capped Himalayan peaks",
+  position: "center",
+};
+
+/* The three feature callouts under the hero buttons. */
+const HERO_FEATURES: Feature[] = [
   {
-    src: "/media/construction.jpg",
-    alt: "High-altitude construction site at dusk, served by drone logistics",
-    position: "center 62%",
-    eyebrow: "What We Provide",
-    title: "Own the Drone, or",
-    accent: "Hire the Capability",
-    lead: "Heavy-lift drones that carry 20 to 300 kg to places trucks and mules can't reach. Buy the aircraft, or hire the same capability with crews, pilots and support.",
-    links: [
-      { href: "/what-we-provide/products", label: "Explore Products" },
-      { href: "/what-we-provide/services", label: "Explore Services" },
-    ],
+    icon: Package,
+    title: "Logistics Drones",
+    description: "Heavy-lift. Built for remote terrain.",
+    href: "/what-we-provide/products",
   },
   {
-    src: "/media/defence.jpg",
-    alt: "Heavy-lift drone delivering supplies at altitude",
-    eyebrow: "Own them",
-    title: "Own",
-    accent: "the Drone",
-    lead: "Purpose-built heavy-lift logistics drones, plus surveillance and custom platforms, built in India for Indian conditions.",
-    links: [{ href: "/what-we-provide/products", label: "Explore Products" }],
+    icon: Cctv,
+    title: "Surveillance Drones",
+    description: "Aerial monitoring for critical assets.",
+    href: "/what-we-provide/products",
   },
   {
-    src: "/media/power.jpg",
-    alt: "Drone stringing a pilot line between power towers",
-    eyebrow: "Hire the capability",
-    title: "Hire",
-    accent: "the Capability",
-    lead: "Get the result without owning the drone. Our crews bring the aircraft, pilots, batteries and support to your site.",
-    links: [{ href: "/what-we-provide/services", label: "Explore Services" }],
+    icon: Settings,
+    title: "Custom Drones",
+    description: "Purpose-built for your mission.",
+    href: "/what-we-provide/products",
   },
 ];
 
@@ -258,22 +254,30 @@ const CAPABILITIES: {
 ];
 
 /**
- * /what-we-provide â€” the index for the route: which drone products exist, and
+ * /what-we-provide - the index for the route: which drone products exist, and
  * whether you should buy one or hire the capability instead.
  *
- * Server component. The only client code is the hero's arrow slider, in
- * ./hero-slider.
+ * Server component; no client code.
  */
 export default function WhatWeProvidePage() {
   return (
     <main className={PAGE}>
-      {/* ---- 1. Hero: copy left, photograph right ---------------------------
-          One component owns both halves, so changing the photograph changes the
-          copy beside it. -mt cancels <main>'s top padding; the pt then clears
-          the fixed navbar, so the hero sits on white directly beneath it, as
-          the wireframe's does. */}
+      {/* ---- 1. Hero: copy + features left, full-bleed photo right -----------
+          -mt cancels <main>'s top padding; the pt then clears the fixed
+          navbar, so the hero sits on white directly beneath it. */}
       <section className="-mt-[length:var(--section-pad)] bg-white pt-[length:var(--nav-h)]">
-        <HeroSlider slides={HERO_SLIDES} />
+        <Hero
+          eyebrow={["Himalayan Haulers"]}
+          title="What we"
+          accent="provide"
+          lead="Put heavy-lift drones to work your way. Own purpose-built logistics, surveillance and custom drones, built in India for Indian conditions, or hire our crews to bring the aircraft, pilots and support to your site. Either way, fewer people end up at height or in harm's way."
+          ctas={[
+            { href: "/what-we-provide/products", label: "Explore products" },
+            { href: "/what-we-provide/services", label: "Explore services" },
+          ]}
+          image={HERO_IMAGE}
+          features={HERO_FEATURES}
+        />
       </section>
 
       {/* ---- 2. Intro: photo left, copy right -------------------------------- */}
@@ -438,7 +442,7 @@ export default function WhatWeProvidePage() {
       {/* ---- 6. Closing CTA --------------------------------------------------- */}
       <ClosingCTA
         title="Tell Us What You Need to Carry"
-        text="Share your payload, distance and altitude, and we will recommend the right drone â€” and whether to buy it or hire it â€” with a clear quote."
+        text="Share your payload, distance and altitude, and we will recommend the right drone, and whether to buy it or hire it, with a clear quote."
       >
         <Button href="/contact" tone="onDark" size="lg" withArrow>
           Request a Quote

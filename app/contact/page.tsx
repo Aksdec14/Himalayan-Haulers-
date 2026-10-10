@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
 /* app/contact/page.tsx
    The contact page body only. The navbar and footer are not rendered here: they
@@ -12,33 +12,24 @@ export const metadata: Metadata = {
     "Tell us what you need to carry, inspect or survey, and where. Our team will get back with the right drone, the right plan and a clear quote.",
 };
 
-/* Where the forms post. Point these at your own endpoints (API routes, a form
-   service, etc.). Both forms are plain HTML with native validation, so the page
-   needs no client JavaScript and stays a server component. */
+/* Where the form posts. Point this at your own endpoint. The form is plain HTML
+   with native validation, so the page needs no client JavaScript. */
 const ENQUIRY_ACTION = "/api/enquiry";
-const NEWSLETTER_ACTION = "/api/newsletter";
 
 const CONTACT = {
-  name: "Arjun Naik",
   phone: "+91 78998 01210",
   email: "arjun@himalayanhaulers.com",
-  hq: "HQ: Bangalore",
-  manufacturing: "Manufacturing: Tirupati",
+  location: "HQ: Bangalore \u00b7 Manufacturing: Tirupati",
 };
 
-/* OpenStreetMap embed: free, no API key, no billing, and the iframe is the
-   documented way to embed it, so it is safe to ship. The marker is at the centre
-   of Bangalore for now. To pin the real office, set MAP_LAT / MAP_LON (right-click
-   the spot on openstreetmap.org and copy the coordinates).
-
-   Prefer Google? Open the address on maps.google.com, click Share, then "Embed a
-   map", and paste the iframe's src into MAP_SRC instead. That is Google's own
-   no-key embed. */
-const MAP_LAT = 12.9716;
-const MAP_LON = 77.5946;
-const MAP_SPAN = 0.04; // how far the view extends from the marker, in degrees
-
-const MAP_SRC = `https://www.openstreetmap.org/export/embed.html?bbox=${MAP_LON - MAP_SPAN}%2C${MAP_LAT - MAP_SPAN / 2}%2C${MAP_LON + MAP_SPAN}%2C${MAP_LAT + MAP_SPAN / 2}&layer=mapnik&marker=${MAP_LAT}%2C${MAP_LON}`;
+/* The photo that sits between the copy and the form: a drone above power
+   towers and hills, drone upper-middle, towers lower-left. It fades out on all
+   sides, so a photo with a light sky works best. Swap the file and nudge
+   `position` until the drone and towers sit like the mockup. */
+const HERO_IMAGE = {
+  src: "/media/image.png",
+  position: "center 35%",
+};
 
 const INTERESTS = [
   "Buy a drone",
@@ -53,222 +44,190 @@ const INTERESTS = [
 const INDUSTRY_OPTIONS = ["Power", "Energy", "Defence", "Construction", "Other"];
 
 /* ---- Shared ------------------------------------------------------------------
-   SIZES: the site's raw --fs-* rungs are left untouched. This page defines its
-   own, slightly larger rungs under different names (--c-small, --c-body,
-   --c-lead, --c-h3), each a multiple of the matching --fs-* value. They must NOT
-   reuse the --fs-* names: `--fs-h2: calc(var(--fs-h2) * 1.6)` reads the property
-   it is defining, which is a cycle, so the browser discards it.
-
-   To change how much larger the text is, edit the multipliers below
-   (1.15 = a bit larger, 1.25 = noticeably larger, 1.05 = subtle).
-
-   --gap is the one spacing unit for stacks inside a card, so every gap in the
-   info card is the same distance. */
+   SIZES: the --c-* rungs are this page's own steps. They must NOT reuse the
+   --fs-* names, because a custom property that reads itself is a cycle and the
+   browser discards it. */
 const PAGE =
-  "bg-white text-blue [--gap:clamp(14px,1.6vw,24px)] [--c-small:calc(var(--fs-small)*1.15)] [--c-body:calc(var(--fs-body)*1.15)] [--c-lead:calc(var(--fs-lead)*1.1)] [--c-h3:calc(var(--fs-h3)*1.15)]";
+  "bg-white text-ink [--c-small:calc(var(--fs-small)*1.1)] [--c-body:calc(var(--fs-body)*1.08)] [--c-lead:calc(var(--fs-lead)*1.0)] [--c-h3:calc(var(--fs-h3)*1.1)]";
 
-/* On small screens (640px and below) the content starts 20px from the left
-   edge, instead of the wide --content-pad line the navbar logo uses. */
 const INNER =
   "pl-[length:var(--content-pad)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))] max-[640px]:pl-5 max-[640px]:pr-5";
 
-/* Info column left, wide column right, stacking below 900px. Used by both rows
-   that follow the hero, so the two rows share one column line. */
-const SPLIT =
-  "grid grid-cols-[minmax(0,4fr)_minmax(0,8fr)] gap-x-[clamp(24px,4vw,64px)] gap-y-[clamp(24px,3vw,40px)] max-w-[length:var(--content-max,1200px)] max-[900px]:grid-cols-1";
-
 /* ---- Hero --------------------------------------------------------------------
-   A navy band with a darkened photo behind it. The top padding clears the fixed
-   navbar that layout.tsx renders above the page. */
+   Three zones on desktop: copy (left), photo (middle, behind everything),
+   glass form (right). The top padding clears the fixed navbar. */
 const HERO =
-  "relative isolate overflow-hidden bg-blue text-white pt-[clamp(104px,11vw,160px)] pb-[clamp(72px,8vw,120px)] text-center max-[640px]:text-left";
+  "relative isolate overflow-hidden bg-gradient-to-br from-white via-white to-sky-50 pt-[calc(var(--nav-h)+clamp(8px,1.2vw,18px))] pb-[clamp(16px,2vw,28px)]";
 
-/* Wide enough for the larger headline; the paragraph keeps its own narrower measure. */
-const HERO_INNER =
-  "mx-auto max-w-[950px] px-[clamp(20px,5vw,64px)] max-[640px]:mx-0 max-[640px]:px-5";
+const EYEBROW =
+  "m-0 flex items-center gap-4 text-[length:var(--c-small)] font-medium uppercase tracking-[0.3em] text-ink/50";
 
 const HERO_TITLE =
-  "m-0 text-[length:calc(var(--fs-h1))] uppercase leading-[1.1] text-white text-balance";
+  "m-0 text-balance text-[length:calc(var(--fs-h1)*0.78)] font-extrabold uppercase leading-[1] tracking-tight text-ink";
 
-const HERO_RULE = "mx-auto mt-[clamp(16px,2vw,28px)] mb-0 max-[640px]:mx-0 h-px w-[clamp(120px,16vw,220px)] border-0 bg-white/50";
+const HERO_LEAD =
+  "m-0 max-w-[40ch] text-[length:var(--c-lead)] leading-[1.4] text-ink/80 text-pretty";
 
-const HERO_TEXT =
-  "mx-auto mt-[clamp(14px,1.8vw,24px)] mb-0 max-[640px]:mx-0 max-w-[56ch] text-[length:var(--c-lead)] leading-[1.38] text-white/80 text-pretty";
+/* Glass recipe: a translucent white gradient, a bright 1px edge, a top-edge
+   highlight and a blur of whatever sits behind it. */
+const GLASS =
+  "border border-white/80 bg-gradient-to-br from-white/85 via-white/65 to-white/45 backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(120,170,230,0.25),0_30px_60px_-28px_rgba(20,70,140,0.35)]";
 
-/* Ink on cyan is 5.4:1; white on cyan fails at this size. */
-const CTA =
-  "mt-[clamp(20px,2.6vw,36px)] inline-block rounded-[4px] bg-cyan px-8 py-[0.85em] text-[length:var(--c-body)] font-bold tracking-[0.04em] uppercase text-ink no-underline transition-[filter,transform] duration-200 hover:brightness-95 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
-
-/* ---- Enquiry row -------------------------------------------------------------
-   Light grey surface. The info card is pulled up over the hero's lower edge, as in
-   the reference. */
-const ENQUIRY = "bg-[#f4f7fa] pb-[clamp(40px,5vw,72px)]";
-
-/* The card is a column: details on top, photograph below. On desktop it is as
-   tall as the form beside it, and the photograph is the part that grows, so
-   there is never an empty gap between the two. */
-const CARD =
-  "relative z-[1] -mt-[clamp(40px,5vw,80px)] flex flex-col overflow-hidden rounded-lg bg-white shadow-[0_2px_4px_rgba(10,25,45,0.04),0_12px_32px_rgba(10,25,45,0.08)] max-[900px]:-mt-8";
-
-/* Same padding on all four sides, and one gap between everything inside, so the
-   name, the three details and the photograph are evenly spaced. */
-const CARD_BODY =
-  "flex flex-col gap-[length:var(--gap)] p-[clamp(20px,2.4vw,32px)]";
-
-const CARD_NAME = "m-0 text-[length:var(--c-h3)] text-blue";
-
-/* The photograph fills whatever height is left in the card. On a stacked layout
-   there is no spare height, so it takes a fixed ratio instead. */
-const CARD_PHOTO =
-  "relative aspect-[4/3] w-full min-[901px]:aspect-auto min-[901px]:min-h-[clamp(220px,22vw,320px)] min-[901px]:flex-1";
-
-const ROW = "m-0 flex items-start gap-3";
-const ICON = "mt-[0.2em] shrink-0 text-cyan";
-const LINE = "m-0 text-[length:var(--c-small)] leading-[1.4] text-blue/80 break-words";
-const LINK =
-  "text-blue underline decoration-blue/30 underline-offset-4 transition-colors hover:decoration-cyan focus-visible:decoration-cyan";
-
-const FORM_WRAP = "pt-[clamp(28px,3.5vw,56px)]";
-
-const FORM_TITLE = "m-0 text-[length:var(--c-h3)] text-blue";
+const FORM_TITLE =
+  "m-0 text-[length:calc(var(--c-h3)*1.15)] font-extrabold leading-tight text-ink";
 
 const FORM =
-  "mt-[clamp(18px,2.2vw,32px)] grid grid-cols-2 gap-x-[clamp(16px,2.4vw,32px)] gap-y-[clamp(16px,1.8vw,26px)] max-[560px]:grid-cols-1";
+  "mt-[clamp(8px,1vw,14px)] grid grid-cols-2 gap-x-[clamp(12px,1.4vw,20px)] gap-y-[clamp(8px,0.9vw,12px)] max-[560px]:grid-cols-1";
 
-const FIELD = "flex min-w-0 flex-col gap-[0.4em]";
+const FIELD = "flex min-w-0 flex-col gap-[0.3em]";
 const FULL = "col-span-2 max-[560px]:col-span-1";
 
 const LABEL =
-  "truncate text-[length:var(--c-small)] font-semibold tracking-normal normal-case text-blue/80";
+  "text-[length:var(--c-small)] font-semibold normal-case tracking-normal text-ink";
 
-/* Underline-only fields, on the light grey surface. The rule goes cyan on focus;
-   the default outline is replaced by that rule plus a 1px cyan shadow, so keyboard
-   focus stays visible. 16px at phone width stops iOS zooming on focus. */
+/* Boxed glass fields. 16px at phone width stops iOS zooming on focus. */
 const CONTROL =
-  "w-full min-w-0 rounded-none border-0 border-b border-solid border-blue/30 bg-transparent px-0 py-[0.5em] text-[length:var(--c-body)] text-blue outline-none transition-colors placeholder:text-blue/40 focus:outline-none focus-visible:outline-none focus:border-cyan focus-visible:border-cyan focus-visible:shadow-[0_1px_0_0_var(--color-cyan)] max-[560px]:text-[16px]";
+  "w-full min-w-0 rounded-lg border border-blue/15 bg-white/60 px-3.5 py-[0.45em] text-[length:var(--c-small)] text-ink outline-none transition-colors placeholder:text-ink/40 focus:border-cyan focus-visible:border-cyan focus-visible:shadow-[0_0_0_1px_var(--color-cyan)] max-[560px]:text-[16px]";
 
-const SELECT = `${CONTROL} appearance-none cursor-pointer pr-[1.5em] bg-[length:0.6em] bg-[position:right_0.2em_center] bg-no-repeat bg-[url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%206'%3E%3Cpath%20d='M1%201l4%204%204-4'%20fill='none'%20stroke='%2313294b'%20stroke-width='1.5'/%3E%3C/svg%3E")]`;
+const SELECT = `${CONTROL} appearance-none cursor-pointer pr-10 bg-[length:0.7em] bg-[position:right_1em_center] bg-no-repeat bg-[url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2010%206'%3E%3Cpath%20d='M1%201l4%204%204-4'%20fill='none'%20stroke='%2313294b'%20stroke-width='1.5'/%3E%3C/svg%3E")]`;
 
-const TEXTAREA = `${CONTROL} min-h-[6em] resize-y leading-[1.4]`;
+const TEXTAREA = `${CONTROL} min-h-[3.4em] resize-y leading-[1.35]`;
 
 const SUBMIT =
-  "self-start rounded-[4px] bg-cyan px-8 py-[0.85em] text-[length:var(--c-body)] font-bold tracking-[0.04em] uppercase text-ink cursor-pointer transition-[filter,transform] duration-200 hover:brightness-95 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue max-[560px]:w-full max-[560px]:self-stretch";
+  "inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-cyan to-blue px-7 py-[0.6em] text-[length:var(--c-small)] font-bold uppercase tracking-[0.06em] text-ink shadow-[0_10px_24px_-10px_rgba(20,100,200,0.6)] cursor-pointer transition-[filter,transform] duration-200 hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue max-[560px]:w-full";
 
-const SMALL_PRINT = "m-0 text-[length:var(--c-small)] text-blue/65";
+const SMALL_PRINT = "m-0 text-[length:calc(var(--c-small)*0.9)] text-ink/60";
 
-/* ---- Stay in touch + map ---------------------------------------------------- */
+const ROW_ICON =
+  "grid size-[clamp(38px,2.8vw,44px)] shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-blue/10 text-blue shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)]";
 
-const MAP_ROW = "bg-[#f4f7fa] pb-[clamp(40px,5vw,72px)]";
+/* The text side of a contact row. Rows 1 and 2 carry the divider under them. */
+const ROW_BODY = "flex min-w-0 flex-1 items-center py-1.5";
+const ROW_DIVIDER = "border-b border-ink/15";
 
-const NEWSLETTER =
-  "flex flex-col justify-center rounded-lg bg-blue p-[clamp(20px,2.4vw,32px)] text-white";
-
-const NEWSLETTER_TITLE = "m-0 text-[length:var(--c-h3)] text-white";
-
-const NEWSLETTER_TEXT =
-  "mt-[0.6em] mb-0 text-[length:var(--c-small)] leading-[1.4] text-white/80";
-
-const NEWSLETTER_FORM = "mt-[clamp(14px,1.6vw,22px)] flex";
-
-const NEWSLETTER_INPUT =
-  "min-w-0 flex-1 rounded-l-[4px] border-0 bg-white px-4 py-[0.8em] text-[length:var(--c-small)] text-blue outline-none placeholder:text-blue/50 focus-visible:outline-2 focus-visible:outline-cyan max-[560px]:text-[16px]";
-
-const NEWSLETTER_BTN =
-  "grid w-[clamp(44px,3.6vw,54px)] shrink-0 cursor-pointer place-items-center rounded-r-[4px] border-0 bg-cyan text-ink transition-[filter] hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
-
-const MAP_FRAME =
-  "h-[clamp(240px,24vw,340px)] w-full overflow-hidden rounded-lg border-0 bg-blue/10 grayscale-[0.4]";
+const ROW_TEXT =
+  "text-[length:var(--c-lead)] text-ink underline decoration-ink/20 underline-offset-4 transition-colors hover:decoration-cyan focus-visible:decoration-cyan break-words";
 
 /**
- * Contact page — hero, then the contact details beside the enquiry form, then the
- * newsletter card beside a map. Navbar and footer are deliberately left to the
- * layout.
+ * Contact page: a hero with copy and contact details left, a faded photo in the
+ * middle and a glass enquiry form right.
  *
- * Server component. Both forms post natively; nothing here needs client state.
+ * Server component. The form posts natively; nothing here needs client state.
  */
 export default function ContactPage() {
   return (
     <main className={PAGE}>
-      {/* Hero */}
       <section className={HERO} aria-labelledby="contact-title">
-        <Image
-          src="/media/Inspection.jpeg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="-z-20 object-cover"
-        />
-        <div className="absolute inset-0 -z-10 bg-blue/80" aria-hidden="true" />
-
-        <div className={`${HERO_INNER} animate-hh-fade`}>
-          <h1 id="contact-title" className={HERO_TITLE}>
-            Let&rsquo;s Move Something Impossible
-          </h1>
-          <hr className={HERO_RULE} />
-          <p className={HERO_TEXT}>
-            Tell us what you need to carry, inspect or survey, and where. Our
-            team will get back with the right drone, the right plan and a clear
-            quote.
-          </p>
-          <a href="#enquiry" className={CTA}>
-            Request a Quote
-          </a>
+        {/* Middle photo: its own zone between copy and form, faded on every
+            side with an oval mask. Desktop only, so mobile stays clean. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-[30%] -z-10 hidden w-[42%] min-[1100px]:block [mask-image:radial-gradient(ellipse_at_50%_45%,black_42%,transparent_74%)]"
+        >
+          <Image
+            src={HERO_IMAGE.src}
+            alt=""
+            fill
+            priority
+            sizes="42vw"
+            className="object-cover"
+            style={{ objectPosition: HERO_IMAGE.position }}
+          />
         </div>
-      </section>
 
-      {/* Contact details + enquiry form */}
-      <section id="enquiry" className={ENQUIRY} aria-label="Enquiry">
-        <div className={INNER}>
-          <div className={SPLIT}>
-            <aside className={`${CARD} animate-hh-fade`}>
-              <div className={CARD_BODY}>
-                <p className={CARD_NAME}>{CONTACT.name}</p>
+        <div
+          className={`${INNER} grid items-center gap-[clamp(20px,3vw,36px)] min-[1100px]:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] min-[1100px]:gap-[clamp(32px,5vw,96px)]`}
+        >
+          {/* Left: copy + contact rows */}
+          <div className="flex animate-hh-fade flex-col gap-[clamp(8px,1vw,14px)]">
+            <p className={EYEBROW}>
+              <span
+                aria-hidden="true"
+                className="block h-[2px] w-14 shrink-0 bg-cyan"
+              />
+              Let&rsquo;s Connect
+            </p>
 
-                <address className="m-0 flex flex-col gap-[length:var(--gap)] not-italic">
-                  <p className={ROW}>
-                    <Mail size={16} className={ICON} aria-hidden="true" />
-                    <a href={`mailto:${CONTACT.email}`} className={`${LINE} ${LINK}`}>
-                      {CONTACT.email}
-                    </a>
-                  </p>
-                  <p className={ROW}>
-                    <Phone size={16} className={ICON} aria-hidden="true" />
-                    <a
-                      href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
-                      className={`${LINE} ${LINK}`}
-                    >
-                      {CONTACT.phone}
-                    </a>
-                  </p>
-                  <p className={ROW}>
-                    <MapPin size={16} className={ICON} aria-hidden="true" />
-                    <span className={LINE}>
-                      {CONTACT.hq}
-                      <br />
-                      {CONTACT.manufacturing}
-                    </span>
-                  </p>
-                </address>
+            <h1 id="contact-title" className={HERO_TITLE}>
+              Let&rsquo;s Move
+              <br />
+              Something
+              <br />
+              <span className="text-cyan">Impossible</span>
+            </h1>
 
-                {/* The social row was removed: every one of its anchors was
-                    href="#", so none of them went anywhere. Restore it when the
-                    company's real profile URLs are known. */}
+            <p className={HERO_LEAD}>
+              Tell us what you need to carry, inspect or survey, and where. Our
+              team will get back with the right drone, the right plan and a
+              clear quote.
+            </p>
+
+            <address className="m-0 flex max-w-[26em] flex-col not-italic">
+              <div className="flex items-center gap-4">
+                <span className={ROW_ICON}>
+                  <Phone size={18} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <div className={`${ROW_BODY} ${ROW_DIVIDER}`}>
+                  <a
+                    href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
+                    className={ROW_TEXT}
+                  >
+                    {CONTACT.phone}
+                  </a>
+                </div>
               </div>
 
-              <div className={CARD_PHOTO}>
-                <Image
-                  src="/media/Inspection.jpeg"
-                  alt="Heavy-lift drone at work"
-                  fill
-                  sizes="(max-width: 900px) 100vw, 30vw"
-                  className="object-cover"
-                />
+              <div className="flex items-center gap-4">
+                <span className={ROW_ICON}>
+                  <Mail size={18} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <div className={`${ROW_BODY} ${ROW_DIVIDER}`}>
+                  <a href={`mailto:${CONTACT.email}`} className={ROW_TEXT}>
+                    {CONTACT.email}
+                  </a>
+                </div>
               </div>
-            </aside>
 
-            <div className={`${FORM_WRAP} animate-hh-fade [animation-delay:150ms]`}>
+              <div className="flex items-center gap-4">
+                <span className={ROW_ICON}>
+                  <MapPin size={18} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <div className={ROW_BODY}>
+                  <span className="text-[length:var(--c-lead)] text-ink">
+                    {CONTACT.location}
+                  </span>
+                </div>
+              </div>
+            </address>
+          </div>
+
+          {/* Right: glass enquiry card with two stacked plates peeking out
+              behind it at the top and left */}
+          <div
+            id="enquiry"
+            className="relative isolate animate-hh-fade [animation-delay:150ms]"
+          >
+            <span
+              aria-hidden="true"
+              className="absolute -z-20 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/60 to-blue/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[3%] -top-[4%] right-[17%] bottom-[8%]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute -z-10 hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white/70 to-blue/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md min-[900px]:block -left-[6%] -top-[1.5%] right-[17%] bottom-[5%]"
+            />
+
+            <div
+              className={`rounded-[24px] p-[clamp(14px,1.8vw,26px)] ${GLASS}`}
+            >
               <h2 className={FORM_TITLE}>Send us your enquiry</h2>
+              <span
+                aria-hidden="true"
+                className="mt-1.5 block h-[3px] w-[clamp(32px,2.6vw,44px)] rounded-full bg-cyan"
+              />
+              <p className="m-0 mt-1.5 max-w-[48ch] text-[length:var(--c-small)] leading-[1.35] text-ink/75 text-pretty">
+                Share your requirements and our team will reach out with the
+                right solution.
+              </p>
 
               <form className={FORM} action={ENQUIRY_ACTION} method="post">
                 <div className={FIELD}>
@@ -281,6 +240,7 @@ export default function ContactPage() {
                     type="text"
                     autoComplete="name"
                     required
+                    placeholder="Your name"
                     className={CONTROL}
                   />
                 </div>
@@ -295,6 +255,7 @@ export default function ContactPage() {
                     type="text"
                     autoComplete="organization"
                     required
+                    placeholder="Your company name"
                     className={CONTROL}
                   />
                 </div>
@@ -309,6 +270,7 @@ export default function ContactPage() {
                     type="email"
                     autoComplete="email"
                     required
+                    placeholder="you@company.com"
                     className={CONTROL}
                   />
                 </div>
@@ -323,6 +285,7 @@ export default function ContactPage() {
                     type="tel"
                     autoComplete="tel"
                     required
+                    placeholder="+91 98765 43210"
                     className={CONTROL}
                   />
                 </div>
@@ -377,15 +340,18 @@ export default function ContactPage() {
                     id="enq-requirement"
                     name="requirement"
                     required
-                    rows={4}
+                    rows={2}
                     placeholder="Payload, distance, altitude, location"
                     className={TEXTAREA}
                   />
                 </div>
 
-                <div className={`${FULL} flex flex-col gap-[clamp(12px,1.4vw,18px)]`}>
+                <div
+                  className={`${FULL} flex flex-wrap items-center gap-x-[clamp(12px,1.4vw,20px)] gap-y-2`}
+                >
                   <button type="submit" className={SUBMIT}>
                     Send Enquiry
+                    <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
                   </button>
                   <p className={SMALL_PRINT}>
                     We usually reply within one working day.
@@ -393,58 +359,6 @@ export default function ContactPage() {
                 </div>
               </form>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stay in touch + map */}
-      <section className={MAP_ROW} aria-label="Newsletter and location">
-        <div className={INNER}>
-          <div className={SPLIT}>
-            <div className={`${NEWSLETTER} animate-hh-fade`}>
-              <h2 className={NEWSLETTER_TITLE}>Stay in touch</h2>
-              <p className={NEWSLETTER_TEXT}>
-                Subscribe to our newsletter and we&rsquo;ll keep you informed
-                about new drones and services.
-              </p>
-              <form className={NEWSLETTER_FORM} action={NEWSLETTER_ACTION} method="post">
-                <label htmlFor="news-email" className="sr-only">
-                  Your email
-                </label>
-                <input
-                  id="news-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  placeholder="Your email"
-                  className={NEWSLETTER_INPUT}
-                />
-                <button type="submit" className={NEWSLETTER_BTN} aria-label="Subscribe">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </button>
-              </form>
-            </div>
-
-            <iframe
-              title="Himalayan Haulers headquarters, Bangalore"
-              src={MAP_SRC}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className={`${MAP_FRAME} animate-hh-fade [animation-delay:150ms]`}
-            />
           </div>
         </div>
       </section>
