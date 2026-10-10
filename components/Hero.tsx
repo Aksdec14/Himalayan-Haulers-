@@ -10,7 +10,7 @@ const SLIDER_ITEMS = [
   {
     key: "b",
     title: "Drone as a Service",
-    body: "LDaaS, inspections and tower stringing on demand",
+    body: "LDaaS, inspections, and line stringing on demand",
   },
 ];
 
@@ -65,7 +65,20 @@ const LEDE =
 /* Glass panel over the shared Button: the tint, not the blur, carries contrast
    over moving footage. `m-0` keeps the flex gap as the only spacing. */
 const CTA =
-  "mt-5 px-6 rounded-[4px] border border-white/30 bg-[rgba(20,35,55,0.28)] backdrop-blur-[10px] backdrop-saturate-[140%] text-white [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:400ms] hover:bg-[rgba(20,35,55,0.46)] hover:border-white/60";
+  "px-6 rounded-[4px] border border-white/30 bg-[rgba(20,35,55,0.28)] backdrop-blur-[10px] backdrop-saturate-[140%] text-white [animation:hh-rise_0.9s_cubic-bezier(0.2,0.7,0.2,1)_both] [animation-delay:400ms] hover:bg-[rgba(20,35,55,0.46)] hover:border-white/60";
+
+/* Both CTAs in one row. They are wrapped rather than left as siblings of the
+   headline, because HERO_COPY is a flex COLUMN — as direct children the two
+   buttons stacked.
+
+   The shared Button sizes `lg` to --btn-w (a fixed per-button width), which is
+   narrower than "Explore Our Solutions" needs and would clip it. The row sets
+   auto width with a floor instead, and lets the buttons share the row evenly,
+   so each is at least as wide as its own label. flex-wrap keeps them on one
+   line on desktop and drops the second below its own width on narrow screens
+   rather than overflowing the frame. */
+const CTA_ROW =
+  "mt-5 flex w-full flex-wrap items-center gap-x-[clamp(10px,1.4cqw,20px)] gap-y-3 [--btn-w:auto]";
 
 /* Bottom feature strip: a grid in normal flow. Two equal columns with one gap;
    the second drops out below 1000px. Bottom padding is the same token the rest
@@ -111,9 +124,14 @@ export default function Hero() {
           <p className={LEDE}>
           Heavy-payload delivery, stringing, aerial surveys, and inspections for EPCs, power transmission, and industrial enterprises.
           </p>
-          <Button href="/#provide" size="lg" className={CTA}>
-            Explore Drones
-          </Button>
+          <div className={CTA_ROW}>
+            <Button href="/#provide" size="lg" className={CTA}>
+              Explore Drones
+            </Button>
+            <Button href="/#provide" size="lg" className={CTA}>
+              Explore Services
+            </Button>
+          </div>
         </div>
 
         <div className={SLIDER}>

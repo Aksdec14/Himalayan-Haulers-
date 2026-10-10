@@ -17,68 +17,68 @@ type Solution = {
 /* Paths are from public/ root. Three photos exist so far, so some panels share
    one; give each solution its own file here when you have it. `alt` names the
    subject of the photo rather than the capability. */
-const SOLUTIONS: Solution[] = [
-  {
-    id: "logistics",
-    title: "Logistics & Last-Mile Delivery",
-    short: "Logistics",
-    body: "Materials, rations and medicine to remote sites, no road needed.",
-    image: {
-      src: "/media/Logistics.jpeg",
-      alt: "Heavy-lift drone carrying a payload",
+   const SOLUTIONS: Solution[] = [
+    {
+      id: "logistics",
+      title: "Logistics Drone as a Service",
+      short: "Logistics",
+      body: "Materials, tools, and equipment delivered to remote sites, platforms, and plants without the need for access roads.",
+      image: {
+        src: "/solutions-image/Logistics-Drone-as-a-Service.png",
+        alt: "Heavy-lift drone carrying a payload",
+      },
     },
-  },
-  {
-    id: "stringing",
-    title: "Drone-Based Tower Stringing",
-    short: "Tower Stringing",
-    body: "Pilot lines laid across towers by drone, with no risky climbs.",
-    image: {
-      src: "/media/Tower-stringing.jpeg",
-      alt: "Drone laying a pilot line across a tower",
+    {
+      id: "stringing",
+      title: "Power Line Stringing",
+      short: "Tower Stringing",
+      body: "Pilot lines deployed for 33 kV to 800 kV transmission lines by drone, reducing risky climbs and manual work at height.",
+      image: {
+        src: "/solutions-image/Power-Line-Stringing.png",
+        alt: "Drone deploying a pilot line for power line stringing",
+      },
     },
-  },
-  {
-    id: "confined-space",
-    title: "Confined Space Inspection",
-    short: "Confined Space",
-    body: "Drones fly inside tanks and boilers so nobody has to enter.",
-    image: {
-      src: "/media/Inspection.jpeg",
-      alt: "Drone inspecting an industrial structure",
+    {
+      id: "transmission-pole-erection",
+      title: "Transmission Pole Erection",
+      short: "Pole Erection",
+      body: "Support pole erection across difficult terrain without heavy machinery or access roads, minimising disruption and damage to fields.",
+      image: {
+        src: "/solutions-image/Transmission-Pole-Erection.png",
+        alt: "Drone supporting transmission infrastructure operations",
+      },
     },
-  },
-  {
-    id: "visual-thermal",
-    title: "Visual & Thermal Inspection",
-    short: "Visual & Thermal",
-    body: "Stacks, pipelines and tanks inspected from the air.",
-    image: {
-      src: "/media/Inspection.jpeg",
-      alt: "Drone inspecting an industrial stack",
+    {
+      id: "confined-space",
+      title: "Confined Space Inspection",
+      short: "Confined Space",
+      body: "Drones inspect the interiors of tanks, boilers, and other confined spaces, reducing the need for personnel to enter hazardous environments.",
+      image: {
+        src: "/solutions-image/Confined-Space-Inspection.png",
+        alt: "Drone conducting an inspection in a confined industrial space",
+      },
     },
-  },
-  {
-    id: "ultrasonic",
-    title: "Thickness & Coating Measurement",
-    short: "Thickness",
-    body: "Contact UT and coating readings on structures at height.",
-    image: {
-      src: "/media/Inspection.jpeg",
-      alt: "Drone taking a contact reading on a structure at height",
+    {
+      id: "survey-and-monitoring",
+      title: "Servey and Monitoring",
+      short: "Servey and Monitoring",
+      body: "Servey and monitor the status of power lines and poles, and other infrastructure, with no need for manual inspection.",
+      image: {
+        src: "/solutions-image/Servey-and-Monitoring.png",
+        alt: "Drone performing survey and monitoring of power lines and poles",
+      },
     },
-  },
-  {
-    id: "survey",
-    title: "Survey & Sensing",
-    short: "Survey & Sensing",
-    body: "Bathymetry, GPR and methane detection from the air.",
-    image: {
-      src: "/media/Logistics.jpeg",
-      alt: "Drone surveying terrain",
+    {
+      id: "construction",
+      title: "Construction Material Lifting",
+      short: "Construction",
+      body: "Materials, tools, and equipment lifted to elevated and hard-to-reach construction sites without relying on conventional access routes.",
+      image: {
+        src: "/solutions-image/Construction-Material-Lifting.png",
+        alt: "Heavy-lift drone transporting materials to a remote construction site",
+      },
     },
-  },
-];
+  ];
 
 /* Cards shown at once. The arrows below the row page through the rest, so six
    solutions are two pages of three. */

@@ -11,17 +11,17 @@ const FEATURES = [
   {
     icon: Package,
     title: "Drone Products",
-    description: "Logistics drones from 5 kg to 300 kg, VTOL fixed-wing, heavy-lift swarms.",
+    description: "Commercial, Surveillance and Defence logistics drones",
   },
   {
     icon: Cctv,
     title: "Power Transmission",
-    description: "HT and 33 kV stringing, pole placement, foundation material movement.",
+    description: "33 kV and 800 kV stringing, pole erection, and tower foundation material movement.",
   },
   {
     icon: Settings,
     title: "Drone Services (DaaS)",
-    description: "Visual, thermal, confined space and UT inspection.",
+    description: "LDaaS, visual and thermal inspection, confined space inspection, and UT measurement",
   },
 ];
 
