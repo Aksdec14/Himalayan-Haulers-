@@ -4,6 +4,7 @@ import Solutions from "@/components/Solutions";
 import WhatWeProvide from "@/components/WhatWeProvide";
 import Contact from "@/components/Contact";
 import BannerPower from "@/components/BannerPower";
+import Dronepage from "@/components/Dronepage";
 /* No <Navbar> here — it lives in app/layout.tsx, which does not re-render on
    navigation. See the note on RootLayout. */
 export default function HomePage() {
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Hero />
       <WhatWeProvide />
       <Solutions />
+      <Dronepage />
       <BannerPower />
       <Industries />
       <Contact />
