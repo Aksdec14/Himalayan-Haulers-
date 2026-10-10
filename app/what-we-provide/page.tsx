@@ -197,7 +197,7 @@ function ClosingCTA({
    Swap the file for a wide drone-over-peaks shot with the subject on the
    right for the closest match to the mockup. */
 const HERO_IMAGE = {
-  src: "/media/DroneImage.png",
+  src: "/media/image.png",
   alt: "Heavy-lift drone carrying a crate over snow-capped Himalayan peaks",
   position: "center",
 };
