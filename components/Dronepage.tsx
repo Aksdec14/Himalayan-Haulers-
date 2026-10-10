@@ -310,6 +310,16 @@ const CATEGORIES: Category[] = [
           ["clock", "Persistent monitoring"],
         ],
       },
+      {
+        id: "freightor-m5",
+        model: "Freightor M5",
+        sub: "Munition Dropping Drones",
+        features: [
+          ["target", "Precision delivery"],
+          ["bolt", "Rapid deployment"],
+          ["mountain", "Forward-area operations"],
+        ],
+      },
     ],
   },
 ];
@@ -359,7 +369,7 @@ function describe(features: Feature[]) {
 /* Left side: text only */
 function IntroPanel({ category }: { category: Category }) {
   return (
-    <div className="flex min-w-0 flex-col justify-between gap-6 py-1 lg:pr-4">
+    <div className="flex min-w-0 flex-col justify-start gap-6 py-1 lg:pr-4">
       <div>
         <h2 className="m-0 text-[clamp(22px,2.4vw,30px)] font-semibold leading-[1.1] tracking-tight text-[color:var(--blue)] text-balance">
           {category.title[0]}{" "}
@@ -576,24 +586,35 @@ function DroneCard({
   );
 }
 
-/* Small summary tile that fills a leftover slot */
-function CountTile({
-  count,
+/* Highlight tile that fills a leftover slot when a category has fewer drones
+   than the collage has slots. Slot A is the narrowest of the eight (~8.4% of
+   the row, about 81px wide by 120px tall), so the two lines are sized for that
+   box: the capacity is a bold headline and the label sits beneath it in
+   regular weight, wrapping across two. overflow-wrap guards the longest
+   words. */
+function StatTile({
+  capacity,
+  label,
   slot,
   shared,
 }: {
-  count: number;
+  capacity: string;
+  label: string;
   slot: Slot;
   shared: RefObject<HTMLDivElement | null>;
 }) {
   return (
     <li
       style={{ flex: `${slot.grow} 1 0%` }}
-      className={`relative flex min-w-0 flex-col justify-end overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(12px,1.2vw,16px)] text-white ${slot.h}`}
+      className={`relative flex min-w-0 flex-col justify-start overflow-hidden rounded-xl bg-[color:var(--blue)] p-[clamp(12px,1.2vw,16px)] text-white ${slot.h}`}
     >
       <SharedImage wrap={shared} />
-      <p className="relative m-0 text-[clamp(28px,3vw,40px)] font-bold leading-none">{count}</p>
-      <p className="relative m-0 mt-1 text-[12.5px] text-white/80">models</p>
+      <p className="relative m-0 text-[clamp(22px,2.4vw,28px)] font-bold leading-none [overflow-wrap:anywhere]">
+        {capacity}
+      </p>
+      <p className="relative m-0 mt-1 text-[clamp(11px,1.15vw,13px)] font-normal leading-[1.15] text-white/80 [overflow-wrap:anywhere]">
+        {label}
+      </p>
     </li>
   );
 }
@@ -621,14 +642,23 @@ function Collage({ drones }: { drones: Drone[] }) {
         />
       );
     }
-    if (i === 0) return <CountTile key="count" count={drones.length} slot={slot} shared={wrapRef} />;
+    if (i === 0)
+      return (
+        <StatTile
+          key="stat"
+          capacity="300kg"
+          label="Heavy-lift capability"
+          slot={slot}
+          shared={wrapRef}
+        />
+      );
     return null; // other free slots stay empty, which keeps the ragged collage edge
   };
 
   return (
     <div
       ref={wrapRef}
-      className="hidden flex-col justify-center gap-[clamp(8px,1vw,12px)] lg:flex"
+      className="hidden flex-col justify-start gap-[clamp(8px,1vw,12px)] lg:flex"
     >
       <ul className="m-0 flex list-none items-end gap-[clamp(8px,1vw,12px)] p-0">
         {[0, 1, 2, 3].map(renderSlot)}
@@ -673,64 +703,71 @@ function FreightorDrones() {
       aria-label="Drones"
     >
       <div className={INNER}>
-      <div className="flex flex-wrap items-center gap-x-[clamp(16px,2.4vw,32px)] gap-y-4">
-        <h2 className="m-0 text-[clamp(32px,2vw,72px)] font-semibold leading-none tracking-tight text-[color:var(--blue)]">
-          OUR PRODUCTS
-        </h2>
-
         <div
-          role="tablist"
-          aria-label="Drone category"
-          onKeyDown={onKeyDown}
-          className="inline-flex max-w-full rounded-full bg-[color:var(--blue)]/[0.06] p-1"
+          key={`panel-${current.id}`}
+          id={`${baseId}-panel`}
+          role="tabpanel"
+          aria-labelledby={`${baseId}-tab-${current.id}`}
+          className="fd-swap grid gap-[clamp(8px,1vw,12px)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2.1fr)]"
         >
-          {CATEGORIES.map((cat, index) => {
-            const isActive = index === active;
-            return (
-              <button
-                key={cat.id}
-                ref={(el) => {
-                  tabRefs.current[index] = el;
-                }}
-                id={`${baseId}-tab-${cat.id}`}
-                role="tab"
-                type="button"
-                aria-selected={isActive}
-                aria-controls={`${baseId}-panel`}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => select(index)}
-                className={`min-w-[clamp(84px,18vw,150px)] cursor-pointer rounded-full border-0 px-3 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] sm:px-5 sm:text-[14px] ${
-                  isActive
-                    ? "bg-[color:var(--blue)] text-white shadow-[0_4px_12px_rgba(10,25,45,0.2)]"
-                    : "bg-transparent text-[color:var(--blue)]/70 hover:text-[color:var(--blue)]"
-                }`}
-              >
-                {cat.tab}
-              </button>
-            );
-          })}
+          {/* Left column: heading, tabs, then the panel copy. The heading lives
+              inside the grid so the collage's top edge lines up with it, rather
+              than sitting in a full-width row above the grid. */}
+          <div className="flex min-w-0 flex-col gap-[clamp(12px,1.4vw,18px)]">
+            <h2 className="m-0 text-[clamp(32px,2.2vw,72px)] font-semibold leading-none tracking-tight text-[color:var(--blue)]">
+              OUR <span className="text-[color:var(--cyan)]">PRODUCTS</span>
+            </h2>
+
+            <div
+              role="tablist"
+              aria-label="Drone category"
+              onKeyDown={onKeyDown}
+              className="inline-flex max-w-full p-1"
+            >
+              {CATEGORIES.map((cat, index) => {
+                const isActive = index === active;
+                return (
+                  <button
+                    key={cat.id}
+                    ref={(el) => {
+                      tabRefs.current[index] = el;
+                    }}
+                    id={`${baseId}-tab-${cat.id}`}
+                    role="tab"
+                    type="button"
+                    aria-selected={isActive}
+                    aria-controls={`${baseId}-panel`}
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => select(index)}
+                    className={`min-w-[clamp(84px,18vw,150px)] cursor-pointer border-0 px-3 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cyan)] sm:px-5 sm:text-[14px] ${
+                      isActive
+                        ? "bg-[color:var(--blue)] text-white shadow-[0_4px_12px_rgba(10,25,45,0.2)]"
+                        : "bg-transparent text-[color:var(--blue)]/70 hover:text-[color:var(--blue)]"
+                    }`}
+                  >
+                    {cat.tab}
+                  </button>
+                );
+              })}
+            </div>
+
+            <IntroPanel category={current} />
+          </div>
+
+          {/* Mobile / tablet: simple grid */}
+          <ul className="m-0 grid list-none grid-cols-1 content-start gap-[clamp(8px,1vw,12px)] p-0 min-[500px]:grid-cols-2 lg:hidden">
+            {current.drones.map((drone) => (
+              <DroneCard key={drone.id} drone={drone} level="lg" tone={0} />
+            ))}
+          </ul>
+
+          {/* Desktop: collage. Rendered unconditionally so it is in the server
+              HTML — gating it on isDesktop left the right column empty until
+              hydration, which is exactly when the two sides are not parallel.
+              Collage carries its own `hidden … lg:flex`, so CSS owns the
+              breakpoint. */}
+          <Collage drones={current.drones} />
         </div>
-      </div>
-
-      <div
-        key={`panel-${current.id}`}
-        id={`${baseId}-panel`}
-        role="tabpanel"
-        aria-labelledby={`${baseId}-tab-${current.id}`}
-        className="fd-swap mt-[clamp(12px,1.6vw,20px)] grid gap-[clamp(8px,1vw,12px)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,2.1fr)]"
-      >
-        <IntroPanel category={current} />
-
-        {/* Mobile / tablet: simple grid */}
-        <ul className="m-0 grid list-none grid-cols-1 content-start gap-[clamp(8px,1vw,12px)] p-0 min-[500px]:grid-cols-2 lg:hidden">
-          {current.drones.map((drone) => (
-            <DroneCard key={drone.id} drone={drone} level="lg" tone={0} />
-          ))}
-        </ul>
-
-        {/* Desktop: collage */}
-        {isDesktop && <Collage drones={current.drones} />}
-      </div>
       </div>
     </section>
   );
