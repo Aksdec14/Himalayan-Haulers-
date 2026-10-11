@@ -14,11 +14,17 @@ const SLIDER_ITEMS = [
   },
 ];
 
-/** Listed smallest/most efficient first — the browser takes the first it can
- *  play, so a WebM added here is picked up automatically with no code change. */
+/* The hero video is tracked with Git LFS, and Vercel does NOT resolve LFS
+   objects when it clones the repo — a /media/ path would serve the 130-byte
+   pointer file, so the <video> falls back to the poster. GitHub's LFS media
+   endpoint serves the real bytes, so the source points at the remote instead.
+   There is no WebM variant, so only the mp4 is listed; a further format can
+   be added here and the browser will pick the first one it can play. */
 const VIDEO_SOURCES = [
-  { src: "/media/HIMALAYAN-HERO.webm", type: "video/webm" },
-  { src: "/media/HIMALAYAN-HERO.mp4", type: "video/mp4" },
+  {
+    src: "https://github.com/Aksdec14/Himalayan-Haulers-/raw/main/public/media/HIMALAYAN-HERO.mp4",
+    type: "video/mp4",
+  },
 ];
 
 /* The frame is the page's only size container, so anything inside it can size
