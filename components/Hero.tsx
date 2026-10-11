@@ -14,17 +14,17 @@ const SLIDER_ITEMS = [
   },
 ];
 
-/* The hero video is tracked with Git LFS, and Vercel does NOT resolve LFS
-   objects when it clones the repo — a /media/ path would serve the 130-byte
-   pointer file, so the <video> falls back to the poster. GitHub's LFS media
-   endpoint serves the real bytes, so the source points at the remote instead.
-   There is no WebM variant, so only the mp4 is listed; a further format can
-   be added here and the browser will pick the first one it can play. */
+/* Listed smallest/most efficient first — the browser takes the first source it
+ * can play, so WebM is picked up automatically and Safari falls through to the
+ * MP4 without any code change.
+
+ * Both files are 1080p web encodes of a 4K original. The source was 3840x2160
+ * at 30.5 Mbps (103 MB); it is downscaled because the hero frame is at most
+ * ~1400px wide and sits behind a blur mask, so the extra resolution was never
+ * visible while quadrupling the decode cost. */
 const VIDEO_SOURCES = [
-  {
-    src: "https://github.com/Aksdec14/Himalayan-Haulers-/raw/main/public/media/HIMALAYAN-HERO.mp4",
-    type: "video/mp4",
-  },
+  { src: "/media/HIMALAYAN-HERO.webm", type: "video/webm" },
+  { src: "/media/HIMALAYAN-HERO.mp4", type: "video/mp4" },
 ];
 
 /* The frame is the page's only size container, so anything inside it can size

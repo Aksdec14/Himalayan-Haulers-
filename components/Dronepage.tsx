@@ -161,7 +161,7 @@ const CATEGORIES: Category[] = [
   {
     id: "commercial",
     tab: "Commercial",
-    title: ["Freightor for", "Logistics Drones"],
+    title: ["HH Freightor Series", "Logistics Drones"],
     lead: "Heavy-lift drones from 5 kg to 300 kg, built in India for every kind of terrain.",
     tags: [
       ["box", "Heavy payloads"],
@@ -235,7 +235,7 @@ const CATEGORIES: Category[] = [
   {
     id: "defence",
     tab: "Defence",
-    title: ["Freightor for", "Defence Drones"],
+    title: ["HH Freightor Series", "Defence Drones"],
     lead: "Mission-ready drone platforms for demanding defence operations, day and night.",
     tags: [
       ["box", "High payloads"],

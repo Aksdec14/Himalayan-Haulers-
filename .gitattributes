@@ -1,1 +1,5 @@
-public/media/HIMALAYAN-HERO.mp4 filter=lfs diff=lfs merge=lfs -text
+# Git LFS was previously configured for the hero video, which forced it past
+# GitHub's 100 MB limit. The video is now a 21 MB 1080p web encode, so it fits
+# in a normal repo — and it MUST NOT go back through LFS, because Vercel does
+# not resolve LFS objects on clone: the /media/ path would serve a 130-byte
+# pointer file and the hero would silently fall back to its poster.
