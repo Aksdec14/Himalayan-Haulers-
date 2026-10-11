@@ -15,7 +15,7 @@ export type NavLink = {
    the six pages that have no such id. */
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/", active: true },
-  { label: "What We Provide", href: "/what-we-provide" },
+  { label: "Products", href: "/what-we-provide" },
   { label: "Solutions", href: "/solutions" },
   { label: "Industries", href: "/industries" },
   { label: "Contact", href: "/contact" },
