@@ -61,7 +61,7 @@ const TABS = [
 ];
 
 const USE_CASES = [
-  { label: "Last-mile material delivery", icon: Package },
+  { label: "Last-mile material delivery for EPC projects", icon: Package },
   { label: "Remote infrastructure sites", icon: MountainSnow },
   { label: "Road-head to site transport", icon: Truck },
   { label: "Logistics support for EPC projects", icon: HardHat },

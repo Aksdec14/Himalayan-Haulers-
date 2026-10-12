@@ -37,7 +37,7 @@ const INTERESTS = [
 ];
 
 const INDUSTRY_OPTIONS = [
-  "Power",
+  "Power Transmission",
   "Oil & Gas",
   "Steel Plants",
   "Offshore",
@@ -168,10 +168,7 @@ export default function ContactPage() {
             </h1>
 
             <p className={HERO_LEAD}>
-              Connect with our team to discuss your project requirements, drone
-              capabilities, and potential deployment opportunities. We work with
-              enterprises, EPC contractors, and industrial organisations to
-              support complex operational needs.
+            Connect with our team to discuss your projects and see how our solutions can fit your organization's operational requirements.
             </p>
 
             <address className="m-0 mt-1 flex w-full max-w-[26em] flex-col not-italic">

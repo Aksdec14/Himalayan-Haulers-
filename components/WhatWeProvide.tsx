@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const CTAS = [
-  { label: "Explore by Products", href: "/what-we-provide/products" },
-  { label: "Explore by Industries", href: "/industries" },
-  { label: "Explore by Solutions", href: "/solutions" },
+  { label: "Explore by Product", href: "/what-we-provide/products" },
+  { label: "Explore by Industrie", href: "/industries" },
+  { label: "Explore by Solution", href: "/solutions" },
 ];
 
 /* Change this to swap the photo. Use a wide drone-over-mountains shot with</path>
@@ -97,7 +97,7 @@ export default function WhatWeProvide() {
         Heavy-lift drones, field-ready crews, and aerial intelligence built for tough terrain. From 5 kg to 800 kg logistics and power line stringing to thermal and UT inspections, we help EPCs, utilities, and industries work faster, with fewer people at height or in harm’s way.
         </p>
 
-        <div className="flex flex-wrap gap-x-8 gap-y-3">
+        <div className="flex gap-x-8 gap-y-6">
           {CTAS.map((cta) => (
             <Link key={cta.href} href={cta.href} className={LINK}>
               {cta.label}

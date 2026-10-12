@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, Phone, MailIcon } from "lucide-react";
+import { Phone, MailIcon } from "lucide-react";
 
 type FooterLink = { label: string; href: string };
 
@@ -14,51 +14,44 @@ const navLinks: FooterLink[] = [
   { label: "Browse Drones & Services", href: "/what-we-provide" },
   { label: "See Our Solutions", href: "/solutions" },
   { label: "Find Your Industry", href: "/industries" },
-  { label: "Get a Quote", href: "/contact" },
+  
 ];
 
 const droneProducts: FooterLink[] = [
   {
-    label: "Buy a Freightor Drone",
+    label: "Commercial Drones",
     href: "/what-we-provide#products",
   },
   {
-    label: "Get Surveillance Drone Pricing",
-    href: "/contact?interest=defence",
+    label: "Defence Drones",
+    href: "/what-we-provide#products",
   },
   {
-    label: "Request a Custom Build",
+    label: "Request a Custom Build Drone",
     href: "/contact?interest=other",
   },
 ];
 
 const droneServices: FooterLink[] = [
   {
-    label: "Hire Delivery Drones",
+    label: "Logistics Drone as a Service",
     href: "/contact?interest=ldaas",
   },
-  { label: "Book an Inspection", href: "/contact?interest=inspection" },
-  { label: "Order a Sensor Survey", href: "/contact?interest=survey" },
-  {
-    label: "Get a Stringing Quote",
-    href: "/contact?interest=tower-stringing",
-  },
+  { label: "Book an Inspection Service", href: "/contact?interest=inspection" },
+
 ];
 
 const industries: FooterLink[] = [
-  { label: "Power Sector Solutions", href: "/industries#power" },
-  { label: "Energy Sector Solutions", href: "/industries#energy" },
+  { label: "Power Transmission Sector", href: "/industries#power" },
+  { label: "Oil & Gas Sector", href: "/industries#energy" },
   { label: "Defence Solutions", href: "/industries#defence" },
-  {
-    label: "Construction Solutions",
-    href: "/industries#construction",
-  },
+  
 ];
 
 const COLUMNS: { title: string; links: FooterLink[] }[] = [
   { title: "Quick Links", links: navLinks },
   { title: "Drone Products", links: droneProducts },
-  { title: "Drone as a Service", links: droneServices },
+  { title: "Drone Solutions", links: droneServices },
   { title: "Industries We Serve", links: industries },
 ];
 
@@ -176,9 +169,7 @@ export default function Footer() {
               />
             </Link>
 
-            <p className="m-0 max-w-[28ch] text-[length:calc(var(--fs-small)*1.15)] leading-[1.45] text-[color:var(--blue)]/70">
-              Heavy-lift drones for India&rsquo;s toughest terrain.
-            </p>
+           
 
             <address className="m-0 mt-[clamp(20px,2.4vw,32px)] flex flex-col gap-3 not-italic">
             <div className={CONTACT_ROW}>
@@ -192,7 +183,7 @@ export default function Footer() {
               <div className={CONTACT_ROW}>
                 <Phone size={16} className={ICON} aria-hidden="true" />
                 <a href="tel:+919148767910" className={CONTACT_LINK}>
-                  Call +91 91487 67910
+                  +91 91487 67910
                 </a>
               </div>
 
