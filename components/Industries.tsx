@@ -328,7 +328,7 @@ export default function Industries() {
       <div className={INNER}>
         <header className={HEADER}>
           <h2 id="industries-title" className={TITLE}>
-            Industries We Serve
+            Industries <span className="text-[color:var(--cyan)]">We Serve</span>
           </h2>
           <Link href="/contact" className={HEADER_LINK}>
             Ready to get started? Contact us
