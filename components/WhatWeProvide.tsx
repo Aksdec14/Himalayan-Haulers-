@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 const CTAS = [
   { label: "Explore by Products", href: "/what-we-provide/products" },
-  { label: "Explore by Services", href: "/what-we-provide/services" },
+  { label: "Explore by Industries", href: "/industries" },
   { label: "Explore by Solutions", href: "/solutions" },
 ];
 

@@ -154,7 +154,7 @@ export default function ContactPage() {
             </p>
 
             <h1 id="contact-title" className={HERO_TITLE}>
-              Discuss Your Operational
+              Discuss Your
               <br className="hidden min-[480px]:block" />{" "}
               <span className="text-[color:var(--cyan)]">Requirements</span>
             </h1>
