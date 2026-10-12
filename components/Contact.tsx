@@ -111,8 +111,7 @@ const TEXTAREA = `${CONTROL} min-h-[4.2em] resize-y leading-[1.35] min-[560px]:m
 const SUBMIT =
   "inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-[color:var(--cyan)] to-[color:var(--blue)] px-7 py-[0.5em] text-[length:var(--c-small)] font-bold uppercase tracking-[0.06em] text-white shadow-[0_10px_24px_-10px_rgba(20,100,200,0.6)] cursor-pointer transition-[filter,transform] duration-200 hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--blue)] min-[560px]:w-auto min-[560px]:min-h-0";
 
-const SMALL_PRINT =
-  "m-0 w-full text-center text-[length:calc(var(--c-small)*0.9)] text-[color:var(--ink)]/60 min-[560px]:w-auto min-[560px]:text-left";
+
 
 const ROW_ICON =
   "grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-[color:var(--blue)]/10 text-[color:var(--blue)] shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] min-[1024px]:size-[clamp(38px,2.8vw,44px)]";
@@ -365,9 +364,7 @@ export default function ContactPage() {
                     Submit Enquiry
                     <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
                   </button>
-                  <p className={SMALL_PRINT}>
-                    We usually reply within one working day.
-                  </p>
+                 
                 </div>
               </form>
             </div>
