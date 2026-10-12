@@ -380,7 +380,7 @@ function IntroPanel({ category }: { category: Category }) {
       <div>
         <h2 className="m-0 text-[clamp(22px,2.4vw,30px)] font-semibold leading-[1.1] tracking-tight text-[color:var(--blue)] text-balance">
           {category.title[0]}{" "}
-          <em className="font-serif font-normal italic text-[color:var(--cyan)]">
+          <em className="font-semibold not-italic text-[color:var(--cyan)]">
             {category.title[1]}
           </em>
         </h2>

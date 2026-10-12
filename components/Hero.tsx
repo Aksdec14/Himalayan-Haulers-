@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       className="relative isolate w-full overflow-hidden
-                 bg-[#0a1a36] aspect-[16/9] min-h-[300px] max-h-[480px]"
+                 bg-[#0a1a36] aspect-[16/9] min-h-[300px] max-h-[550px]"
       style={{ marginTop: HEADER_H }}
     >
       <Image

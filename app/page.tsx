@@ -19,8 +19,9 @@ export default function HomePage() {
       <WhatWeProvide />
       {/* <Solutions /> */}
       <Dronepage />
-      <BannerPower />
+      
       <Industries />
+      <BannerPower />
       <Contact />
     </main>
   );

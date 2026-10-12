@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 const CTAS = [
   { label: "Explore Products", href: "/what-we-provide/products" },
   { label: "Explore Services", href: "/what-we-provide/services" },
+  { label: "Explore Solutions", href: "/solutions" },
 ];
 
 /* Change this to swap the photo. Use a wide drone-over-mountains shot with</path>
@@ -27,7 +28,7 @@ const TITLE =
   "m-0 text-balance text-[length:calc(var(--fs-h1)*0.85)] font-extrabold uppercase leading-[1] tracking-tight text-[color:var(--ink)]";
 
 const LEAD =
-  "m-0 max-w-[46ch] text-[length:var(--fs-small-xl)] leading-[1.55] text-[color:var(--ink)]/70 text-pretty";
+  "m-0 max-w-[66ch] text-[length:var(--fs-small-xl)] leading-[1.55] text-[color:var(--ink)]/70 text-pretty";
 
 const LINK =
   "inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-[color:var(--cyan)] pb-2 text-[length:var(--fs-small)] font-medium uppercase tracking-[0.12em] text-[color:var(--cyan)] no-underline transition-colors duration-300 hover:text-[color:var(--blue)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
@@ -73,14 +74,11 @@ export default function WhatWeProvide() {
             strokeLinecap="round"
           />
         </svg>
-        <span
-          aria-hidden="true"
-          className="absolute left-[2%] top-[14%] hidden h-[4px] w-14 bg-[color:var(--cyan)] min-[1100px]:block"
-        />
+        
       </div>
 
       {/* Left: copy */}
-      <div className="flex flex-col gap-[clamp(12px,1.4vw,18px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[55%]">
+      <div className="flex flex-col gap-[clamp(12px,1.4vw,18px)] py-[clamp(28px,3.5vw,56px)] pl-[length:var(--content-pad)] pr-[length:var(--content-pad)] min-[1100px]:max-w-[55%]">
         <p className={EYEBROW}>
           Drones · DAAS · Solutions
           <span
