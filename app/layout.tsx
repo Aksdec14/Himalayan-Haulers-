@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Montserrat } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -19,6 +20,12 @@ export const viewport: Viewport = {
   viewportFit: "cover",
   themeColor: "#13294b",
 };
+
+const display = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "800"],
+  variable: "--font-display",
+});
 
 /* ==========================================================================
    DESIGN TOKENS — as Tailwind arbitrary properties on <html>
