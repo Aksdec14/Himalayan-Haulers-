@@ -28,16 +28,24 @@ const CONTACT = {
 };
 
 const INTERESTS = [
-  "Buy a drone",
+  "Buying a Drone",
   "Logistics Drone as a Service",
-  "Drone inspection",
-  "Tower stringing",
-  "Survey & sensing",
-  "Defence",
+  "Drone Inspection",
+  "Tower Stringing",
+  "Survey & Sensing",
   "Other",
 ];
 
-const INDUSTRY_OPTIONS = ["Power", "Energy", "Defence", "Construction", "Other"];
+const INDUSTRY_OPTIONS = [
+  "Power",
+  "Oil & Gas",
+  "Steel Plants",
+  "Offshore",
+  "Mining",
+  "Renewable Energy",
+  "Defence",
+  "Other",
+];
 
 /* ---- Shared ------------------------------------------------------------------
    SIZES: the --c-* rungs are this page's own steps. They must NOT reuse the
@@ -153,7 +161,7 @@ export default function ContactPage() {
             </p>
 
             <h1 id="contact-title" className={HERO_TITLE}>
-              Discuss Your Operational
+              Discuss Your 
               <br className="hidden min-[480px]:block" />{" "}
               <span className="text-[color:var(--cyan)]">Requirements</span>
             </h1>
