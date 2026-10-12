@@ -731,9 +731,7 @@ function FreightorDrones() {
               inside the grid so the collage's top edge lines up with it, rather
               than sitting in a full-width row above the grid. */}
           <div className="flex min-w-0 flex-col gap-[clamp(12px,1.4vw,18px)]">
-            <h2 className="m-0 text-[clamp(32px,2.2vw,72px)] font-semibold leading-none tracking-tight text-[color:var(--blue)]">
-              OUR <span className="text-[color:var(--cyan)]">PRODUCTS</span>
-            </h2>
+            <h2 className="m-0 whitespace-nowrap text-[length:calc(var(--fs-h1)*0.85)] uppercase text-[color:var(--blue)]">OUR <span className="text-[color:var(--cyan)]">PRODUCTS</span></h2>
 
             <div
               role="tablist"
