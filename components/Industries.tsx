@@ -51,8 +51,8 @@ const INDUSTRIES: Industry[] = [
     capabilities: [
       { icon: "tower", label: "Power Transmission Line Stringing", note: "800 kV & 33 kV" },
       { icon: "pole", label: "Transmission Pole Erection" },
-      { icon: "box", label: "Material Transportation", note: "for tower foundations" },
-      { icon: "binoculars", label: "Surveillance", note: "route and site monitoring" },
+      { icon: "box", label: "Material Transportation", note: "for Tower Foundations" },
+      { icon: "binoculars", label: "Surveillance", note: "Route and Site Monitoring" },
       { icon: "inspect", label: "Tower & Conductor Inspection" },
     ],
   },

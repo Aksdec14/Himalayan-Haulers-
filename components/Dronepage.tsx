@@ -662,7 +662,7 @@ function Collage({ drones, image }: { drones: Drone[]; image: string }) {
       return (
         <StatTile
           key="stat"
-          capacity="300kg"
+          capacity="300 kg"
           label="Heavy-lift capability"
           slot={slot}
           shared={wrapRef}

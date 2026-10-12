@@ -228,7 +228,7 @@ export default function ContactPage() {
 
                 <div className={FIELD}>
                   <label htmlFor="enq-company" className={LABEL}>
-                    Company / organisation *
+                    Company / Organisation *
                   </label>
                   <input
                     id="enq-company"
@@ -315,7 +315,7 @@ export default function ContactPage() {
 
                 <div className={`${FIELD} ${FULL}`}>
                   <label htmlFor="enq-requirement" className={LABEL}>
-                    Tell us about your requirement *
+                    Tell Us About Your Requirement *
                   </label>
                   <textarea
                     id="enq-requirement"
@@ -331,7 +331,7 @@ export default function ContactPage() {
                   className={`${FULL} flex flex-wrap items-center gap-x-[clamp(12px,1.4vw,20px)] gap-y-2`}
                 >
                   <button type="submit" className={SUBMIT}>
-                    Send Enquiry
+                  Submit Enquiry
                     <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
                   </button>
                   <p className={SMALL_PRINT}>
