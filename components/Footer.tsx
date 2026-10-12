@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MailIcon } from "lucide-react";
 
 type FooterLink = { label: string; href: string };
 
@@ -168,7 +168,10 @@ export default function Footer() {
 
               <div className={CONTACT_ROW}>
                 
-                
+                <MailIcon size={16} className={ICON} aria-hidden="true" />
+                <a href="mailto:sales@himalayanhaulers.com" className={CONTACT_LINK}>
+                sales@himalayanhaulers.com
+                </a>
               </div>
             </address>
           </div>
