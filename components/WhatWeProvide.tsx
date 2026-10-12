@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const CTAS = [
-  { label: "Explore Products", href: "/what-we-provide/products" },
-  { label: "Explore Services", href: "/what-we-provide/services" },
-  { label: "Explore Solutions", href: "/solutions" },
+  { label: "Explore by Products", href: "/what-we-provide/products" },
+  { label: "Explore by Services", href: "/what-we-provide/services" },
+  { label: "Explore by Solutions", href: "/solutions" },
 ];
 
 /* Change this to swap the photo. Use a wide drone-over-mountains shot with</path>

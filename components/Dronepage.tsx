@@ -167,7 +167,7 @@ const CATEGORIES: Category[] = [
       ["box", "Heavy payloads"],
       ["mountain", "All-terrain operations"],
     ],
-    cta: { label: "Explore All Drones", href: PRODUCTS_URL },
+    cta: { label: "Explore All Commercial Drones", href: PRODUCTS_URL },
     image: "/media/image.png",
     drones: [
       {
