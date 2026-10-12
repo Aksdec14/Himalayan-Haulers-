@@ -248,7 +248,7 @@ export default function ProductsPage() {
         <p className={`${BODY} mt-[clamp(12px,1.4vw,18px)] max-w-[60ch]`}>
           Most drones are made for flat ground and thin air at sea level. Ours
           are made for mountain posts, remote construction sites and power lines
-          across valleys. Himalayan Haulers is headquartered in Bangalore, our
+          across valleys. Himalayan Haulers is headquartered in Bengaluru, our
           drones are manufactured in Tirupati, and our core team brings more
           than 100 man-years of experience in designing, building and flying
           drones.

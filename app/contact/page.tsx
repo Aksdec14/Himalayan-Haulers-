@@ -24,7 +24,7 @@ const ENQUIRY_ACTION = "/api/enquiry";
 const CONTACT = {
   phone: "+91 91487 67910",
   email: "sales@himalayanhaulers.com",
-  location: "Bangalore · Tirupati · Leh · Noida",
+  location: "Bengaluru · Tirupati · Leh · Noida",
 };
 
 const INTERESTS = [
