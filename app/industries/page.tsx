@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 /* ==========================================================================
-   /industries â€” "Industries We Serve"
+   /industries — "Industries We Serve"
 
    Left: heading and sub-heading. Right: a mosaic of grayscale photo tiles,
    each with a white industry icon and its name, like the reference. Tiles
@@ -17,12 +17,13 @@ export const metadata: Metadata = {
    construction) that complete the mosaic.
 
    Desktop: a 6 x 4 grid with explicit placement, so every cell is covered.
-   Mobile: a plain two-column grid of the nine industry tiles.
+   Mobile: a two-column grid of the seven named tiles plus one photo filler
+   (showOnMobile), so it forms a clean 2 x 4 block with no empty cells.
 
    Sizes read the site's raw --fs-* rungs; spacing reads --gap, --gap-block
    and --section-pad, the same as the other routes.
 
-   ICONS: put the PNGs in /public/media/industries/ with the file names below
+   ICONS: put the PNGs in /public/industries/ with the file names below
    (or change the `icon` paths). They are forced to white with
    `brightness-0 invert`; remove that class if the PNGs are already white.
    ========================================================================== */
@@ -40,6 +41,8 @@ type Tile = {
   photo: string;
   /** Desktop placement on the 6 x 4 grid. */
   place: string;
+  /** Photo-only filler that stays visible on mobile to complete the grid. */
+  showOnMobile?: boolean;
 };
 
 const CONDITIONS = [
@@ -48,56 +51,61 @@ const CONDITIONS = [
   "In confined spaces",
 ];
 
+/* Thirteen tiles, seven of them named. The six unnamed ones are photo-only
+   fillers. An unnamed tile renders as a plain photo and is hidden below 860px,
+   except the one flagged showOnMobile, which brings the mobile grid to eight
+   tiles (2 columns x 4 rows).
+
+   Icons come from /public/industries. Power, Defence and Renewable Energy
+   have no icon file yet, so those tiles are photo + name only. */
 const TILES: Tile[] = [
   {
-    name: "Oil & Gas",
-    icon: "/media/industries/oil-gas.png",
-    photo: "/media/energy.jpg",
+    name: "Power",
+    photo: "/media/power.jpg",
     place:
       "min-[860px]:col-start-1 min-[860px]:col-span-2 min-[860px]:row-start-1 min-[860px]:row-span-2",
   },
   {
-    name: "Chemicals",
-    icon: "/media/industries/chemicals.png",
-    photo: "/media/Inspection.jpeg",
+    name: "Oil & Gas",
+    icon: "/industries/oil-gas-operations.png",
+    photo: "/media/energy.jpg",
+    place: "min-[860px]:col-start-1 min-[860px]:row-start-3",
+  },
+  {
+    name: "Steel Plants",
+    icon: "/industries/steel-plants.png",
+    photo: "/media/construction.jpg",
     place: "min-[860px]:col-start-3 min-[860px]:row-start-1",
   },
   {
-    name: "Cement",
-    icon: "/media/industries/cement.png",
-    photo: "/media/construction.jpg",
+    photo: "/media/Inspection.jpeg",
+    showOnMobile: true,
     place: "min-[860px]:col-start-4 min-[860px]:col-span-2 min-[860px]:row-start-1",
   },
   {
+    name: "Defence",
     photo: "/media/defence.jpg",
     place: "min-[860px]:col-start-6 min-[860px]:row-start-1 min-[860px]:row-span-2",
   },
   {
-    name: "Maritime",
-    icon: "/media/industries/maritime.png",
+    name: "Offshore",
+    icon: "/industries/offshore.png",
     photo: "/media/Logistics.jpeg",
     place:
       "min-[860px]:col-start-3 min-[860px]:col-span-2 min-[860px]:row-start-2 min-[860px]:row-span-2",
   },
   {
     name: "Mining",
-    icon: "/media/industries/mining.png",
+    icon: "/industries/mining.png",
     photo: "/media/Tower-stringing.jpeg",
     place: "min-[860px]:col-start-5 min-[860px]:row-start-2",
   },
   {
-    photo: "/media/power.jpg",
-    place: "min-[860px]:col-start-1 min-[860px]:row-start-3",
-  },
-  {
-    name: "Nuclear",
-    icon: "/media/industries/nuclear.png",
     photo: "/media/Inspection.jpeg",
     place: "min-[860px]:col-start-2 min-[860px]:row-start-3 min-[860px]:row-span-2",
   },
   {
-    name: "Power Gen",
-    icon: "/media/industries/power-gen.png",
+    name: "Renewable Energy",
     photo: "/media/power.jpg",
     place: "min-[860px]:col-start-5 min-[860px]:col-span-2 min-[860px]:row-start-3",
   },
@@ -106,14 +114,10 @@ const TILES: Tile[] = [
     place: "min-[860px]:col-start-1 min-[860px]:row-start-4",
   },
   {
-    name: "Infrastructure",
-    icon: "/media/industries/infrastructure.png",
     photo: "/media/Tower-stringing.jpeg",
     place: "min-[860px]:col-start-3 min-[860px]:col-span-2 min-[860px]:row-start-4",
   },
   {
-    name: "Sewers",
-    icon: "/media/industries/sewers.png",
     photo: "/media/energy.jpg",
     place: "min-[860px]:col-start-5 min-[860px]:row-start-4",
   },
@@ -151,11 +155,12 @@ function Pill({
 
 function MosaicTile({ tile }: { tile: Tile }) {
   const isFiller = !tile.name;
+  const hideOnMobile = isFiller && !tile.showOnMobile;
 
   return (
     <li
       className={`group relative aspect-square overflow-hidden bg-[color:var(--ink)] min-[860px]:aspect-auto ${
-        isFiller ? "max-[859px]:hidden" : ""
+        hideOnMobile ? "max-[859px]:hidden" : ""
       } ${tile.place}`}
     >
       <Image
@@ -170,23 +175,26 @@ function MosaicTile({ tile }: { tile: Tile }) {
         className="absolute inset-0 bg-[color:var(--blue)]/35 transition-opacity duration-500 group-hover:opacity-60"
       />
 
-      {tile.name && tile.icon ? (
-        <>
-          <span className="absolute inset-0 grid place-items-center p-[16%] pb-[34%]">
-            <span className="relative block size-full">
-              <Image
-                src={tile.icon}
-                alt=""
-                fill
-                sizes="160px"
-                className="object-contain brightness-0 invert"
-              />
-            </span>
+      {/* Icon and name are gated separately: the icon is optional, the name is
+          what makes a tile an industry, so it renders whenever tile.name is set. */}
+      {tile.icon ? (
+        <span className="absolute inset-0 grid place-items-center p-[16%] pb-[34%]">
+          <span className="relative block size-full">
+            <Image
+              src={tile.icon}
+              alt=""
+              fill
+              sizes="160px"
+              className="object-contain brightness-0 invert"
+            />
           </span>
-          <span className="absolute inset-x-0 bottom-0 px-[clamp(8px,1vw,14px)] pb-[clamp(8px,1vw,14px)] break-words text-center text-[10px] font-bold uppercase leading-tight tracking-[0.04em] text-white min-[860px]:text-[length:var(--fs-small)] min-[860px]:tracking-[0.08em]">
-            {tile.name}
-          </span>
-        </>
+        </span>
+      ) : null}
+
+      {tile.name ? (
+        <span className="absolute inset-x-0 bottom-0 px-[clamp(8px,1vw,14px)] pb-[clamp(8px,1vw,14px)] break-words text-center text-[10px] font-bold uppercase leading-tight tracking-[0.04em] text-white min-[860px]:text-[length:var(--fs-small)] min-[860px]:tracking-[0.08em]">
+          {tile.name}
+        </span>
       ) : null}
     </li>
   );
@@ -206,25 +214,25 @@ const CAPS = ["Logistics", "Tower Stringing", "Inspection", "NDT", "Sensing"];
    line against what you actually do in the industry before publishing. */
 const DETAIL = [
   {
+    name: "Power",
+    work: "Pilot-line stringing across transmission towers, plus visual and thermal inspection of boilers and structures.",
+    hazard: "High-risk manual climbing.",
+    caps: ["02", "03", "04"],
+  },
+  {
     name: "Oil & Gas",
     work: "Visual and thermal inspection of flare stacks and pipelines, contact UT thickness checks on elevated assets, and airborne gas leak detection.",
     hazard: "Rope access and scaffolding at height.",
     caps: ["03", "04", "05"],
   },
   {
-    name: "Chemicals",
-    work: "Aerial inspection of storage vessels, tanks and process structures, inside and out.",
-    hazard: "Human entry into confined spaces.",
-    caps: ["03", "04"],
+    name: "Steel Plants",
+    work: "Inspection of chimneys, furnaces and process structures, plus stockpile measurement and tailings dam silting surveys.",
+    hazard: "Manual climbing, scaffolding and stack entry.",
+    caps: ["03", "04", "05"],
   },
   {
-    name: "Cement",
-    work: "Inspection and thickness checks on tall vertical structures and processing plant.",
-    hazard: "Manual climbing and scaffolding.",
-    caps: ["03", "04"],
-  },
-  {
-    name: "Maritime",
+    name: "Offshore",
     work: "Heavy-lift delivery of provisions and materials to hard-to-reach locations, and bathymetric mapping.",
     hazard: "Surface transit risk and ground infrastructure limits.",
     caps: ["01", "05"],
@@ -236,28 +244,16 @@ const DETAIL = [
     caps: ["01", "05"],
   },
   {
-    name: "Nuclear",
-    work: "Inspection of restricted industrial interiors with collision-tolerant systems, without sending people in.",
-    hazard: "Human exposure in restricted areas.",
-    caps: ["03"],
+    name: "Renewable Energy",
+    work: "Blade, tower and panel inspection across wind, solar and hydro assets, with parts and tools flown to the site for maintenance.",
+    hazard: "Rope access and working at height on towers and blades.",
+    caps: ["01", "03", "04"],
   },
   {
-    name: "Power Gen",
-    work: "Pilot-line stringing across transmission towers, plus visual and thermal inspection of boilers and structures.",
-    hazard: "High-risk manual climbing.",
-    caps: ["02", "03", "04"],
-  },
-  {
-    name: "Sewers",
-    work: "Inspection of tanks and confined interiors using caged aerial systems that work without GPS.",
-    hazard: "Confined space entry.",
-    caps: ["03"],
-  },
-  {
-    name: "Infrastructure",
-    work: "Pilot lines across steep valleys, inspection of tall assets, and subsurface survey.",
-    hazard: "Climbing, scaffolding and ground-based stringing.",
-    caps: ["02", "03", "05"],
+    name: "Defence",
+    work: "Unattended perimeter, route and site surveillance, with aerial delivery to locations where sending people in is not an option.",
+    hazard: "Exposure of personnel to active and restricted areas.",
+    caps: ["01", "03", "05"],
   },
 ];
 
@@ -402,7 +398,7 @@ export default function IndustriesPage() {
                   while maximizing efficiency and data accuracy.
                 </p>
                 <p className="m-0 text-[length:var(--fs-small)] font-bold uppercase tracking-[0.1em] text-[color:var(--blue)]">
-                  {CONDITIONS.join(" Â· ")}
+                  {CONDITIONS.join(" · ")}
                 </p>
               </div>
 
@@ -416,10 +412,10 @@ export default function IndustriesPage() {
               </div>
             </div>
 
-            {/* Right: the mosaic */}
+            {/* Right: the mosaic. 2 columns on mobile, 6 on desktop. */}
             <ul
               aria-label="Industries we serve"
-              className="m-0 grid list-none grid-cols-3 gap-[6px] p-0 min-w-0 min-[860px]:h-[clamp(380px,50vh,500px)] min-[860px]:grid-cols-6 min-[860px]:grid-rows-4"
+              className="m-0 grid list-none grid-cols-2 gap-[6px] p-0 min-w-0 min-[860px]:h-[clamp(380px,50vh,500px)] min-[860px]:grid-cols-6 min-[860px]:grid-rows-4"
             >
               {TILES.map((tile, index) => (
                 <MosaicTile key={tile.name ?? `filler-${index}`} tile={tile} />
@@ -446,7 +442,7 @@ export default function IndustriesPage() {
                 />
                 <h2 className={H2}>What We Do In Each Industry</h2>
                 <p className="m-0 max-w-[30ch] text-[length:var(--fs-lead)] leading-[1.38] text-[color:var(--ink)]/88 text-pretty">
-                  Nine industries, one aim: keep people out of harm&rsquo;s way.
+                  Seven industries, one aim: keep people out of harm&rsquo;s way.
                 </p>
                 <p className={`${BODY} max-w-[44ch]`}>
                   For each sector, here is the work we take on, the hazard it
