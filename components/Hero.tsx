@@ -36,7 +36,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-[2] flex items-center justify-start pl-[length:var(--hero-left)] pr-[length:var(--content-pad-end,clamp(20px,5vw,64px))] text-left">
         <h1
           className="m-0 max-w-[28ch] leading-[1.1] tracking-[-0.02em] text-white
-                     text-[length:var(--fs-h1)]
+                     text-[length:calc(var(--fs-h1)*1.25)]
                      [text-shadow:0_2px_4px_rgba(10,26,54,0.6),0_4px_24px_rgba(10,26,54,0.65)]"
         >
           <span className="block font-medium">
