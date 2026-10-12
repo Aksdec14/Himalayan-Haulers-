@@ -335,7 +335,7 @@ export default function Industries() {
           </Link>
         </header>
 
-        <div className="grid max-w-[length:var(--content-max,1200px)] grid-cols-1 gap-5 lg:grid-cols-[clamp(220px,22vw,270px)_minmax(0,1fr)] lg:items-stretch lg:gap-0">
+        <div className="grid max-w-[length:clamp(1200px,92vw,2200px)] grid-cols-1 gap-5 lg:grid-cols-[clamp(220px,22vw,270px)_minmax(0,1fr)] lg:items-stretch lg:gap-0">
           {/* Sidebar */}
           <div className="flex min-w-0 flex-col lg:pr-6">
             <p className="m-0 mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--blue)]/60">
