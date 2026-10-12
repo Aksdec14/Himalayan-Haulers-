@@ -149,13 +149,11 @@ export default function Footer() {
             </p>
 
             <address className="m-0 mt-[clamp(20px,2.4vw,32px)] flex flex-col gap-3 not-italic">
-              <div className={CONTACT_ROW}>
-                <Mail size={16} className={ICON} aria-hidden="true" />
-                <a
-                  href="mailto:arjun@himalayanhaulers.com"
-                  className={CONTACT_LINK}
-                >
-                  Email Our Team
+            <div className={CONTACT_ROW}>
+                
+                <MailIcon size={16} className={ICON} aria-hidden="true" />
+                <a href="mailto:sales@himalayanhaulers.com" className={CONTACT_LINK}>
+                sales@himalayanhaulers.com
                 </a>
               </div>
 
@@ -166,13 +164,7 @@ export default function Footer() {
                 </a>
               </div>
 
-              <div className={CONTACT_ROW}>
-                
-                <MailIcon size={16} className={ICON} aria-hidden="true" />
-                <a href="mailto:sales@himalayanhaulers.com" className={CONTACT_LINK}>
-                sales@himalayanhaulers.com
-                </a>
-              </div>
+              
             </address>
           </div>
 
