@@ -111,9 +111,36 @@ const CTA_TITLE =
 const CTA_LINK =
   "group mt-[clamp(10px,1.4vw,16px)] inline-flex items-center gap-2 text-[length:calc(var(--fs-small)*1.15)] font-bold uppercase tracking-[0.12em] text-[color:var(--blue)] no-underline transition-colors hover:text-[color:var(--cyan)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
 
+/* Inline SVG rather than a lucide icon: lucide-react v1 dropped its brand set,
+   so there is no Linkedin export to import. `in` glyph only (no rounded-square
+   plate — the anchor's white disc is the plate) and it stays legible down to
+   18px. currentColor lets the anchor's text colour drive the fill, so hover
+   and focus need no second path. */
+function LinkedInIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z" />
+    </svg>
+  );
+}
+
+/* The social link sits opposite the copyright: a small white disc (rounded-full
+   + padding) holding the navy glyph, so it reads as a button on the navy bar.
+   text-white/70 matches the copyright line's opacity — now on the disc rather
+   than the glyph — and the focus ring copies CTA_LINK so keyboard focus stays
+   visible against the navy. */
+const SOCIAL_LINK =
+  "inline-flex items-center rounded-full bg-white p-[clamp(6px,0.65vw,7px)] text-[color:var(--blue)] transition-colors hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
+
 /**
  * Site footer: brand and contact details, four link columns, then a navy bar
- * carrying the copyright line.
+ * carrying the copyright line and the company's LinkedIn profile.
  *
  * Server component — nothing here needs client state.
  */
@@ -195,11 +222,18 @@ export default function Footer() {
             &copy; 2026 Himalayan Haulers Pvt. Ltd.
           </p>
 
-          {/* The legal links and the social row were both removed: /privacy and
-             /terms are not routes, and the social anchors were href="#", so every
-             one of them dead-ended. Restore them when there is somewhere to send
-             them — a real /privacy page, a real /terms page, and the company's
-             actual profile URLs. */}
+          {/* The legal links are still absent: /privacy and /terms are not routes,
+             so there is nowhere to send them. Restore them when those pages
+             exist. The social row is back, with the company's real profile URL. */}
+          <a
+            href="https://www.linkedin.com/company/himalayan-haulers/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Himalayan Haulers on LinkedIn"
+            className={SOCIAL_LINK}
+          >
+            <LinkedInIcon />
+          </a>
         </div>
       </div>
     </footer>
