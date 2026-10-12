@@ -134,9 +134,14 @@ function LinkedInIcon({ size = 18 }: { size?: number }) {
    + padding) holding the navy glyph, so it reads as a button on the navy bar.
    text-white/70 matches the copyright line's opacity — now on the disc rather
    than the glyph — and the focus ring copies CTA_LINK so keyboard focus stays
-   visible against the navy. */
+   visible against the navy.
+
+   On mobile the bar is a column: the copyright reads first and the disc
+   sits under it. items-start keeps the disc from being stretched to full
+   width (which would turn the circle into a pill), and shrink-0 stops the
+   glyph being squeezed. md: flips it back to a row, icon left. */
 const SOCIAL_LINK =
-  "inline-flex items-center rounded-full bg-white p-[clamp(6px,0.65vw,7px)] text-[color:var(--blue)] transition-colors hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
+  "inline-flex items-center shrink-0 rounded-full bg-white p-[clamp(6px,0.65vw,7px)] text-[color:var(--blue)] transition-colors hover:bg-white/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cyan)]";
 
 /**
  * Site footer: brand and contact details, four link columns, then a navy bar
@@ -216,24 +221,30 @@ export default function Footer() {
       {/* Bottom bar: full-bleed navy, content on the same left line as above. */}
       <div className="bg-[color:var(--blue)]">
         <div
-          className={`${INNER} flex flex-col gap-4 py-[clamp(16px,2vw,24px)] md:flex-row md:items-center md:justify-between`}
+          className={`${INNER} flex flex-col items-start gap-y-3 py-[clamp(16px,2vw,24px)] md:flex-row md:items-center md:justify-between`}
         >
-          <p className="m-0 text-[length:calc(var(--fs-small)*1.15)] text-white/70">
-            &copy; 2026 Himalayan Haulers Pvt. Ltd.
-          </p>
-
           {/* The legal links are still absent: /privacy and /terms are not routes,
              so there is nowhere to send them. Restore them when those pages
-             exist. The social row is back, with the company's real profile URL. */}
+             exist. The social row is back, with the company's real profile URL.
+
+             Icon first in the DOM so md:justify-between puts it on the left
+             from md up; order-last/pt pushes it below the copyright on mobile,
+             where the bar is a column. items-start is load-bearing there —
+             flex-col's default align-items:stretch would stretch the anchor to
+             full width and turn the disc into a pill. */}
           <a
             href="https://www.linkedin.com/company/himalayan-haulers/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Himalayan Haulers on LinkedIn"
-            className={SOCIAL_LINK}
+            className={`${SOCIAL_LINK} order-last mt-3 md:order-none md:mt-0`}
           >
             <LinkedInIcon />
           </a>
+
+          <p className="m-0 order-first text-[length:calc(var(--fs-small)*1.15)] text-white/70">
+            &copy; 2026 Himalayan Haulers Pvt. Ltd.
+          </p>
         </div>
       </div>
     </footer>
