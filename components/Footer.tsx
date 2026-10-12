@@ -161,14 +161,14 @@ export default function Footer() {
 
               <div className={CONTACT_ROW}>
                 <Phone size={16} className={ICON} aria-hidden="true" />
-                <a href="tel:+917899801210" className={CONTACT_LINK}>
-                  Call +91 78998 01210
+                <a href="tel:+919148767910" className={CONTACT_LINK}>
+                  Call +91 91487 67910
                 </a>
               </div>
 
               <div className={CONTACT_ROW}>
-                <MapPin size={16} className={ICON} aria-hidden="true" />
-                <span className={CONTACT_TEXT}>Bangalore, India</span>
+                
+                
               </div>
             </address>
           </div>
