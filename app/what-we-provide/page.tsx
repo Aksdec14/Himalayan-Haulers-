@@ -84,7 +84,7 @@ const DRONES: Drone[] = [
     model: "Freightor C300",
     tagline: "HH Freightor Series",
     blurb: "High-capacity heavy-lift drone for large payload missions.",
-    image: "/media/defence-drone.png",
+    image: "/products/Freightor C300.jpeg",
     specs: [
       ["Dimensions W/O Propeller", "4200 mm × 4200 mm"],
       ["Max. All Up Weight", "535 kg"],
@@ -101,7 +101,7 @@ const DRONES: Drone[] = [
     model: "Freightor C200",
     tagline: "HH Freightor Series",
     blurb: "Versatile heavy-lift platform for infrastructure and remote logistics.",
-    image: "/media/defence-drone.png",
+    image: "/products/Freightor C200.jpg",
     specs: [
       ["Dimensions W/O Propeller", "3000 mm × 3000 mm"],
       ["Max. All Up Weight", "328 kg"],
@@ -119,7 +119,7 @@ const DRONES: Drone[] = [
     model: "Freightor C100",
     tagline: "HH Freightor Series",
     blurb: "Efficient platform for mid-capacity logistics operations.",
-    image: "/media/defence-drone.png",
+    image: "/products/Freightor C100.jpeg",
     specs: [
       ["Dimensions W/O Propeller", "2510 mm × 2510 mm"],
       ["Max. All Up Weight", "195 kg"],
@@ -137,7 +137,7 @@ const DRONES: Drone[] = [
     model: "Freightor C20",
     tagline: "HH Freightor Series",
     blurb: "Compact platform for light payload missions in high-altitude terrain.",
-    image: "/media/defence-drone.png",
+    image: "/products/Freightor C20.jpeg",
     specs: [
       ["Dimensions W/O Propeller", "2174 mm × 2174 mm"],
       ["Max. All Up Weight", "60 kg"],
@@ -159,7 +159,7 @@ const OTHERS = [
     title: "Surveillance Drones",
     body: "Aerial platforms for monitoring and situational awareness across operational environments.",
     icon: Cctv,
-    image: "/media/defence-drone.png",
+    image: "/media/Surveillance-drone.jpeg",
   },
   {
     title: "High-Speed / Kamikaze Drones",
@@ -171,7 +171,7 @@ const OTHERS = [
     title: "Custom Drones",
     body: "Application-specific drone development for specialised requirements.",
     icon: Settings,
-    image: "/media/defence-drone.png",
+    image: "/media/Collage.png",
   },
 ];
 

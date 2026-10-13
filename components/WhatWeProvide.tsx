@@ -3,8 +3,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const CTAS = [
-  { label: "Explore by Product", href: "/what-we-provide/products" },
-  { label: "Explore by Industrie", href: "/industries" },
+  { label: "Explore by Product", href: "/what-we-provide/" },
+  { label: "Explore by Industry", href: "/industries" },
   { label: "Explore by Solution", href: "/solutions" },
 ];
 

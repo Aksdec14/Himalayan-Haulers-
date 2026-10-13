@@ -554,9 +554,7 @@ export default function SolutionsPage() {
 
       {/* ---- 4. Detail: card slider + side panel ---------------------------- */}
       <CapabilityShowcase capabilities={CAPABILITIES}>
-        <Pill href="#top" icon={ArrowUp}>
-          Back to top
-        </Pill>
+        
       </CapabilityShowcase>
     </main>
   );
