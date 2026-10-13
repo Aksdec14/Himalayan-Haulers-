@@ -1,29 +1,34 @@
-import type { Metadata } from "next";
+"use client";
+
+import type { FormEvent } from "react";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
-/* app/contact/page.tsx
-   The contact page body only. The navbar and footer are not rendered here: they
-   belong in app/layout.tsx so every page shares them.
+/* The contact section body: copy and contact details left, enquiry form right.
+   The navbar and footer are not rendered here: they belong in app/layout.tsx
+   so every page shares them.
 
    Responsive strategy (mobile-first, Tailwind defaults):
    - base            : < 560px  -> single column, full-width controls, 44px+ touch targets
    - min-[560px]     : form switches to two columns
    - min-[900px]     : decorative glass plates appear behind the card
-   - min-[1100px]    : hero becomes copy | form side by side */
+   - min-[1100px]    : hero becomes copy | form side by side
 
-export const metadata: Metadata = {
-  title: "Contact | Himalayan Haulers",
-  description:
-    "Connect with our team to discuss your project requirements, drone capabilities, and potential deployment opportunities. We work with enterprises, EPC contractors, and industrial organisations to support complex operational needs.",
-};
+   Client component, and only because of the form: a plain HTML form can only
+   deliver a POST to a third-party URL by navigating the top-level frame to it,
+   which puts https://api.web3forms.com in the address bar for the length of the
+   request. fetch() sends the same payload from the page itself, so the visitor
+   never leaves the site. There is still no client state here — no useState, no
+   re-render, and the native `required` attributes keep doing the validation.
 
-/* Where the form posts. Web3Forms accepts a plain HTML POST, so the page needs
-   no client JavaScript and the whole site stays a static export. */
+   app/contact/page.tsx renders this component and owns the page metadata, which
+   is why the metadata export lives there rather than here: a client component
+   cannot export it. */
+
 const ENQUIRY_ACTION = "https://api.web3forms.com/submit";
 
-/* The public access key for the himalayanhaulers.com Web3Forms account. It is
-   meant to ship in the page source — that is how Web3Forms works for static
-   sites. The botcheck honeypot below is what filters the abuse that follows. */
+/* Public access key for the himalayanhaulers.com Web3Forms account. It is meant
+   to ship in the page source — that is how Web3Forms works for static sites.
+   The botcheck honeypot is what filters the abuse that follows. */
 const WEB3FORMS_ACCESS_KEY = "1791891e-90a3-4da1-8d9e-57b6d351b177";
 
 const CONTACT = {
@@ -31,26 +36,6 @@ const CONTACT = {
   email: "sales@himalayanhaulers.com",
   location: "Bengaluru · Tirupati · Leh · Noida",
 };
-
-const INTERESTS = [
-  "Buying a Drone",
-  "Logistics Drone as a Service",
-  "Drone Inspection",
-  "Tower Stringing",
-  "Survey & Sensing",
-  "Other",
-];
-
-const INDUSTRY_OPTIONS = [
-  "Power Transmission",
-  "Oil & Gas",
-  "Steel Plants",
-  "Offshore",
-  "Mining",
-  "Renewable Energy",
-  "Defence",
-  "Other",
-];
 
 /* ---- Shared ------------------------------------------------------------------
    SIZES: the --c-* rungs are this page's own steps. They must NOT reuse the
@@ -94,6 +79,43 @@ const GLASS =
 const FORM_TITLE =
   "m-0 text-[length:calc(var(--c-h3)*1.15)] font-extrabold leading-tight text-[color:var(--ink)]";
 
+const ROW_ICON =
+  "grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-[color:var(--blue)]/10 text-[color:var(--blue)] shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] min-[1024px]:size-[clamp(38px,2.8vw,44px)]";
+
+/* The text side of a contact row: a small caption stacked over the value, so
+   each row reads as "label / detail". Rows 1 and 2 carry the divider under
+   them. min-h-11 keeps each tappable row at least 44px high. */
+const ROW_BODY = "flex min-h-11 min-w-0 flex-1 flex-col justify-center py-1.5";
+const ROW_DIVIDER = "border-b border-[color:var(--ink)]/15";
+
+const ROW_LABEL =
+  "text-[length:var(--c-small)] font-medium uppercase tracking-[0.14em] text-[color:var(--ink)]/55";
+
+/* break-words + min-w-0 on the parent lets a long email wrap instead of
+   pushing the page wider than a 320px screen. */
+const ROW_TEXT =
+  "text-[length:var(--c-lead)] text-[color:var(--ink)] transition-colors [overflow-wrap:anywhere]";
+
+const INTERESTS = [
+  "Buying a Drone",
+  "Logistics Drone as a Service",
+  "Drone Inspection",
+  "Tower Stringing",
+  "Survey & Sensing",
+  "Other",
+];
+
+const INDUSTRY_OPTIONS = [
+  "Power Transmission",
+  "Oil & Gas",
+  "Steel Plants",
+  "Offshore",
+  "Mining",
+  "Renewable Energy",
+  "Defence",
+  "Other",
+];
+
 /* One column on phones, two from 560px up. */
 const FORM =
   "mt-3 grid grid-cols-2 gap-x-3 gap-y-2.5 min-[560px]:mt-[clamp(8px,1vw,14px)] min-[560px]:gap-x-[clamp(12px,1.4vw,20px)] min-[560px]:gap-y-[clamp(8px,0.9vw,12px)]";
@@ -124,32 +146,44 @@ const TEXTAREA = `${CONTROL} min-h-[4.2em] resize-y leading-[1.35] min-[560px]:m
 const SUBMIT =
   "inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-[color:var(--cyan)] to-[color:var(--blue)] px-7 py-[0.5em] text-[length:var(--c-small)] font-bold uppercase tracking-[0.06em] text-white shadow-[0_10px_24px_-10px_rgba(20,100,200,0.6)] cursor-pointer transition-[filter,transform] duration-200 hover:brightness-105 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--blue)] min-[560px]:w-auto min-[560px]:min-h-0";
 
-
-
-const ROW_ICON =
-  "grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-white to-[color:var(--blue)]/10 text-[color:var(--blue)] shadow-[0_6px_14px_-6px_rgba(20,70,140,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] min-[1024px]:size-[clamp(38px,2.8vw,44px)]";
-
-/* The text side of a contact row: a small caption stacked over the value, so
-   each row reads as "label / detail". Rows 1 and 2 carry the divider under
-   them. min-h-11 keeps each tappable row at least 44px high. */
-const ROW_BODY = "flex min-h-11 min-w-0 flex-1 flex-col justify-center py-1.5";
-const ROW_DIVIDER = "border-b border-[color:var(--ink)]/15";
-
-const ROW_LABEL =
-  "text-[length:var(--c-small)] font-medium uppercase tracking-[0.14em] text-[color:var(--ink)]/55";
-
-/* break-words + min-w-0 on the parent lets a long email wrap instead of
-   pushing the page wider than a 320px screen. */
-const ROW_TEXT =
-  "text-[length:var(--c-lead)] text-[color:var(--ink)] transition-colors [overflow-wrap:anywhere]";
-
 /**
- * Contact page: a hero with copy and contact details left, and an enquiry form
- * right. On phones everything stacks: copy, contact rows, then the form.
- *
- * Server component. The form posts natively; nothing here needs client state.
+ * Contact section: a hero with copy and contact details left, and an enquiry
+ * form right. On phones everything stacks: copy, contact rows, then the form.
  */
 export default function ContactPage() {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    /* Without this the browser navigates to Web3Forms, which is exactly the
+       behaviour this component exists to prevent. */
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const body = new FormData(form);
+
+    try {
+      /* Accept: application/json is what makes Web3Forms answer with JSON
+         instead of its 302 back to the referring page. */
+      const response = await fetch(ENQUIRY_ACTION, {
+        method: "POST",
+        body,
+        headers: { Accept: "application/json" },
+      });
+
+      /* Only clear the form once the send actually completed. fetch() resolves
+         on a 4xx/5xx too, so check for ok before throwing the entries away —
+         otherwise a rejected submission would wipe what the visitor typed.
+         The response body is not read: Web3Forms answers HTML unless the
+         payload is sent as JSON, and there is no feedback to show anyway. */
+      if (response.ok) {
+        /* Returns every field to its markup default, which for the two selects
+           is the empty "Select one" placeholder. No re-render needed. */
+        form.reset();
+      }
+    } catch {
+      /* Silent by design: nothing is cleared and the visitor keeps their
+         filled-in form to retry. */
+    }
+  }
+
   return (
     <main className={PAGE}>
       <section className={HERO} aria-labelledby="contact-title">
@@ -248,12 +282,15 @@ export default function ContactPage() {
                 right solution.
               </p>
 
-              <form className={FORM} action={ENQUIRY_ACTION} method="post">
+              <form
+                className={FORM}
+                onSubmit={handleSubmit}
+                action={ENQUIRY_ACTION}
+                method="post"
+              >
                 <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
                 <input type="hidden" name="from_name" value="Himalayan Haulers Website" />
                 <input type="hidden" name="subject" value="New enquiry from himalayanhaulers.com" />
-                {/* Sends the visitor back to this page after a successful post. */}
-                <input type="hidden" name="redirect" value="true" />
                 {/* Honeypot: hidden from people, so any real submission lands in spam. */}
                 <input
                   type="text"
@@ -390,7 +427,6 @@ export default function ContactPage() {
                     Submit Enquiry
                     <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
                   </button>
-                 
                 </div>
               </form>
             </div>
