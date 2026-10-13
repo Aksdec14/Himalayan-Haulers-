@@ -400,7 +400,7 @@ export default function ProductsPage() {
           <div className={MAX}>
             <div className="grid items-center gap-[clamp(20px,3vw,48px)] min-[860px]:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
               <SectionHead
-                no="01"
+                no=""
                 label="Logistics Drones"
                 title={
                   <>
@@ -451,7 +451,7 @@ export default function ProductsPage() {
           <div className={MAX}>
             <div className="flex flex-col gap-[clamp(16px,2vw,28px)] min-[860px]:flex-row min-[860px]:items-end min-[860px]:justify-between">
               <SectionHead
-                no="02"
+                no=""
                 label="Other Drone Platforms"
                 title={
                   <>
@@ -520,7 +520,7 @@ export default function ProductsPage() {
             className={`${MAX} grid items-center gap-[clamp(20px,3vw,48px)] rounded-[14px] bg-gradient-to-br from-[color:var(--blue)] to-[#1b4f94] p-[clamp(20px,3vw,48px)] text-white shadow-[0_24px_56px_-28px_rgba(10,35,80,0.6)] min-[960px]:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]`}
           >
             <SectionHead
-              no="03"
+              no=""
               label="Why Choose Himalayan Haulers"
               light
               title={
