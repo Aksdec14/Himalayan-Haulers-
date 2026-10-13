@@ -17,9 +17,14 @@ export const metadata: Metadata = {
     "Connect with our team to discuss your project requirements, drone capabilities, and potential deployment opportunities. We work with enterprises, EPC contractors, and industrial organisations to support complex operational needs.",
 };
 
-/* Where the form posts. Point this at your own endpoint. The form is plain HTML
-   with native validation, so the page needs no client JavaScript. */
-const ENQUIRY_ACTION = "/api/enquiry";
+/* Where the form posts. Web3Forms accepts a plain HTML POST, so the page needs
+   no client JavaScript and the whole site stays a static export. */
+const ENQUIRY_ACTION = "https://api.web3forms.com/submit";
+
+/* The public access key for the himalayanhaulers.com Web3Forms account. It is
+   meant to ship in the page source — that is how Web3Forms works for static
+   sites. The botcheck honeypot below is what filters the abuse that follows. */
+const WEB3FORMS_ACCESS_KEY = "1791891e-90a3-4da1-8d9e-57b6d351b177";
 
 const CONTACT = {
   phone: "+91 91487 67910",
@@ -244,6 +249,20 @@ export default function ContactPage() {
               </p>
 
               <form className={FORM} action={ENQUIRY_ACTION} method="post">
+                <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+                <input type="hidden" name="from_name" value="Himalayan Haulers Website" />
+                <input type="hidden" name="subject" value="New enquiry from himalayanhaulers.com" />
+                {/* Sends the visitor back to this page after a successful post. */}
+                <input type="hidden" name="redirect" value="true" />
+                {/* Honeypot: hidden from people, so any real submission lands in spam. */}
+                <input
+                  type="text"
+                  name="botcheck"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
                 <div className={`${FIELD} ${ONE}`}>
                   <label htmlFor="enq-name" className={LABEL}>
                     Full name *
@@ -308,12 +327,13 @@ export default function ContactPage() {
 
                 <div className={`${FIELD} ${HALF}`}>
                   <label htmlFor="enq-interest" className={LABEL}>
-                    I&rsquo;m interested in
+                    I&rsquo;m interested in *
                   </label>
                   <select
                     id="enq-interest"
                     name="interest"
                     defaultValue=""
+                    required
                     className={SELECT}
                   >
                     <option value="" disabled>
@@ -329,12 +349,13 @@ export default function ContactPage() {
 
                 <div className={`${FIELD} ${HALF}`}>
                   <label htmlFor="enq-industry" className={LABEL}>
-                    Industry
+                    Industry *
                   </label>
                   <select
                     id="enq-industry"
                     name="industry"
                     defaultValue=""
+                    required
                     className={SELECT}
                   >
                     <option value="" disabled>
